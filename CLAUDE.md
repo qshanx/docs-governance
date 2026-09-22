@@ -6,6 +6,7 @@
 ## 硬规则
 - **方法论唯一源在 `skills/*/SKILL.md`**；agent / command 只指过去，**不复制方法论**（防插件自己内部漂移）。总入口由 `docs-governance` skill 路由。
 - 改任何文件后、提交前：跑 `bash scripts/verify.sh`，**绿了才提交**。
+- 创建或更新 PR 前：提交完本轮改动后运行 `python3 scripts/check-pr-docs.py --base <实际目标分支>`；失败先修复，并按输出核对关联文档。推送与 PR CI 再检查同一提交快照。
 - 文件名 kebab-case；正文中文，英文仅保留 skill description 里的触发词。
 - commit message 用英文；`git push` 等小磊说。
 

@@ -11,12 +11,14 @@
 | 检查 | 实际结果 |
 |---|---|
 | 激活 `.venv` 后运行 `bash scripts/verify.sh` | 退出码 0；双端 manifest、9 个 Skill 的路由和说明、路径引用、Python 编译与 full 文档审计通过 |
-| 标准入口中的 Python 单元测试 | 54 个通过；验证的是现有确定性工具，不代表新 Skill 的业务效果已验证 |
+| 标准入口中的 Python 单元测试 | 64 个通过；验证的是现有确定性工具，不代表新 Skill 的业务效果已验证 |
 | 使用 skill-creator 的 `quick_validate.py` 检查新 Skill | 退出码 0，输出 Skill is valid |
 | `git diff --check` | 退出码 0，无空白错误 |
 | PE-1 至 PE-4 文本审查 | 见 [需求评审](07-requirements-review.md) |
 
 full 审计提示本项目未建立 CONTEXT；现有规则允许按需创建，无稳定词汇问题时不补空壳。本轮新增规则校验、Stop 内容指纹缓存、暂存快照检查及其 13 个行为测试。
+
+PR 前护栏追加 10 个集成测试：真实本地 bare remote 上断链推送被阻断、修复后及再次推送成功；未提交修复不能覆盖已提交断链；子目录、linked worktree、显式来源 SHA、重命名／删除、排除项、关联文档缺失、错误基线、错误配置及日志历史改写均按预期处理。源仓库 index 与 HEAD 保持不变。宿主原生 Stop、其他业务项目安装、远端分支保护仍不在本轮验证范围。
 
 ## 发布与后续
 

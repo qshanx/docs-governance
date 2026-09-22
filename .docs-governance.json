@@ -68,6 +68,23 @@
       ]
     }
   ],
+  "change_rules": [
+    {
+      "id": "audit-runtime",
+      "include": ["scripts/*", "hooks/*", ".docs-governance.json", ".github/workflows/*"],
+      "documents": ["references/document-policy.md", "ARCHITECTURE.md", "TESTS.md"]
+    },
+    {
+      "id": "governance-method",
+      "include": ["skills/*", "templates/*"],
+      "documents": ["README.md", "使用说明.md"]
+    },
+    {
+      "id": "product-records",
+      "include": ["docs/product/*"],
+      "documents": ["docs/product/README.md", "docs/product/06-prd.md", "docs/product/07-requirements-review.md"]
+    }
+  ],
   "auto_audit": {
     "on_stop": true
   }

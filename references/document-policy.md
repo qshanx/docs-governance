@@ -8,6 +8,7 @@
 - `required_files`：必须存在的仓库内普通文件，相对路径，不支持通配符。产品管理采用后列出完整十阶段入口；未开展的阶段仍保留文档位置。
 - `placement`：每条有唯一 `id`、文件名 `include`、可选 `exclude`、可选 `heading_keywords` 和 `allowed_dirs`。
 - `auto_audit.on_stop`：是否在宿主收尾时，因内容、规则、审计器或 HEAD 变化运行确定性审计。
+- `change_rules`：代码／规则改动到应核对文档的映射。每条有唯一 `id`、文件 glob `include`、可选 `exclude` 和具体路径 `documents`。从项目现有模块同步表提取，不复制文档正文。命中后关联文档必须存在；是否需要修改正文仍由审查判断。
 
 文件名使用大小写敏感的 glob，`*` 可匹配路径分隔符；关键词按大小写不敏感的字面子串匹配文档首个一级标题，代码围栏中的标题不算。设置关键词时，文件名和标题都匹配才应用规则；不设置时只按文件名匹配。允许目录按完整目录边界判断，不接受近似前缀。
 
@@ -19,9 +20,27 @@
 
 1. **变更后的 Stop**：`hooks/check-on-stop.sh` 调用 `scripts/auto-audit.py`。缓存保存在被 Git 忽略的 `.governance/`；内容未变且上次通过时静默，未解决的问题继续提示。Stop 不阻断会话、不自动修文档。
 2. **提交前**：`hooks/pre-commit.sh` 先调用 `scripts/check-staged-docs.py`，导出真实暂存区到临时目录进行 artifacts 审计，再执行原有日志护栏。工作区尚未暂存的修复不会掩盖提交内容。审计失败阻止本地提交。
-3. **推送／PR**：已有 CI 调用 `scripts/verify.sh`，其中 full 审计包含同一规则。没有新增每日定时任务。合并是否强制等待该检查，仍由仓库分支保护设置决定；本次不更改它。
+3. **推送／PR**：`hooks/pre-push.sh` 调用 `scripts/check-pr-docs.py`；PR 的 GitHub Actions 再使用目标和来源 SHA 调用同一脚本。只要相对目标分支的共同祖先有文件变化，就对已提交快照执行 full 审计；命中映射时列出应核对文档，缺失则失败。基线不能解析、规则损坏、扫描错误或超时均阻止继续，没有每日定时任务。
 
 安装提交钩子时先运行 `git rev-parse --git-path hooks/pre-commit` 并检查 `core.hooksPath`。无现有钩子时可在该位置创建执行本插件 `hooks/pre-commit.sh` 的薄包装，插件路径使用本机安装位置；已有钩子则保留并追加调用，不覆盖。安装属于明确采用提交护栏的动作，不因只读审查自动安装。纯 Python 审计运行时不需要开发依赖。
+
+### PR 前检查与安装
+
+创建或更新 PR 前，在目标项目中运行（插件路径替换为实际安装目录）：
+
+```bash
+python3 /path/to/docs-governance/scripts/check-pr-docs.py --base origin/main
+```
+
+`--base` 必须是实际 PR 目标；默认检查 HEAD，也可用 `--head` 指定将要推送的提交。扫描独立快照，日志相对共同祖先检查只追加；未提交修复、生成物与未跟踪文件不会进入此次 PR 扫描。所有变化（包括删除、重命名旧路径）都触发扫描，未命中映射也不跳过。输出的未修改文档是语义核对清单，不强迫制造无意义的文档改动。
+
+安装推送钩子先检查 `git rev-parse --git-path hooks/pre-push` 和 `core.hooksPath`。没有现有钩子时，在 Git 返回的位置创建可执行薄包装，调用安装目录的 `hooks/pre-push.sh` 并原样传递 `"$@"` 和标准输入。已有钩子不能覆盖；组合执行时必须先保存 stdin，再把完整 ref 列表分别传给两个检查，任一失败即停止。
+
+本地钩子默认从推送远端的 `refs/remotes/<remote>/HEAD` 获取目标分支；目标不同或该引用缺失时显式设置 `DOCS_GOVERNANCE_PR_BASE`，不静默猜测。每次分支推送都比较完整 PR 差异，不只比较上次推送；删除分支、tag 推送不触发此 PR 分支检查。
+
+Git 没有原生的“创建 PR 前”事件。已安装的 pre-push 阻断本地推送；已推送分支直接创建 PR 时，由 Agent 的提交前流程和 PR CI 承接。GitHub Actions 检查失败会标红；禁止合并还须把 `Verify / verify` 配为目标分支必需检查，本次未更改远端分支保护。钩子不宣称能防止 `--no-verify` 或配置被人为修改。
+
+当前快照仍导出全部跟踪文件，full 审计仍会检查已有问题；大型仓库和历史告警的适配限制继续见评估记录。本入口不修复旧 Stop 全文件指纹问题，也不替其他业务项目自动安装。
 
 ## 验证边界
 

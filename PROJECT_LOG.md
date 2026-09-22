@@ -36,3 +36,4 @@
 ## [2026-09-22] feat | 新增 product-evolution 与入口模板，按阿磊指定十阶段在 docs 下组织产品管理文件，接入路由、地图和同步；本轮验收与试点边界见 [产品管理](docs/product/README.md)
 ## [2026-09-22] governance | 标准变更：产品流程执行条件收窄为完整十阶段文档管理；经阿磊确认新增变更收尾审计和提交时文件归位约束，取消每日定时方案；位置配置与验证见 [护栏说明](references/document-policy.md)
 ## [2026-09-22] audit | 盘点登记的 11 个本地项目及常用开发目录的 37 个仓库目录，补充只读接入适配评估；发现全文件指纹、根定位、历史告警与路由误报等推广障碍，未改业务项目，证据见 [跨项目评估](docs/audits/2026-09-22-cross-project-feasibility.md)
+## [2026-09-22] feat | 经阿磊确认新增 PR 前强制扫描：pre-push 与 PR Actions 对提交快照执行同一审计，按项目变更映射列出关联文档；10 个集成测试覆盖真实 push 拦截与修复、子目录、worktree、原始基线及工作区隔离，全套 64 个测试通过，见 [护栏说明](references/document-policy.md)

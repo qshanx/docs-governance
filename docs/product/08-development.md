@@ -15,3 +15,5 @@
 本轮关联 [Issue #11](https://github.com/qshanx/docs-governance/issues/11)，实时任务继续由项目 Issue Tracker 管理；本文件只挂产出与阶段证据，检查结果见 [测试上线](09-test-release.md)。
 
 新增 [位置校验](../../scripts/docpolicy.py)、[收尾审计](../../scripts/auto-audit.py) 与 [暂存区检查](../../scripts/check-staged-docs.py)，统一复用现有审计结果接口。
+
+PR 前强制扫描入口为 [check-pr-docs.py](../../scripts/check-pr-docs.py)，由 [pre-push](../../hooks/pre-push.sh) 与 PR Actions 共同调用；变更到文档的映射保存在项目规则中，不迁移业务项目现有文档。

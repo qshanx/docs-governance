@@ -63,7 +63,10 @@ class DocumentPolicyTest(unittest.TestCase):
 
     def test_bad_policy_is_error_not_silent_pass(self):
         for change in ({'version': 2}, {'placement': {}}, {'auto_audit': {'on_stop': 'yes'}},
-                       {'required_files': ['../outside.md']}, {'typo': True}):
+                       {'required_files': ['../outside.md']}, {'typo': True},
+                       {'change_rules': {}}, {'change_rules': [{'id': 'x', 'include': [], 'documents': ['a.md']}]},
+                       {'change_rules': [{'id': 'x', 'include': ['src/*'], 'documents': ['*.md']}]},
+                       {'change_rules': [{'id': 'x', 'include': ['src/*'], 'documents': ['a.md'], 'command': 'echo'}]}):
             with self.subTest(change=change):
                 self.write('.docs-governance.json', json.dumps({**self.policy, **change}))
                 self.assertEqual(self.audit().returncode, 2)

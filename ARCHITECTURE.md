@@ -29,10 +29,12 @@ flowchart LR
     SKILL --> SCRIPT["deterministic scripts"]
     SCRIPT --> LOGFORMAT["shared log parser"]
     SCRIPT --> FACTS["project documents / Git"]
-    HOOK["Stop / pre-commit hook"] --> SCRIPT
+    HOOK["Stop / pre-commit / pre-push hook"] --> SCRIPT
     SCRIPT --> POLICY["项目位置规则"]
     CI["GitHub Actions"] --> VERIFY["scripts/verify.sh"]
     VERIFY --> SCRIPT
+    CI --> PRSCAN["check-pr-docs.py：PR 提交快照"]
+    PRSCAN --> SCRIPT
 ```
 
 > 箭头表示左侧实现依赖右侧 Interface。方法论依赖只能从宿主入口指向 Skill，不能把方法论复制回 command 或 agent。
@@ -66,6 +68,7 @@ flowchart LR
 | 机器契约模板 | `templates/openapi.example.json` | CONTRACT 模板、消费方/提供方校验器 | 单一 OpenAPI 文档 |
 | 日志解析 | `scripts/logformat.py` | 文档审计、日志归档与索引 | 同一解析器，调用方决定失败处理 |
 | 文件位置与触发规则 | `.docs-governance.json`、`scripts/docpolicy.py` | Stop、暂存区检查、full/artifacts 审计 | [规则接口](references/document-policy.md) |
+| PR 前文档扫描 | `scripts/check-pr-docs.py`、`hooks/pre-push.sh` | Agent 创建 PR 前、本地推送与 PR CI | 实际目标分支的共同祖先、来源提交快照、变更到文档的映射；临时 index 与 HEAD 不修改原仓库 |
 | 确定性审计 | `scripts/audit-cheap.sh`、`scripts/audit-docs.py` | governance-audit、CI、当前 Agent | 退出码及结构化结果，见 `references/audit-result-format.md` |
 | 测试与发布前验证 | `TESTS.md`、`scripts/verify.sh` | 本地开发、GitHub Actions | TEST-ID + 命令退出码 |
 

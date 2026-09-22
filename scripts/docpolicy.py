@@ -36,7 +36,7 @@ def read_policy(root):
     data = json.loads(path.read_text(encoding='utf-8'))
     if not isinstance(data, dict) or type(data.get('version')) is not int or data['version'] != 1:
         raise ValueError('规则 version 必须为 1')
-    if set(data) - {'version', 'required_files', 'placement', 'auto_audit'}:
+    if set(data) - {'version', 'required_files', 'placement', 'auto_audit', 'change_rules'}:
         raise ValueError('规则包含未知字段')
     required = string_list(data.get('required_files', []), 'required_files')
     if any(not relative_name(p) or any(c in p for c in '*?[') for p in required):
@@ -65,6 +65,24 @@ def read_policy(root):
         raise ValueError('auto_audit 格式错误')
     if 'on_stop' in auto and not isinstance(auto['on_stop'], bool):
         raise ValueError('on_stop 必须是布尔值')
+    changes = data.get('change_rules', [])
+    if not isinstance(changes, list):
+        raise ValueError('change_rules 必须是数组')
+    ids = set()
+    for rule in changes:
+        if not isinstance(rule, dict) or set(rule) - {'id', 'include', 'exclude', 'documents'}:
+            raise ValueError('变更规则包含未知字段或格式错误')
+        name = rule.get('id')
+        if not isinstance(name, str) or not name.strip() or name in ids:
+            raise ValueError('变更规则 id 必须非空且唯一')
+        ids.add(name)
+        for key in ('include', 'documents'):
+            string_list(rule.get(key), key, nonempty=True)
+        string_list(rule.get('exclude', []), 'exclude')
+        if any(not relative_name(p) for key in ('include', 'exclude', 'documents') for p in rule.get(key, [])):
+            raise ValueError('变更规则路径不得越出仓库')
+        if any(any(c in p for c in '*?[') for p in rule['documents']):
+            raise ValueError('documents 必须是具体文档路径')
     return data
 
 

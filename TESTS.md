@@ -39,8 +39,9 @@ python -m pip install -r requirements-dev.txt
 | 空项目治理初始化 | E2E | 关键链路 | 防止 `/governance-init` 只在文案上成立，实际生成空壳、漏 hook 或无法首提 | 空项目初始化 E2E | Git、宿主 Agent | `commands/governance-init.md` | 必要 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
+| PR 前扫描与推送门禁 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖待推送提交、漏掉删除／重命名影响、第二次推送丢失 PR 基线，以及失败仍能推送 | Python 测试 | 本地临时 Git 与 bare remote | `tests/test_pr_docs.py` | 必要 |
 
-当前汇总：必要 7 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
+当前汇总：必要 8 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
 
 ## 三、跨端契约证据
 
@@ -137,6 +138,21 @@ python -m pip install -r requirements-dev.txt
 - 测试节点：`DocumentPolicyTest`
 - 执行命令：`python3 -m unittest discover -s tests -p 'test_document_policy.py' -v`
 - 证据：2026-09-22 本地 13 个行为场景通过；整体 54 个测试及 verify 通过，见 [测试记录](docs/product/09-test-release.md)
+
+### TEST-PR-001：PR 前扫描检查真实来源提交并阻断失败推送
+
+- 状态：已覆盖
+- 用途：关键链路、规则保护
+- 来源：[PR 护栏约定](references/document-policy.md)
+- 模拟输入：代码变更、删除／重命名、关联文档缺失、已提交断链及未提交修复、日志改写、错误基线和本地 bare remote
+- 业务预期：扫描 PR 共同祖先到来源提交的完整差异，映射文档并执行 full 审计；失败阻止推送，修复后放行，不修改源仓库 index 与 HEAD
+- 层级：集成
+- 执行组：Python 测试
+- 边界：临时 Git、真实 pre-push、linked worktree；不验证远端必需检查配置，不判定业务语义
+- 测试文件：`tests/test_pr_docs.py`
+- 测试节点：`PrDocsTest`
+- 执行命令：`python3 -m unittest tests.test_pr_docs -v`
+- 证据：2026-09-22 10 个集成测试通过，全套 64 个通过，见 [测试记录](docs/product/09-test-release.md)
 
 ### TEST-CONTRACT-TEMPLATE-001：同一机器契约校验响应边界
 

@@ -18,6 +18,7 @@
 |---|---|
 | 文件位置规则与触发约定 | `.docs-governance.json`、[执行说明](references/document-policy.md) |
 | 暂存文档审计与提交护栏 | `scripts/check-staged-docs.py`、`hooks/pre-commit.sh` |
+| PR 前变更映射、提交快照扫描与推送门禁 | `scripts/check-pr-docs.py`、`hooks/pre-push.sh` |
 | 变更触发审计与规则校验 | `scripts/auto-audit.py`、`scripts/docpolicy.py` |
 | 产品十阶段管理与审查方法 | `skills/product-evolution/SKILL.md` |
 | 本插件产品管理入口与需求基线 | [产品管理](docs/product/README.md) |
