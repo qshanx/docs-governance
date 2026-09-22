@@ -8,7 +8,7 @@
 
 ## 产出
 
-实现入口：[Skill](../../skills/product-evolution/SKILL.md)、[模板](../../templates/product-index.example.md)、[总路由](../../skills/docs-governance/SKILL.md)。本轮在本地工作区实现，尚无本轮提交／PR。
+实现入口：[Skill](../../skills/product-evolution/SKILL.md)、[模板](../../templates/product-index.example.md)、[总路由](../../skills/docs-governance/SKILL.md)。具体实现见 [草稿 PR #12](https://github.com/qshanx/docs-governance/pull/12)，分支为 codex/product-docs-management，待外部评审。
 
 ## 未解决事项与下一步
 

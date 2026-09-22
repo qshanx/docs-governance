@@ -29,7 +29,7 @@
 
 ## 交付与变化
 
-本轮范围和验收条件见能力规格。任务状态沿用项目的 [GitHub Issues](https://github.com/Seekers2001/docs-governance/issues)，本轮未新建远端任务或更改看板；当前执行依据为本次会话。历史变更见 [PROJECT_LOG](../../PROJECT_LOG.md)，待发布变化见 [CHANGELOG](../../CHANGELOG.md)。
+本轮范围和验收条件见能力规格。任务状态沿用项目的 [GitHub Issues](https://github.com/Seekers2001/docs-governance/issues)，本轮评审由 [Issue #11](https://github.com/qshanx/docs-governance/issues/11) 与 [草稿 PR #12](https://github.com/qshanx/docs-governance/pull/12) 承接，未调整看板。历史变更见 [PROJECT_LOG](../../PROJECT_LOG.md)，待发布变化见 [CHANGELOG](../../CHANGELOG.md)。
 
 本轮新增产品管理入口、可复用 Skill 和模板，原因是已有治理缺少需求来源、当前基线与交付反馈的连续管理。没有替代既有技术治理规则，也没有追认历史草案。
 
