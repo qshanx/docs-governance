@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "required_files": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CLAUDE_MAP.md",
+    "docs/product/01-project-init.md",
+    "docs/product/02-market-analysis.md",
+    "docs/product/03-user-research.md",
+    "docs/product/04-requirements-analysis.md",
+    "docs/product/05-prototype.md",
+    "docs/product/06-prd.md",
+    "docs/product/07-requirements-review.md",
+    "docs/product/08-development.md",
+    "docs/product/09-test-release.md",
+    "docs/product/10-operations-feedback.md",
+    "docs/product/README.md"
+  ],
+  "placement": [
+    {
+      "id": "prd-filename",
+      "include": [
+        "*prd*.md",
+        "*PRD*.md"
+      ],
+      "exclude": [
+        "templates/*",
+        "skills/*",
+        "references/*",
+        "docs/audits/*",
+        "research/*"
+      ],
+      "allowed_dirs": [
+        "docs/product"
+      ]
+    },
+    {
+      "id": "prd-heading",
+      "include": [
+        "*.md"
+      ],
+      "exclude": [
+        "skills/*",
+        "templates/*",
+        "references/*",
+        "docs/audits/*",
+        "research/*"
+      ],
+      "heading_keywords": [
+        "PRD",
+        "产品需求文档"
+      ],
+      "allowed_dirs": [
+        "docs/product"
+      ]
+    },
+    {
+      "id": "executable-sources",
+      "include": [
+        "*.py",
+        "*.sh"
+      ],
+      "exclude": [],
+      "allowed_dirs": [
+        "scripts",
+        "hooks",
+        "tests"
+      ]
+    }
+  ],
+  "auto_audit": {
+    "on_stop": true
+  }
+}

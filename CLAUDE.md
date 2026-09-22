@@ -16,4 +16,6 @@
 - 改了什么 → `PROJECT_LOG.md`
 - 方法论本体 → `skills/*/SKILL.md`
 - 架构 / 数据库决策 → `docs/adr/README.md`
+- 产品文档变更 → 先读 [产品管理入口](docs/product/README.md)，管理规则见 `skills/product-evolution/SKILL.md`
+- 文件归位与触发条件 → `.docs-governance.json`，说明见 `references/document-policy.md`
 - 给用户怎么用 → `README.md` / `使用说明.md`

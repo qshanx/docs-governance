@@ -55,6 +55,8 @@ For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the
 - **Test collaboration**: register requirements, risks, and fixed bugs as TEST-IDs with durable evidence.
 - **Module regression**: maintain downstream consumers and executable regression commands for modules that can break each other.
 
+产品文档管理：`product-evolution` 按项目初始化、市场分析、需求调研、需求分析、原型、PRD、需求评审、研发、测试上线、运营反馈组织 docs 下的产品空间，并审查来源、基线与交付证据。参见本插件的 [产品管理入口](docs/product/README.md)。
+
 The implementation lives in these skills: `skills/docs-governance`, `skills/living-docs-governance`, `skills/context-and-decisions`, `skills/change-impact`, `skills/contract-first`, `skills/test-collaboration`, `skills/module-regression`, and `skills/loop-design-check`.
 
 ## Why it exists
@@ -90,3 +92,5 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 ## License
 
 [MIT](LICENSE) · [Seekers2001](https://github.com/Seekers2001)
+
+文件归位与变更审计可由项目显式启用 `.docs-governance.json`；Stop 按变更检查，提交检查暂存区，推送／PR CI 复用同一规则。配置及安装见 [护栏说明](references/document-policy.md)。

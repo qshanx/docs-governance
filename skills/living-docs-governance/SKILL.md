@@ -168,6 +168,7 @@ metadata:
 - 前后端接口字段 → `CONTRACT.md`（若项目有契约治理）
 - 领域术语或关系变化 → `CONTEXT.md`（若存在且证据已确认）
 - 难回退技术决策 → `docs/adr/`（若触发 ADR）
+- 产品十阶段产物、PRD 基线、需求评审和运营反馈 → `product-evolution`；复用 docs 下产品入口，任务状态留在 Tracker
 
 关键区别：`PROJECT_LOG.md` 是记录员，只追加历史；`CLAUDE_MAP.md` / `ARCHITECTURE.md` / `PROJECT_STATUS.md` / `CLAUDE.md` 是编辑过的当前真相，发现旧事实过期要修正、合并或删除。
 

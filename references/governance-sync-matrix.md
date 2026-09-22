@@ -13,6 +13,7 @@
 | 新增或改变测试方式 | `PROJECT_STATUS.md` 测试健康指标；`CLAUDE.md` 验证硬规则（仅当成为长期规则）；`PROJECT_LOG.md` 追加 |
 | 指标越过阈值（行数、覆盖率、测试缺失、依赖风险） | 核对实际影响，按 Skill 的风险规则更新 `PROJECT_STATUS.md`；有意义的发现或处置结果才记入 `PROJECT_LOG.md`，不按单一数值自动定为 P0 |
 | 故意删除文件、废弃模块、清理备份目录 | `PROJECT_STATUS.md` 删除区（路径、原因、日期、替代物）；`PROJECT_LOG.md` 追加 cleanup |
+| 文件归位或自动审计触发约定变化 | 项目位置配置、`references/document-policy.md`、对应测试与入口说明；确认仅约束文档／文件，不代作业务决策 |
 | 新增硬规则、编码约束、不可违背流程 | `CLAUDE.md`；必要时链接到 docs；`PROJECT_LOG.md` 追加 governance |
 | README、docs、代码结构互相矛盾 | 修正当前真相所在文件；不要只在 LOG 里解释；`PROJECT_LOG.md` 可追加 audit/fix |
 | 新增环境变量、密钥配置、部署参数 | `CLAUDE.md` 或 README 的配置指路；`PROJECT_STATUS.md` 风险项（如密钥/公网）；`PROJECT_LOG.md` 追加 |
@@ -21,6 +22,7 @@
 | 新增接口但项目尚无 `CONTRACT.md` | 报告建议创建 `CONTRACT.md`；不要把字段细节塞进 `CLAUDE_MAP.md` |
 | 领域术语、概念关系或采用口径变化 | `CONTEXT.md`（若已启用）；证据未确认时只列待确认，不改代码口径 |
 | 架构、数据库、认证、部署、数据模型或 API 版本等难回退决策 | `docs/adr/` 新建/更新单项 ADR；`docs/adr/README.md` 更新索引；MAP 只挂索引入口；LOG 追加 decision |
+| 产品阶段产物、当前生效要求或迭代范围变化 | 按 `product-evolution` 核对产品目录十阶段入口；更新唯一需求主记录、确认来源和受影响阶段，评审后更新基线；运营反馈回到调研／分析，不复制任务状态 |
 | 成功标准、需求或 Bug 变化 | 原始 Spec/Issue 保持唯一来源；`TESTS.md` 关联 TEST-ID/人工出口；不要复制标准 |
 | Module 权责、状态归属、Interface 或代码依赖方向变化 | `ARCHITECTURE.md` 的权责表与依赖图；MAP 只检查入口；必要时 ADR；`PROJECT_LOG.md` 追加结构变更 |
 | Module 行为或下游依赖变化 | `REGRESSION.md` 的下游与执行命令；相关 TEST-ID；实施后跑本 Module 和下游 |
@@ -39,6 +41,7 @@
 | `CONTRACT.md` | 是否登记唯一机器契约、版本和生成/校验入口，字段是否只在机器契约定义？ |
 | `CONTEXT.md`（可选） | 是否只写稳定领域语言，且与代码/契约证据一致？ |
 | `docs/adr/`（可选） | 难回退决策是否一项一文件、状态与索引一致、写明可逆性？ |
+| 产品管理入口（可选） | 十阶段是否可导航，生效范围和确认来源是否明确，需求、任务、验收与效果是否可追溯？ |
 | `TESTS.md`（可选） | 成功标准是否链接回 Spec/Issue，证据是否关联 TEST-ID？ |
 | `REGRESSION.md`（可选） | 实际受影响模块及下游是否有可执行命令并已运行？ |
 

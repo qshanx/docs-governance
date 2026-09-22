@@ -66,6 +66,8 @@ AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶�
 
 `docs-governance` 是 Codex/ChatGPT 的薄总路由：普通治理与当前 Module 架构进入活文档；稳定领域语言进入 `context-and-decisions` 的 `CONTEXT.md`；架构、数据库、认证、部署等难回退决定进入一项一文件的 ADR；改代码前后用 `change-impact` 核对代码、数据、契约、测试、文档、发布和回滚。
 
+`product-evolution` 在 docs 下按十阶段组织产品管理文件，连接当前 PRD 基线、确认来源、执行任务与验收／运营证据；建立与审查均复用现有资料。本插件示例见 [产品管理入口](docs/product/README.md)。
+
 插件还保留 `loop-design-check`：当任务本身需要设计可判定目标、反馈回路和停止条件时使用；它由总路由登记，但不把 loop 文档混入项目治理脊柱。
 
 文档审计仍坚持“便宜层先判”：`scripts/audit-docs.py` 检查断链、ADR 索引、LOG 完整性、TEST-ID 和孤儿文档；确定性问题通过后，才由 agent 判断术语冲突、决策冲突、重复真相和成功标准证据。审计默认只读。
@@ -207,3 +209,5 @@ docs-governance/
 
 ---
 MIT · Seekers2001（小磊）· jiaxinleifm@outlook.com
+
+产品资料采用完整十阶段入口，方法仅管理文档。项目可通过 `.docs-governance.json` 约束必需文件、PRD 标题／文件名位置与脚本目录；变更收尾、暂存区提交和 CI 共用规则。见 [文档护栏说明](references/document-policy.md)。
