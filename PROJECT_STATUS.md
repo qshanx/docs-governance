@@ -14,7 +14,7 @@
 
 ## 验证缺口与待确认范围（按需读）
 
-- `product-evolution` 已建立本插件十阶段管理示例；业务项目试点及运营效果尚未验证，证据入口见 [产品管理](docs/product/README.md)。
+- `product-evolution` 已完成 11 个登记项目只读适配评估；全文件指纹、子目录根定位及存量告警阻断等推广障碍尚未修复，PR #12 保持草稿。业务项目安装试点及运营效果未验证，见 [跨项目评估](docs/audits/2026-09-22-cross-project-feasibility.md)。
 
 - `/governance-init` 的 Codex 共享流程已在真实空项目首跑；Claude Code 原生 slash command 尚未验证（证据见 `docs/audits/2026-08-13-governance-init-empty-project.md`）。
 - `test-collaboration` 已在本插件完成首次测试资产盘点，并把两项审计误报归入 `TEST-AUDIT-001`；仍待业务项目完成试点（首选：经营报表加工系统）。
