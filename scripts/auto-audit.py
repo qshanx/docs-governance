@@ -10,7 +10,51 @@ import sys
 import tempfile
 import time
 
-from docpolicy import files_under, read_policy
+from docpolicy import POLICY_NAME, files_under, read_policy
+
+SPINE = ('CLAUDE.md', 'CLAUDE_MAP.md', 'PROJECT_STATUS.md', 'PROJECT_LOG.md')
+
+
+def governance_root(start, explicit=None):
+    """显式根优先；否则在当前 Git 边界内找最近配置，再回退旧四件套。"""
+    def has_policy(path):
+        config = path / POLICY_NAME
+        return config.exists() or config.is_symlink()
+
+    def has_spine(path):
+        return any((path / name).is_file() for name in SPINE)
+
+    if explicit is not None:
+        root = Path(explicit).resolve()
+        if not str(explicit).strip() or not root.is_dir() or not (has_policy(root) or has_spine(root)):
+            raise ValueError(f'显式治理根无效或没有治理配置／四件套：{explicit}')
+        return root
+
+    start = start.resolve()
+    repository = subprocess.run(['git', 'rev-parse', '--show-toplevel'], cwd=start,
+                                text=True, capture_output=True, env={**os.environ, 'LC_ALL': 'C'})
+    boundary = None
+    if repository.returncode == 0:
+        boundary = Path(repository.stdout.strip()).resolve()
+        if not start.is_relative_to(boundary):
+            raise ValueError('当前目录不在 Git 返回的根目录中，请设置 DOCS_GOVERNANCE_ROOT')
+    elif not repository.stderr.startswith('fatal: not a git repository (or any'):
+        raise ValueError(f'Git 根定位失败：{repository.stderr.strip()}')
+
+    ancestors = []
+    for candidate in (start, *start.parents):
+        ancestors.append(candidate)
+        if has_policy(candidate):
+            return candidate
+        if candidate == boundary:
+            break
+    # Git 项目的模块级 CLAUDE.md 不是独立治理根；子项目须显式配置。
+    legacy = [boundary] if boundary is not None else ancestors
+    for candidate in legacy:
+        if has_spine(candidate):
+            return candidate
+    raise ValueError('无法确定治理根：未找到 .docs-governance.json 或治理四件套；'
+                     '请检查项目配置或设置 DOCS_GOVERNANCE_ROOT，本次未执行审计')
 
 
 def run(root):
@@ -73,10 +117,16 @@ def run(root):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--root', type=Path, default=Path.cwd())
+    parser.add_argument('--root', type=Path, help='显式治理根；未指定时读取 DOCS_GOVERNANCE_ROOT 或自动定位')
+    parser.add_argument('--resolve-root', action='store_true', help='只输出治理根，供 Stop 兼容旧四件套提醒')
     args = parser.parse_args()
     try:
-        return run(args.root.resolve())
+        explicit = args.root if args.root is not None else os.environ.get('DOCS_GOVERNANCE_ROOT')
+        root = governance_root(Path.cwd(), explicit)
+        if args.resolve_root:
+            print(root)
+            return 0
+        return run(root)
     except (OSError, ValueError, subprocess.SubprocessError) as exc:
         print(f'docs-governance 自动审计未完成：{exc}', file=sys.stderr)
         return 2

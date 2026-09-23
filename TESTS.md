@@ -138,6 +138,7 @@ python -m pip install -r requirements-dev.txt
 - 测试节点：`DocumentPolicyTest`
 - 执行命令：`python3 -m unittest discover -s tests -p 'test_document_policy.py' -v`
 - 证据：2026-09-22 本地 13 个行为场景通过；整体 54 个测试及 verify 通过，见 [测试记录](docs/product/09-test-release.md)
+- 2026-09-23 追加 8 个根定位回归：同配置／缓存、子项目优先、显式根及无效根、嵌套 Git 边界、非 Git 与旧四件套、直接 CLI、损坏配置及 linked worktree。验证真实 Bash 钩子和审计器，不代替宿主事件验证。
 
 ### TEST-PR-001：PR 前扫描检查真实来源提交并阻断失败推送
 
