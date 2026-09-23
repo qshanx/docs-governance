@@ -17,3 +17,5 @@
 新增 [位置校验](../../scripts/docpolicy.py)、[收尾审计](../../scripts/auto-audit.py) 与 [暂存区检查](../../scripts/check-staged-docs.py)，统一复用现有审计结果接口。
 
 PR 前强制扫描入口为 [check-pr-docs.py](../../scripts/check-pr-docs.py)，由 [pre-push](../../hooks/pre-push.sh) 与 PR Actions 共同调用；变更到文档的映射保存在项目规则中，不迁移业务项目现有文档。
+
+2026-09-23 按能力规格 r2 增加 [产品文档管理员](../../agents/product-docs-manager.md)，扩展原 Skill 和模板并接入总路由、用户说明与架构入口。Agent 保持薄角色适配，规则继续由 Skill 唯一维护；没有改动审计脚本或业务项目。
