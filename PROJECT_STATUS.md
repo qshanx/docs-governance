@@ -14,7 +14,7 @@
 
 ## 验证缺口与待确认范围（按需读）
 
-- `product-docs-manager` 已新增角色与共享规则，来源、编号、状态及授权场景已做文本复核；Claude Code 原生角色调度和业务项目实际试点仍未验证，见 [角色审查](docs/product/07-requirements-review.md)。
+- `product-docs-manager` 已新增角色与共享规则，来源、编号、状态、授权及按任务读取场景已做文本复核；Claude Code 原生角色调度、实际上下文节省和业务项目实际试点仍未验证，见 [角色审查](docs/product/07-requirements-review.md)。
 
 - `product-evolution` 已完成 11 个登记项目只读适配评估；Stop 全文件指纹及存量告警阻断等推广障碍尚未修复，PR #12 保持草稿。Stop 子目录根定位已按评审修复并验证显式根、独立子项目和 worktree；PR 前扫描已通过独立提交快照和本地真实 push 阻断测试。宿主原生事件、业务项目安装试点及运营效果未验证，见 [跨项目评估](docs/audits/2026-09-22-cross-project-feasibility.md)。
 
