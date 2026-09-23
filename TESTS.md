@@ -38,9 +38,10 @@ python -m pip install -r requirements-dev.txt
 | 插件结构与发布前验证 | 冒烟 | 关键链路 | 防止 manifest、hook、Skill 路由、路径引用或 Python 测试断裂后仍被发布 | 默认验证 | Bash、Python、Git | `scripts/verify.sh` | 必要 |
 | 空项目治理初始化 | E2E | 关键链路 | 防止 `/governance-init` 只在文案上成立，实际生成空壳、漏 hook 或无法首提 | 空项目初始化 E2E | Git、宿主 Agent | `commands/governance-init.md` | 必要 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
-| Stop hook 行为 | 集成 | 回归保护 | 防止提醒脚本误阻断会话，或漏报相对时间和未记 LOG | 待补 | Bash、Git | `hooks/check-on-stop.sh` | 缺失 |
+| 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
+| PR 前扫描与推送门禁 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖待推送提交、漏掉删除／重命名影响、第二次推送丢失 PR 基线，以及失败仍能推送 | Python 测试 | 本地临时 Git 与 bare remote | `tests/test_pr_docs.py` | 必要 |
 
-当前汇总：必要 6 项，缺失 1 项，疑似重复 0 项，疑似废弃 0 项。
+当前汇总：必要 8 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
 
 ## 三、跨端契约证据
 
@@ -123,20 +124,36 @@ python -m pip install -r requirements-dev.txt
 - 执行命令：按 `commands/governance-init.md` 在临时 Git 仓执行
 - 证据：`docs/audits/2026-08-13-governance-init-empty-project.md`；2026-09-05 按更新后的 Skill 复跑，见 `docs/audits/2026-09-05-governance-fixes.md`
 
-### TEST-HOOK-001：Stop hook 只提醒、不误阻断
+### TEST-HOOK-001：位置与触发规则在真实文件和暂存快照上生效
 
-- 状态：待补
-- 用途：回归保护
-- 来源：`hooks/check-on-stop.sh` 的提醒型边界
-- 模拟输入：无治理文件、有相对时间、当天无 LOG、当天已有 LOG 四种临时仓状态
-- 业务预期：需要时输出提醒，不需要时静默；所有提醒场景都保持退出码 0
+- 状态：已覆盖
+- 用途：规则保护、回归保护
+- 来源：[文件护栏约定](references/document-policy.md)、[产品文档规格](docs/product/06-prd.md)
+- 模拟输入：PRD 主标题错放、正文与围栏提及、模板例外、脚本错放、缺失文件、错误配置、软链接、暂存区未修复而工作区已修复、变更及重复 Stop
+- 业务预期：按约定返回确定性失败／执行错误，暂存违规阻止提交，Stop 只报告；通过且内容不变时静默，不以配置错误冒充通过
 - 层级：集成
-- 执行组：待补
-- 边界：真实 Bash 和临时目录；不调用宿主应用
-- 测试文件：待补
-- 测试节点：待补
-- 执行命令：待补
-- 证据：待补
+- 执行组：Python 测试
+- 边界：真实临时文件、Git 暂存区和 Bash；不验证宿主是否实际派发事件，也不代替语义审查
+- 测试文件：`tests/test_document_policy.py`
+- 测试节点：`DocumentPolicyTest`
+- 执行命令：`python3 -m unittest discover -s tests -p 'test_document_policy.py' -v`
+- 证据：2026-09-22 本地 13 个行为场景通过；整体 54 个测试及 verify 通过，见 [测试记录](docs/product/09-test-release.md)
+- 2026-09-23 追加 8 个根定位回归：同配置／缓存、子项目优先、显式根及无效根、嵌套 Git 边界、非 Git 与旧四件套、直接 CLI、损坏配置及 linked worktree。验证真实 Bash 钩子和审计器，不代替宿主事件验证。
+
+### TEST-PR-001：PR 前扫描检查真实来源提交并阻断失败推送
+
+- 状态：已覆盖
+- 用途：关键链路、规则保护
+- 来源：[PR 护栏约定](references/document-policy.md)
+- 模拟输入：代码变更、删除／重命名、关联文档缺失、已提交断链及未提交修复、日志改写、错误基线和本地 bare remote
+- 业务预期：扫描 PR 共同祖先到来源提交的完整差异，映射文档并执行 full 审计；失败阻止推送，修复后放行，不修改源仓库 index 与 HEAD
+- 层级：集成
+- 执行组：Python 测试
+- 边界：临时 Git、真实 pre-push、linked worktree；不验证远端必需检查配置，不判定业务语义
+- 测试文件：`tests/test_pr_docs.py`
+- 测试节点：`PrDocsTest`
+- 执行命令：`python3 -m unittest tests.test_pr_docs -v`
+- 证据：2026-09-22 10 个集成测试通过，全套 64 个通过，见 [测试记录](docs/product/09-test-release.md)
 
 ### TEST-CONTRACT-TEMPLATE-001：同一机器契约校验响应边界
 
@@ -163,7 +180,7 @@ python -m pip install -r requirements-dev.txt
 
 | 优先级 | TEST-ID 或资产 | 缺口 | 下一步 | 状态 |
 |---|---|---|---|---|
-| P1 | TEST-HOOK-001 | Stop hook 只有可执行权限检查，没有行为回归测试 | 增加临时仓 Shell 集成测试并接入默认 runner | 待补 |
+| P2 | TEST-HOOK-001 | 脚本行为已验证，宿主原生 Stop 事件派发仍需真实会话观察 | 插件加载后核对实际触发与提示 | 待验证 |
 | P2 | TEST-INIT-001 | Codex 共享流程已跑通，Claude Code 原生命令尚未执行 | 获得明确的数据出境授权后，用当前插件目录在临时空仓复跑 | 开发中 |
 
 ## 七、维护触发器

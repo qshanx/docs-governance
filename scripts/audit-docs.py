@@ -14,6 +14,7 @@ import subprocess
 import sys
 from urllib.parse import unquote
 
+from docpolicy import check_policy
 from logformat import LogFormatError, parse_entries
 
 
@@ -103,6 +104,8 @@ class Report:
 def markdown_files(root: Path) -> list[Path]:
     result: list[Path] = []
     for path in root.rglob("*.md"):
+        if path.is_dir():
+            continue
         relative = path.relative_to(root)
         if any(part in IGNORED_DIRS for part in relative.parts):
             continue
@@ -442,6 +445,7 @@ def check_artifacts(root: Path, report: Report) -> None:
     check_markdown_links(root, files, report)
     check_test_ids(root, files, report)
     check_orphans(root, files, report)
+    check_policy(root, report)
 
 
 def main() -> int:

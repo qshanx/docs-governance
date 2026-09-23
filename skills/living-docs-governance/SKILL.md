@@ -168,6 +168,7 @@ metadata:
 - 前后端接口字段 → `CONTRACT.md`（若项目有契约治理）
 - 领域术语或关系变化 → `CONTEXT.md`（若存在且证据已确认）
 - 难回退技术决策 → `docs/adr/`（若触发 ADR）
+- 产品十阶段产物、PRD 基线、需求评审和运营反馈 → `product-evolution`；复用 docs 下产品入口，任务状态留在 Tracker
 
 关键区别：`PROJECT_LOG.md` 是记录员，只追加历史；`CLAUDE_MAP.md` / `ARCHITECTURE.md` / `PROJECT_STATUS.md` / `CLAUDE.md` 是编辑过的当前真相，发现旧事实过期要修正、合并或删除。
 
@@ -288,6 +289,8 @@ metadata:
 输出总体可信度、P0/P1/P2 发现、具体证据、影响、建议、通过项及待人工确认项。未测量不背书，建议不写成已修复。默认在回复输出，用户要求保存时才写审计报告。
 
 ### 阶段同步
+
+采用 PR 护栏的项目，在创建或更新 PR 前必须运行 `scripts/check-pr-docs.py --base <实际目标分支>`，非零先修复，不继续提交 PR。已推送分支也要执行。推送钩子和 PR CI 调用同一入口，安装与参数见 `references/document-policy.md`。根据项目已有模块同步表配置 `change_rules`，按输出核对本次改动影响的文档；确定性通过后仍做上述语义审计，在 PR 说明记录同步情况、无需同步的理由及未验证项。不能仅凭文档被改过就判为一致。
 
 按 `references/governance-sync-matrix.md` 执行：用本阶段说明、会话记录和实际 diff 列出应同步载体，确定的当前真相直接增量更新；未知项列待确认。重点对象（如 contract）用于缩小范围，不改变文件职责。
 

@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 # docs-governance · Claude Code / Codex Stop hook
 # 会话结束时检查四件套是否在腐烂，只提醒不阻塞（exit 0）。
-# 想改成"强制 agent 先修复再停"，把结尾的 exit 0 改成 exit 2。
+# 强制检查在暂存审计和 CI；Stop 保持非阻塞，避免反复触发。
 set -uo pipefail
+
+plugin_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# 与直接调用 auto-audit 共用根定位；无法定位时报告原因但不阻塞会话。
+governance_root="$(python3 "$plugin_root/scripts/auto-audit.py" --resolve-root)" || exit 0
+cd -- "$governance_root" || { echo 'docs-governance: 无法进入治理根，本次未执行审计' >&2; exit 0; }
+
+# 项目显式采用规则后，按内容变化调用同一审计器；Stop 只报告。
+if [ -e .docs-governance.json ] || [ -L .docs-governance.json ]; then
+  python3 "$plugin_root/scripts/auto-audit.py" --root "$PWD"
+  exit 0
+fi
 
 quad=(CLAUDE.md CLAUDE_MAP.md PROJECT_STATUS.md PROJECT_LOG.md)
 present=()

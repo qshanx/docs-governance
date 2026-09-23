@@ -16,6 +16,14 @@
 
 | 要找 | 去 |
 |---|---|
+| 文件位置规则与触发约定 | `.docs-governance.json`、[执行说明](references/document-policy.md) |
+| 暂存文档审计与提交护栏 | `scripts/check-staged-docs.py`、`hooks/pre-commit.sh` |
+| PR 前变更映射、提交快照扫描与推送门禁 | `scripts/check-pr-docs.py`、`hooks/pre-push.sh` |
+| 变更触发审计与规则校验 | `scripts/auto-audit.py`、`scripts/docpolicy.py` |
+| 产品四类索引、十阶段导航、按任务读取与审查方法 | `skills/product-evolution/SKILL.md` |
+| 产品文档管理员角色（Claude Code） | `agents/product-docs-manager.md`；Codex 直接执行 `product-evolution` |
+| 本插件产品管理入口与需求基线 | [产品管理](docs/product/README.md) |
+| 产品阶段入口模板 | `templates/product-index.example.md` |
 | 插件总路由 | `skills/docs-governance/SKILL.md` |
 | 活文档方法论 | `skills/living-docs-governance/SKILL.md` |
 | 领域上下文与 ADR | `skills/context-and-decisions/SKILL.md` |

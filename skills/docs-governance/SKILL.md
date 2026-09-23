@@ -18,6 +18,7 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 初始化、维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
 | 当前 Module 权责、状态归属、依赖图或核心流转图 | `living-docs-governance` 的 `ARCHITECTURE.md` 路线 |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |
@@ -29,6 +30,8 @@ description: >-
 | 设计可判定目标和反馈回路 | `loop-design-check` |
 
 ## 大型变更顺序
+
+需求不清、基线冲突或需要产品过程管理时，先进入 `product-evolution`，明确已确认范围与成功标准，再进入工程变更。
 
 按需执行，未触发的步骤直接跳过：
 
