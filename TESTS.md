@@ -130,7 +130,7 @@ python -m pip install -r requirements-dev.txt
 - 用途：关键链路、回归保护
 - 来源：`skills/living-docs-governance/SKILL.md` 的“已有项目首次接入”模式
 - 模拟输入：已有规则、Tracker、hook 与部分治理文档的项目；以及尚无治理文档的已有代码项目
-- 业务预期：先只读探测并分别列出保留、建议写入和明确不创建；未确认不写入，确认后仅修改获准载体；不替换 Tracker、hook 或团队规则；`/governance-setup` 与 `/governance-init`、`/governance` 职责分开
+- 业务预期：先只读探测并分别列出保留、建议写入和明确不创建；未确认不写入，确认后仅修改获准载体；不替换 Tracker、hook 或团队规则；仅 Claude Code 且已有 `CLAUDE.md` 的项目不新建 `AGENTS.md`，使用 Codex／需要跨宿主兼容且确认创建入口时生成只桥接 `CLAUDE.md` 的薄 `AGENTS.md`，已有 `AGENTS.md` 时仅最小更新；`/governance-setup` 与 `/governance-init`、`/governance` 职责分开
 - 层级：冒烟
 - 执行组：默认验证 + 文本场景审阅
 - 边界：`scripts/verify.sh` 检查每个 command 都显式委托现有共享 Skill；它不能实际加载 Claude Code slash command，宿主调度与业务项目端到端接入待真实试点
