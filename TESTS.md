@@ -37,10 +37,11 @@ python -m pip install -r requirements-dev.txt
 | 双 Agent 文档评审循环 | 集成 | 回归保护 | 防止正文未变化时重复付费评审，或评审状态无法落盘 | Python 测试 | fake Claude / Codex 命令 | `tests/test_dual_agent_review_loop.py` | 必要 |
 | 插件结构与发布前验证 | 冒烟 | 关键链路 | 防止 manifest、hook、Skill 路由、路径引用或 Python 测试断裂后仍被发布 | 默认验证 | Bash、Python、Git | `scripts/verify.sh` | 必要 |
 | 空项目治理初始化 | E2E | 关键链路 | 防止 `/governance-init` 只在文案上成立，实际生成空壳、漏 hook 或无法首提 | 空项目初始化 E2E | Git、宿主 Agent | `commands/governance-init.md` | 必要 |
+| 首次接入命令适配 | 冒烟 | 关键链路、回归保护 | 防止 `/governance-setup` 脱离共享方法论，或被误用为日常维护／空项目初始化 | 默认验证 + 文本场景审阅 | Bash、Git、宿主 Agent | `commands/governance-setup.md`、`scripts/verify.sh` | 必要 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | Stop hook 行为 | 集成 | 回归保护 | 防止提醒脚本误阻断会话，或漏报相对时间和未记 LOG | 待补 | Bash、Git | `hooks/check-on-stop.sh` | 缺失 |
 
-当前汇总：必要 6 项，缺失 1 项，疑似重复 0 项，疑似废弃 0 项。
+当前汇总：必要 7 项，缺失 1 项，疑似重复 0 项，疑似废弃 0 项。
 
 ## 三、跨端契约证据
 
@@ -122,6 +123,20 @@ python -m pip install -r requirements-dev.txt
 - 测试节点：完整 day-0 流程
 - 执行命令：按 `commands/governance-init.md` 在临时 Git 仓执行
 - 证据：`docs/audits/2026-08-13-governance-init-empty-project.md`；2026-09-05 按更新后的 Skill 复跑，见 `docs/audits/2026-09-05-governance-fixes.md`
+
+### TEST-SETUP-001：已有项目首次接入在确认前不写入，且命令只委托共享方法论
+
+- 状态：已覆盖（结构）；宿主端到端待试点
+- 用途：关键链路、回归保护
+- 来源：`skills/living-docs-governance/SKILL.md` 的“已有项目首次接入”模式
+- 模拟输入：已有规则、Tracker、hook 与部分治理文档的项目；以及尚无治理文档的已有代码项目
+- 业务预期：先只读探测并分别列出保留、建议写入和明确不创建；未确认不写入，确认后仅修改获准载体；不替换 Tracker、hook 或团队规则；`/governance-setup` 与 `/governance-init`、`/governance` 职责分开
+- 层级：冒烟
+- 执行组：默认验证 + 文本场景审阅
+- 边界：`scripts/verify.sh` 检查每个 command 都显式委托现有共享 Skill；它不能实际加载 Claude Code slash command，宿主调度与业务项目端到端接入待真实试点
+- 测试文件：`commands/governance-setup.md`、`skills/living-docs-governance/SKILL.md`、`scripts/verify.sh`
+- 测试节点：命令适配完整性与首次接入流程场景
+- 执行命令：`bash scripts/verify.sh`
 
 ### TEST-HOOK-001：Stop hook 只提醒、不误阻断
 

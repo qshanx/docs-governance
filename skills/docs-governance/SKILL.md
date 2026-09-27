@@ -18,6 +18,7 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 既有项目第一次接入本插件、希望先探测再确认配置 | `living-docs-governance` 的“已有项目首次接入”模式；Claude Code 使用 `/governance-setup` |
 | 初始化、维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
 | 当前 Module 权责、状态归属、依赖图或核心流转图 | `living-docs-governance` 的 `ARCHITECTURE.md` 路线 |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |

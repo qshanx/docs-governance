@@ -29,7 +29,7 @@ Or in Codex / ChatGPT:
 $docs-governance audit the current project in read-only mode and recommend the smallest useful next step
 ```
 
-The first output is a report, not an automatic rewrite. Confirm the findings before using `/governance` or a focused skill to change project documents.
+The first output is a report, not an automatic rewrite. For a first-time adoption in an existing repository, use `/governance-setup`: it discovers existing sources of truth, proposes the smallest safe setup, and waits for confirmation before writing. Use `/governance` for ongoing maintenance after adoption.
 
 ## What it provides
 

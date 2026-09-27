@@ -16,6 +16,7 @@
 
 | 要找 | 去 |
 |---|---|
+| 已有项目首次接入治理（先探测、确认后最小写入） | `commands/governance-setup.md` + `skills/living-docs-governance/SKILL.md` 的“已有项目首次接入” |
 | 插件总路由 | `skills/docs-governance/SKILL.md` |
 | 活文档方法论 | `skills/living-docs-governance/SKILL.md` |
 | 领域上下文与 ADR | `skills/context-and-decisions/SKILL.md` |

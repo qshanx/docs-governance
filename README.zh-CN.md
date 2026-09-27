@@ -29,7 +29,7 @@
    $docs-governance 只读审计当前项目，并告诉我最该先补哪一项治理能力
    ```
 
-3. 先看报告，不让工具直接改文件。确认后再用 `/governance` 或对应专项 Skill 更新文档。
+3. 既有项目首次接入时，使用 `/governance-setup`：它先探测已有真相源，给出最小接入草案，确认后才写入。完成接入后的日常维护再用 `/governance` 或对应专项 Skill。
 
 这个插件的默认姿态是“**先审计、后决定、再修改**”：小项目不强塞四件套；已有项目也会尽量沿用现有的目录与事实来源。
 
@@ -147,7 +147,8 @@ codex plugin add docs-governance@docs-governance
 ```
 # 活文档治理（以下为 Claude Code slash command）
 /governance-init         # 全新空项目：day-0 治理骨架（宪法+检查流程+流水账）
-/governance              # 已有代码项目：扫项目，生成/更新四件套
+/governance-setup        # 已有项目首次接入：探测 → 草案 → 确认 → 最小写入
+/governance              # 已接入项目：按需增量维护
 /governance-audit        # 只读审计：哪儿漂移了，不动文件
 /governance-sync         # 阶段收尾：按矩阵查漏补缺该同步哪份文档
 /governance-retro        # 复盘 LOG：哪类错误重复最多 → 输出"该下沉成 lint/测试"候选清单
@@ -191,7 +192,7 @@ docs-governance/
 ├── .claude-plugin/{plugin,marketplace}.json                       # Claude Code 插件入口
 ├── skills/{docs-governance,living-docs-governance,context-and-decisions,change-impact,...}/SKILL.md  # 路由与方法论唯一源
 ├── agents/{docs-governor,docs-auditor,contract-director,frontend-dev,backend-dev,regression-auditor}.md
-├── commands/{governance-init,governance,governance-audit,governance-sync,governance-retro,contract,regression-audit}.md
+├── commands/{governance-init,governance-setup,governance,governance-audit,governance-sync,governance-retro,contract,regression-audit}.md
 ├── docs/adr/                                                       # 插件自身的架构/数据库决策
 ├── templates/*.example.md                                          # 含 ARCHITECTURE / CONTEXT / ADR / TESTS / REGRESSION 等模板
 ├── references/governance-sync-matrix.md

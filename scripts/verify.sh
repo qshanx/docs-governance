@@ -55,6 +55,14 @@ MISS=$(grep -rhoE "$REF_PATTERN" agents/ skills/ commands/ README.md 使用说�
 
 echo "[6] 每个 skill 有 SKILL.md / 每个 command 与 agent 是 .md"
 for d in skills/*/; do [ -f "$d/SKILL.md" ] && ok "$d" || bad "$d 缺 SKILL.md"; done
+for command in commands/*.md; do
+  [ -f "$command" ] || continue
+  if grep -qE 'skills/[A-Za-z0-9._-]+/SKILL\.md' "$command"; then
+    ok "$command 委托共享 Skill"
+  else
+    bad "$command 未委托共享 Skill"
+  fi
+done
 
 echo "[7] 日志派生索引不会进入 git"
 git check-ignore -q .governance/project-log.sqlite 2>/dev/null && ok ".governance/ 已忽略" || bad ".governance/ 未进入 .gitignore"
