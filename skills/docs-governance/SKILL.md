@@ -18,8 +18,10 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
-| 既有项目第一次接入本插件、希望先探测再确认配置 | `living-docs-governance` 的“已有项目首次接入”模式；Claude Code 使用 `/governance-setup` |
-| 初始化、维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
+| 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |
+| 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
+| 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
+| 维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
 | 当前 Module 权责、状态归属、依赖图或核心流转图 | `living-docs-governance` 的 `ARCHITECTURE.md` 路线 |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |
 | 修改前判断牵连面、迁移、回滚、实施后对照 | `change-impact` |
@@ -30,6 +32,8 @@ description: >-
 | 设计可判定目标和反馈回路 | `loop-design-check` |
 
 ## 大型变更顺序
+
+需求不清、基线冲突或需要产品过程管理时，先进入 `product-evolution`，明确已确认范围与成功标准，再进入工程变更。
 
 按需执行，未触发的步骤直接跳过：
 

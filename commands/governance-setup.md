@@ -1,9 +1,9 @@
 ---
-description: 为已有项目首次接入 docs-governance：先只读探测现有规则、文档、Tracker 与验证入口，给出最小接入草案；用户确认后才写入。
-argument-hint: "[目标项目或接入约束]"
+description: 统一配置新项目、讨论后项目或已有项目的产品文档包与 Agent 入口；先识别资料与授权，再编排专项 Skill，保留现有主源。
+argument-hint: "[目标项目、讨论资料或配置范围]"
 ---
 
-读取 `skills/living-docs-governance/SKILL.md`，执行“已有项目首次接入”模式。
+读取 `skills/living-docs-governance/SKILL.md`，执行“统一 setup”模式。
 
 用户参数：`$ARGUMENTS`。将参数作为目标项目、已知约束或接入范围传入；探测、确认、写入与验证边界以 Skill 为唯一来源。
 

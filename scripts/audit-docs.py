@@ -14,6 +14,7 @@ import subprocess
 import sys
 from urllib.parse import unquote
 
+from docpolicy import IGNORED as IGNORED_DIRS, check_policy
 from logformat import LogFormatError, parse_entries
 
 
@@ -28,7 +29,6 @@ TEST_ID_RE = re.compile(r"\bTEST-(?:[A-Z0-9]+-)*\d+\b", re.IGNORECASE)
 TEST_ID_EXAMPLE_MARKER = "<!-- test-id-audit: examples-only -->"
 ADR_FILE_RE = re.compile(r"^\d{4}-[a-z0-9-]+\.md$")
 ADR_TARGET_RE = re.compile(r"\b\d{4}-[a-z0-9-]+\.md\b")
-IGNORED_DIRS = {".git", ".governance", ".venv", "node_modules", "vendor", "__pycache__"}
 IGNORED_REFERENCE_MARKERS = ("*", "{", "}", "<", ">", "…", "...")
 
 
@@ -103,6 +103,8 @@ class Report:
 def markdown_files(root: Path) -> list[Path]:
     result: list[Path] = []
     for path in root.rglob("*.md"):
+        if path.is_dir():
+            continue
         relative = path.relative_to(root)
         if any(part in IGNORED_DIRS for part in relative.parts):
             continue
@@ -442,6 +444,7 @@ def check_artifacts(root: Path, report: Report) -> None:
     check_markdown_links(root, files, report)
     check_test_ids(root, files, report)
     check_orphans(root, files, report)
+    check_policy(root, report)
 
 
 def main() -> int:

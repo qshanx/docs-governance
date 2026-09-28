@@ -29,7 +29,7 @@ Or in Codex / ChatGPT:
 $docs-governance audit the current project in read-only mode and recommend the smallest useful next step
 ```
 
-The first output is a report, not an automatic rewrite. For a first-time adoption in an existing repository, use `/governance-setup`: it discovers existing sources of truth, proposes the smallest safe setup, and waits for confirmation before writing. Use `/governance` for ongoing maintenance after adoption.
+The first output is a report, not an automatic rewrite. Use `/governance-setup` for new, discussed-but-not-built, or existing projects: it discovers existing sources, confirms the file scope, then coordinates product documentation and Agent entrypoints through shared skills. Existing PRD/Spec files stay authoritative; unknowns remain explicit. `/governance-init` is a compatibility alias, and `/governance` handles ongoing maintenance. Setup does not implicitly install hooks, initialize Git, commit, or push.
 
 ## What it provides
 
@@ -48,12 +48,17 @@ For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the
 
 ### Focused workflows
 
+- **Agent entrypoints** (`agent-entrypoints`): turn confirmed project context into actionable `AGENTS.md` / `CLAUDE.md` instructions, including requirement-reading triggers, real validation commands, and a single shared rule source.
 - **Living documentation**: initialize, audit, and synchronize the documentation spine.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.
 - **Contract-first collaboration**: use one machine-readable contract indexed by `CONTRACT.md` as the shared source of truth for frontend/backend or multi-service work.
 - **Test collaboration**: register requirements, risks, and fixed bugs as TEST-IDs with durable evidence.
 - **Module regression**: maintain downstream consumers and executable regression commands for modules that can break each other.
+
+产品文档管理：`product-evolution` 按项目初始化、市场分析、需求调研、需求分析、原型、PRD、需求评审、研发、测试上线、运营反馈组织 docs 下的产品空间，并审查来源、基线与交付证据。参见本插件的 [产品管理入口](docs/product/README.md)。
+
+Claude Code 的 [product-docs-manager](agents/product-docs-manager.md) 是产品文档管理员角色，调用现有 Skills 管理来源、需求编号、修订及授权；Codex / ChatGPT 直接使用 `$product-evolution` 执行同一流程。PM 四类材料索引、六类管理位置与十阶段导航共用主记录；CLAUDE 从产品入口触发按任务读取，必要条款分批核对，避免默认全量加载 PRD。
 
 The implementation lives in these skills: `skills/docs-governance`, `skills/living-docs-governance`, `skills/context-and-decisions`, `skills/change-impact`, `skills/contract-first`, `skills/test-collaboration`, `skills/module-regression`, and `skills/loop-design-check`.
 
@@ -90,3 +95,5 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 ## License
 
 [MIT](LICENSE) · [Seekers2001](https://github.com/Seekers2001)
+
+文件归位与变更审计可由项目显式启用 `.docs-governance.json`；Stop 按变更检查，提交检查暂存区，pre-push 与 PR CI 强制扫描提交快照，并按改动列出应核对文档。创建 PR 前使用同一检查入口，失败先修复。配置及安装见 [护栏说明](references/document-policy.md)。

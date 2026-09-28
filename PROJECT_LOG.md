@@ -33,5 +33,32 @@
 ## [2026-09-05] refactor | 日志审计与归档共用解析器；审计结果统一渲染文字/JSON，区分文档问题、未验证和执行错误；治理引用已有审查与运行证据，37 个测试通过，见 [架构优化验证](docs/audits/2026-09-05-shared-audit-results.md)
 ## [2026-09-05] fix | PR #4 双轴审查发现损坏 Git 被视为缺失、子项目历史路径不一致及循环链接中断 JSON；补 3 个回归并修复，远端基础提交证据与修复记录见 [架构优化验证](docs/audits/2026-09-05-shared-audit-results.md)
 ## [2026-09-05] fix | PR #4 复核补充父路径为普通文件的断链分类回归；按文档失败返回 1，循环链接仍按执行错误返回 2
+## [2026-09-22] feat | 新增 product-evolution 与入口模板，按阿磊指定十阶段在 docs 下组织产品管理文件，接入路由、地图和同步；本轮验收与试点边界见 [产品管理](docs/product/README.md)
+## [2026-09-22] governance | 标准变更：产品流程执行条件收窄为完整十阶段文档管理；经阿磊确认新增变更收尾审计和提交时文件归位约束，取消每日定时方案；位置配置与验证见 [护栏说明](references/document-policy.md)
+## [2026-09-22] audit | 盘点登记的 11 个本地项目及常用开发目录的 37 个仓库目录，补充只读接入适配评估；发现全文件指纹、根定位、历史告警与路由误报等推广障碍，未改业务项目，证据见 [跨项目评估](docs/audits/2026-09-22-cross-project-feasibility.md)
+## [2026-09-22] feat | 经阿磊确认新增 PR 前强制扫描：pre-push 与 PR Actions 对提交快照执行同一审计，按项目变更映射列出关联文档；10 个集成测试覆盖真实 push 拦截与修复、子目录、worktree、原始基线及工作区隔离，全套 64 个测试通过，见 [护栏说明](references/document-policy.md)
+## [2026-09-23] feat | 经阿磊确认新增 product-docs-manager 产品文档管理员角色，复用现有 Skills；六类资料映射到原有十阶段，补充来源登记、稳定需求编号、修订及授权边界，不改业务项目；范围与文本审查见 [产品管理](docs/product/README.md)
+## [2026-09-23] fix | 按 PR #12 独立评审修复 Stop 子目录静默漏审：统一显式根、Git 边界内最近配置及旧四件套定位，未知根明确提示；新增 8 个回归，全套 72 个测试及 verify 通过，验证范围见 [测试记录](docs/product/09-test-release.md)
+
+## [2026-09-23] feat | 产品能力规格 r3：PM 四类材料与既有六类记录、十阶段共用主记录；CLAUDE／模板触发按任务读取，Skill 管局部读取、依赖补读与分批审查。文本场景已复核，真实上下文效果待试点。
 ## [2026-09-27] feat | 新增 `/governance-setup`：已有项目首次接入先只读探测既有真相源、Tracker、hooks 与验证入口，展示最小草案并在确认后写入；与空项目初始化和日常维护入口分工，命令适配完整性进入 verify。
 ## [2026-09-27] fix | 修正首次接入入口规则：保留 `CLAUDE.md` 为 Claude 事实源；Codex／跨宿主项目经确认可产出只桥接它的薄 `AGENTS.md`，并把此情景加入 TEST-SETUP-001。
+## [2026-09-27] feat | 按 ENP-20260927 新增 agent-entrypoints 与 Vince 文章摘要，入口规则由项目证据生成并衔接 PRD／Spec；标准从无条件 AGENTS 薄桥接调整为沿用已确认共享主源、按宿主能力适配，原因是 AGENTS 可为完整入口且 Claude 已有条件支持；本仓库主源不迁移。旧 setup 范围已被后续要求纠正，统一编排与 PR 合并仍未完成，见 [能力规格](docs/product/06-prd.md)。
+
+## [2026-09-27] governance | 标准变更：入口长度仅作复核信号 → 每份 AGENTS.md／CLAUDE.md ≤200 行硬验收；依据阿磊后续明确纠正，同步规范、模板与产品验收，并按文章来源 1—8 补齐具体执行和逐项检查。此为治理规则，不是宿主解析器截断或已安装自动门禁；见 [入口规范](skills/agent-entrypoints/SKILL.md)。
+
+## [2026-09-27] fix | 按阿磊要求将入口长度规则收紧为一句约束与脚本调用，新增只读计数脚本及边界测试；200 行标准不变，不安装新 hook，见 [入口长度检查](scripts/check-entrypoint-length.py)。
+
+## [2026-09-27] docs | 新增 Skill 内的完整项目输入与 AGENTS.md 成品示例，明确虚构案例和验证边界，正文仅挂按需链接；其余规范精简和验证建议仍属审阅意见，未实施，见 [示例](skills/agent-entrypoints/examples/confirmed-project.md)。
+
+## [2026-09-27] docs | 按阿磊要求建立 [Issue #15](https://github.com/qshanx/docs-governance/issues/15) 跟踪 Agent 入口规范，置顶文章来源并关联 #11、#10 与 setup PR #14 背景；同步产品索引，优化建议仍待确认，未推送本地实现或合并 PR。
+
+## [2026-09-27] governance | 标准变更：入口经验更新与验证摘要 → 补充有依据的旧规则清理及命令工作目录／退出码等交付证据；依据阿磊对 Tw93 适配建议的确认，同步示例和现有 setup 探测／Skill 调用顺序，文章链接与本地验证结果已回写 Issue #15。未新增 Agent／Hook，统一 setup 仍未完成；范围及证据见 [能力规格 r6](docs/product/06-prd.md#r6规则清理与交付证据) 和 [测试记录](docs/product/09-test-release.md)。
+
+## [2026-09-27] governance | 按阿磊确认优化本仓库共享 CLAUDE 入口：补项目用途、验证工作目录／环境及 TESTS 路标、专项 Skill 路由；标准变更：正文中文且英文仅限触发词 → 治理正文默认中文，保留现有英文文档及代码标识／技术术语，消除与英文 README 的冲突。AGENTS 薄桥接和共享主源不变，不修改通用模板或其他 Skill。
+
+## [2026-09-28] fix | 按阿磊对 PR #14 审阅结果的“修复”确认，统一新项目、讨论后项目与已有项目的 setup；docs-governor 按共享 Skill 编排产品文档和 Agent 入口。标准变更：init 独立流程并默认 Git 首提／装 hook → setup 唯一流程、init 兼容别名，Git 与 hooks 须明确授权；原因是旧骨架无法承接产品文档包且两入口职责重复。范围见 [能力规格 r7](docs/product/06-prd.md#r7统一-setup-编排)，本地验证与远端边界见 [测试记录](docs/product/09-test-release.md)。
+
+## [2026-09-28] fix | 修复 pre-push 随分支切换丢失脚本：新增显式安装器，将检查器及依赖固定到 Git 公共元数据，默认保留已有 hook、明确替换先备份；真实 push 回归先复现失败再通过，13 个 PR 集成测试通过。审计器复用同一忽略目录常量；安装与边界见 [护栏说明](references/document-policy.md)。
+
+## [2026-09-28] fix | 将 PR #12 已提交产品能力整合到 PR #14，本地解决 6 份文档冲突并保留双方历史事件；统一 setup 与入口规范修复一并纳入，未混入作者名迁移及无关研究。远端推送与合并尚未执行。

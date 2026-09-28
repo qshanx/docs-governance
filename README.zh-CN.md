@@ -29,11 +29,13 @@
    $docs-governance 只读审计当前项目，并告诉我最该先补哪一项治理能力
    ```
 
-3. 既有项目首次接入时，使用 `/governance-setup`：它先探测已有真相源，给出最小接入草案，确认后才写入。完成接入后的日常维护再用 `/governance` 或对应专项 Skill。
+3. 新项目、已讨论但未实现的项目、已有项目统一使用 `/governance-setup`：先识别资料与授权范围，再编排产品文档和 Agent 入口 Skill，复用现有 PRD／Spec，未知项明确标注。`/governance-init` 是兼容别名；配置后用 `/governance` 日常维护。setup 不默认安装 hook、初始化 Git、提交或推送。
 
 这个插件的默认姿态是“**先审计、后决定、再修改**”：小项目不强塞四件套；已有项目也会尽量沿用现有的目录与事实来源。
 
 ## 为什么需要它
+
+`$agent-entrypoints` 专门生成、精简或审查 `AGENTS.md` / `CLAUDE.md`：依据新项目已知目标、讨论后的 PRD／Spec 或已有代码，写清适用要求、修改边界、验证入口和文档同步触发。已有主文件优先复用；宿主适配不复制规则。参考文章的要点与取舍见 [来源整理](research/2026-09-27-vincemask-agent-entrypoints.md)。
 
 AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶颈，承重的东西就上移到**意图（文档）**和**验证（测试）**——人维护的是规格和验收，代码只是规格的一次投影。
 
@@ -65,6 +67,8 @@ AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶�
 第四条线是**测试协作治理**（`test-collaboration`）：一份 `TESTS.md` 盘点现有测试资产，把需求、规则、风险和 Bug 登记成 TEST-ID，持续暴露必要、缺失、疑似重复和疑似废弃的测试。前后端或多服务分开开发时，同一个 TEST-ID 引用唯一机器可读契约，串起消费者、提供者和联调测试证据。它回答“应该测什么、为什么测、证据在哪”；`REGRESSION.md` 只回答“改完重跑什么”。
 
 `docs-governance` 是 Codex/ChatGPT 的薄总路由：普通治理与当前 Module 架构进入活文档；稳定领域语言进入 `context-and-decisions` 的 `CONTEXT.md`；架构、数据库、认证、部署等难回退决定进入一项一文件的 ADR；改代码前后用 `change-impact` 核对代码、数据、契约、测试、文档、发布和回滚。
+
+`product-evolution` 在 docs 下按十阶段组织产品管理文件，连接当前 PRD 基线、确认来源、执行任务与验收／运营证据；建立与审查均复用现有资料。本插件示例见 [产品管理入口](docs/product/README.md)。
 
 插件还保留 `loop-design-check`：当任务本身需要设计可判定目标、反馈回路和停止条件时使用；它由总路由登记，但不把 loop 文档混入项目治理脊柱。
 
@@ -146,8 +150,8 @@ codex plugin add docs-governance@docs-governance
 
 ```
 # 活文档治理（以下为 Claude Code slash command）
-/governance-init         # 全新空项目：day-0 治理骨架（宪法+检查流程+流水账）
-/governance-setup        # 已有项目首次接入：探测 → 草案 → 确认 → 最小写入
+/governance-setup        # 新项目／讨论后／已有项目：识别 → 授权 → 产品文档 → Agent 入口 → 验证
+/governance-init         # governance-setup 的兼容别名
 /governance              # 已接入项目：按需增量维护
 /governance-audit        # 只读审计：哪儿漂移了，不动文件
 /governance-sync         # 阶段收尾：按矩阵查漏补缺该同步哪份文档
@@ -208,3 +212,5 @@ docs-governance/
 
 ---
 MIT · Seekers2001（小磊）· jiaxinleifm@outlook.com
+
+产品资料采用完整十阶段入口，方法仅管理文档。项目可通过 `.docs-governance.json` 约束必需文件、PRD 标题／文件名位置与脚本目录；变更收尾、暂存区提交和 CI 共用规则。见 [文档护栏说明](references/document-policy.md)。

@@ -1,8 +1,8 @@
 ---
-description: 对已接入治理的当前项目做日常活文档维护——扫描真实结构，按需增量更新治理文档与 Codex 的 AGENTS.md 薄桥接。首次接入已有项目请用 /governance-setup，全中文。
+description: 对已配置治理的当前项目做日常活文档维护——扫描真实结构，按需增量更新治理文档与 Codex 的 AGENTS.md 薄桥接。首次配置请用 /governance-setup，全中文。
 ---
 
-读取 `skills/living-docs-governance/SKILL.md`，执行“已有项目治理”模式；首次接入已有项目时转到 `/governance-setup`。
+读取 `skills/living-docs-governance/SKILL.md`，执行“已有项目治理”模式；首次配置时转到 `/governance-setup`。
 
 用户参数：`$ARGUMENTS`。将参数作为该模式定义的项目信息、范围或阶段说明传入；规则与读写边界以 Skill 为唯一来源。
 
