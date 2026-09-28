@@ -14,14 +14,20 @@
 
 ## 验证缺口与待确认范围（按需读）
 
-- `/governance-init` 的 Codex 共享流程已在真实空项目首跑；Claude Code 原生 slash command 尚未验证（证据见 `docs/audits/2026-08-13-governance-init-empty-project.md`）。
+- 统一 setup 已在本地接上三类项目识别、产品文档与 Agent 入口 Skill；init 为兼容别名。`agent-entrypoints` 保留八项规范和逐文件 200 行检查，并区分稳定规则与单次授权；未新装门禁。实际验证范围见 [r7 测试记录](docs/product/09-test-release.md)。PR #14 本地工作树已整合 PR #12 并解决冲突，修复尚未推送；原生宿主与业务效果未验证，不能据旧 PR 绿色结果合并。
+
+- `product-docs-manager` 已新增角色与共享规则，来源、编号、状态、授权及按任务读取场景已做文本复核；Claude Code 原生角色调度、实际上下文节省和业务项目实际试点仍未验证，见 [角色审查](docs/product/07-requirements-review.md)。
+
+- `product-evolution` 已完成 11 个登记项目只读适配评估；Stop 全文件指纹及存量告警阻断等推广障碍尚未修复，PR #12 保持草稿。Stop 子目录根定位已按评审修复并验证显式根、独立子项目和 worktree；PR 前扫描已通过独立提交快照和本地真实 push 阻断测试。宿主原生事件、业务项目安装试点及运营效果未验证，见 [跨项目评估](docs/audits/2026-09-22-cross-project-feasibility.md)。
+
+- `/governance-init` 旧独立流程的空项目首跑证据保留在 `docs/audits/2026-08-13-governance-init-empty-project.md`；现已改为统一 setup 别名，旧结果不证明新流程通过。原生 slash command 尚未验证。
 - `test-collaboration` 已在本插件完成首次测试资产盘点，并把两项审计误报归入 `TEST-AUDIT-001`；仍待业务项目完成试点（首选：经营报表加工系统）。
 - `loop-design-check` skill 与两条主线主题不合（小磊已确认"没关系"），挪出待拍板。
 
 ## 📥 Backlog（方法论优化，2026-07-02 小磊逐条批准；等 dogfood 撞到或排期再做，不抢跑）
 
 1. **审计事实层下沉成脚本（部分完成）**：✅ `audit-docs.py` 已查路径/链接、LOG 活跃+归档完整性、ADR 索引、TEST-ID 和孤儿文档并按退出码短路；⏳ STATUS 可量化指标自动生成尚未做。
-2. ✅ **commit 前固化核对**（2026-07-02 已做：templates/pre-commit.example + 两命令接入 + 四段测试）：staged 含代码改动 → PROJECT_LOG.md 必须同批 staged；豁免=只改 tests//docs//治理文件 或 --no-verify；做成 templates/pre-commit.example，/governance-init 自动装。只拦这一条最小可判定不变量，MAP/STATUS 不在 commit 关口硬卡（防狼来了）。
+2. ✅ **commit 前固化核对**（2026-07-02 已做：templates/pre-commit.example + 两命令接入 + 四段测试）：staged 含代码改动 → PROJECT_LOG.md 必须同批 staged；豁免=只改 tests//docs//治理文件 或 --no-verify；做成 templates/pre-commit.example。旧 init 自动安装已被 r7 统一 setup 的明确授权边界替代。只拦这一条最小可判定不变量，MAP/STATUS 不在 commit 关口硬卡（防狼来了）。
 3. **LOG 消费端（部分完成）**：✅ 超过 200 条事件可归档并生成 SQLite 类型/模块/引用索引；⏳ audit 自动输出 fix 热点统计尚未做。
 4. **四件套并发约定**：LOG append-only 各写各行；STATUS/MAP 指定"谁拥有谁改"（同契约线"谁改契约谁是主任"）。
 5. **文档复利三动作**（skill 加一节"文档作为再生产资料"）：① 跑通即存 references/ ② LOG fix 热点 ≥2 次的坑升级成 CLAUDE.md 硬规则 ③ ≥2 项目重复的 spec/references/placeholder 回流模板母版。
@@ -37,8 +43,8 @@
 |---|---|---|---|
 | `scripts/verify.sh` | 通过 | 通过 = 绿 | 🟢 |
 | Claude / Codex 双端 manifest | 名称与版本一致，skills 共用 | 一致 = 绿 | 🟢 |
-| Skill 路由与用户文档 | 8 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
-| Python 单元测试 | 41 个（含审计 JSON 接口和机器契约模板） | 全过 = 绿 | 🟢 |
+| Skill 路由与用户文档 | 10 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
+| Python 单元测试 | 79 个（含入口长度、位置规则、暂存快照、Stop 根定位与 PR 推送／安装护栏） | 全过 = 绿 | 🟢 |
 | 自动 CI | 完整 verify 与日志基线比较已在 PR #4 的 dad0dd2 验证；后续提交逐次核对 checks（证据见 [本轮验证](docs/audits/2026-09-05-shared-audit-results.md)） | PR / push 成功运行 = 绿 | 已接通；结果按提交核对 |
 | skill / agent 内部去重 | 是（方法论仅 skill 一处） | 唯一源 | 🟢 |
 | 真实项目 dogfood | 4（经营报表审计、礼仪 demo 审计+修复、本插件自治理、audit-blog 审计） | ≥2 | 🟢 |

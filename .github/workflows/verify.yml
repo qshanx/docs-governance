@@ -21,6 +21,12 @@ jobs:
           python-version: "3.12"
       - name: Install development checks
         run: python -m pip install -r requirements-dev.txt
+      - name: Audit PR changes and document snapshot
+        if: github.event_name == 'pull_request'
+        env:
+          PR_DOCS_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_DOCS_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: python3 scripts/check-pr-docs.py --base "$PR_DOCS_BASE" --head "$PR_DOCS_HEAD"
       - name: Run repository verification
         env:
           AUDIT_PR_BASE: ${{ github.event.pull_request.base.sha }}

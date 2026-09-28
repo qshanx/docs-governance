@@ -22,7 +22,7 @@ python -m pip install -r requirements-dev.txt
 | 默认验证 | `bash scripts/verify.sh` | 改任何文件后、提交前、CI | Bash、Python、Git、开发测试依赖 |
 | Python 测试 | `python3 -m unittest discover -s tests -p 'test_*.py'` | 修改 `scripts/*.py` 或 `tests/*.py` 后 | Python、Git、开发测试依赖 |
 | 文档确定性审计 | `bash scripts/audit-cheap.sh full` | 治理文档或引用变化后 | Bash、Python、Git |
-| 空项目初始化 E2E | 按 `commands/governance-init.md` 在临时空仓执行 | 初始化流程或模板变化后 | Git；由 Claude Code / Codex 执行流程 |
+| setup 场景执行 | 按 `living-docs-governance` 统一 setup 在三个隔离项目执行，并复跑与只读探测 | 编排、初始化流程或模板变化后 | 宿主 Agent；不需联网或 Git 初始化 |
 
 ## 二、测试资产地图
 
@@ -33,14 +33,17 @@ python -m pip install -r requirements-dev.txt
 | 模块或流程 | 层级 | 用途 | 为什么存在 / 保护风险 | 执行组 | 外部依赖 | 测试位置 | 当前判断 |
 |---|---|---|---|---|---|---|---|
 | 文档确定性审计 | 集成 | 规则保护、回归保护 | 防止断链、ADR 漏登记、TEST-ID 漂移和 LOG 历史被悄悄改写 | Python 测试 | 临时目录、Git | `tests/test_audit_docs.py` | 必要 |
+| Agent 入口长度 | 集成 | 规则保护 | 防止 200 行边界误判、多文件漏检及读取失败被当成通过 | Python 测试 | 临时目录 | `tests/test_entrypoint_length.py` | 必要 |
 | PROJECT_LOG 归档与索引 | 集成 | 规则保护、回归保护 | 防止按行误计数、重复建库、未确认归档或归档丢事件 | Python 测试 | SQLite、临时目录 | `tests/test_project_log_index.py` | 必要 |
 | 双 Agent 文档评审循环 | 集成 | 回归保护 | 防止正文未变化时重复付费评审，或评审状态无法落盘 | Python 测试 | fake Claude / Codex 命令 | `tests/test_dual_agent_review_loop.py` | 必要 |
 | 插件结构与发布前验证 | 冒烟 | 关键链路 | 防止 manifest、hook、Skill 路由、路径引用或 Python 测试断裂后仍被发布 | 默认验证 | Bash、Python、Git | `scripts/verify.sh` | 必要 |
-| 空项目治理初始化 | E2E | 关键链路 | 防止 `/governance-init` 只在文案上成立，实际生成空壳、漏 hook 或无法首提 | 空项目初始化 E2E | Git、宿主 Agent | `commands/governance-init.md` | 必要 |
+| init 兼容入口 | 冒烟 | 回归保护 | 防止旧命令残留另一套初始化流程或隐含 Git／hook 授权 | 默认验证 + 适配层审阅 | Bash、宿主 Agent | `commands/governance-init.md` | 必要 |
+| 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/living-docs-governance/SKILL.md` | 必要 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
-| Stop hook 行为 | 集成 | 回归保护 | 防止提醒脚本误阻断会话，或漏报相对时间和未记 LOG | 待补 | Bash、Git | `hooks/check-on-stop.sh` | 缺失 |
+| 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
+| PR 前扫描与推送门禁 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖待推送提交、漏掉删除／重命名影响、第二次推送丢失 PR 基线，以及失败仍能推送 | Python 测试 | 本地临时 Git 与 bare remote | `tests/test_pr_docs.py` | 必要 |
 
-当前汇总：必要 6 项，缺失 1 项，疑似重复 0 项，疑似废弃 0 项。
+当前汇总：必要 10 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
 
 ## 三、跨端契约证据
 
@@ -108,35 +111,66 @@ python -m pip install -r requirements-dev.txt
 - 执行命令：`bash scripts/verify.sh`
 - 证据：2026-09-05 本地标准入口包含 full 审计；`.github/workflows/verify.yml` 对推送前提交和 PR 基线做日志比较，远端结果见对应 PR checks。
 
-### TEST-INIT-001：空项目初始化能形成最小、可提交的治理骨架
+### TEST-INIT-001：init 兼容入口委托统一 setup
 
-- 状态：开发中
+- 状态：结构已覆盖；当前宿主原生命令待验证
 - 用途：关键链路
-- 来源：`commands/governance-init.md` 与 `PROJECT_STATUS.md` 原未决 P0
-- 模拟输入：无业务代码的临时 Python 项目，项目名 `governance-init-smoke`
-- 业务预期：生成 `CLAUDE.md`、`AGENTS.md`、`{目标项目}/docs/governance.md`、`PROJECT_LOG.md` 和可执行 pre-commit hook；不生成空壳 MAP、STATUS、ARCHITECTURE、TESTS 或 REGRESSION；首提成功
-- 层级：E2E
-- 执行组：空项目初始化 E2E
-- 边界：当前 Codex 已按共享流程真实生成并提交；Claude Code 原生 slash command 的联网调用因未获得私有仓库数据出境授权而未执行
+- 来源：`commands/governance-init.md`、能力规格 GSU-1；替代旧 day-0 独立流程
+- 模拟输入：与 setup 相同的目标、材料与授权参数
+- 业务预期：与 setup 委托同一模式、角色与参数，未保留旧独立流程；不隐含 Git 初始化、首提或 hook 安装
+- 层级：冒烟
+- 执行组：默认验证 + 适配层审阅
+- 边界：核对命令与 Skill 结构，不等于 Claude Code 已加载命令；旧空项目首提证据不证明新流程通过
 - 测试文件：`commands/governance-init.md`
-- 测试节点：完整 day-0 流程
-- 执行命令：按 `commands/governance-init.md` 在临时 Git 仓执行
-- 证据：`docs/audits/2026-08-13-governance-init-empty-project.md`；2026-09-05 按更新后的 Skill 复跑，见 `docs/audits/2026-09-05-governance-fixes.md`
+- 测试节点：兼容入口与 GSU-1
+- 执行命令：`bash scripts/verify.sh`，人工比较 init 与 setup 适配层
+- 证据：当前验证见 [r7 测试记录](docs/product/09-test-release.md)；旧流程历史证据保留在 `docs/audits/2026-08-13-governance-init-empty-project.md` 与 `docs/audits/2026-09-05-governance-fixes.md`
 
-### TEST-HOOK-001：Stop hook 只提醒、不误阻断
+### TEST-SETUP-001：统一 setup 从真实资料建立产品包与 Agent 入口
 
-- 状态：待补
-- 用途：回归保护
-- 来源：`hooks/check-on-stop.sh` 的提醒型边界
-- 模拟输入：无治理文件、有相对时间、当天无 LOG、当天已有 LOG 四种临时仓状态
-- 业务预期：需要时输出提醒，不需要时静默；所有提醒场景都保持退出码 0
+- 状态：验证结果见 r7 测试记录；宿主原生端到端待试点
+- 用途：关键链路、回归保护
+- 来源：`skills/living-docs-governance/SKILL.md` 的“统一 setup”模式及能力规格 GSU-1—GSU-5
+- 模拟输入：仅目标／范围的新项目；有确认记录但未实现的项目；有 AGENTS 主源、现有 Spec、测试与 hook 的项目；后者再复跑和只读探测；另用未配置项目验证“仅建议、不写入”
+- 业务预期：产品包与实际入口由对应 Skill 生成，保留来源、主源与未知项；不覆盖规格、Tracker、代码或 hook；每份入口 ≤200 行；复跑不重复建档，只读前后文件不变
 - 层级：集成
-- 执行组：待补
-- 边界：真实 Bash 和临时目录；不调用宿主应用
-- 测试文件：待补
-- 测试节点：待补
-- 执行命令：待补
-- 证据：待补
+- 执行组：默认验证 + setup 场景执行
+- 边界：实际 Agent 读取 Skill 并在隔离目录生成文档，运行显式目标根审计与行数检查；不验证 Claude Code slash command 加载、业务项目推广或业务验收
+- 测试文件：`commands/governance-setup.md`、`skills/living-docs-governance/SKILL.md`、`scripts/verify.sh`
+- 测试节点：三场景、重复执行、只读权限和受保护文件
+- 执行命令：`bash scripts/verify.sh`；按共享 Skill 逐场景执行并比较文件哈希，证据见 [r7 测试记录](docs/product/09-test-release.md)
+
+### TEST-HOOK-001：位置与触发规则在真实文件和暂存快照上生效
+
+- 状态：已覆盖
+- 用途：规则保护、回归保护
+- 来源：[文件护栏约定](references/document-policy.md)、[产品文档规格](docs/product/06-prd.md)
+- 模拟输入：PRD 主标题错放、正文与围栏提及、模板例外、脚本错放、缺失文件、错误配置、软链接、暂存区未修复而工作区已修复、变更及重复 Stop
+- 业务预期：按约定返回确定性失败／执行错误，暂存违规阻止提交，Stop 只报告；通过且内容不变时静默，不以配置错误冒充通过
+- 层级：集成
+- 执行组：Python 测试
+- 边界：真实临时文件、Git 暂存区和 Bash；不验证宿主是否实际派发事件，也不代替语义审查
+- 测试文件：`tests/test_document_policy.py`
+- 测试节点：`DocumentPolicyTest`
+- 执行命令：`python3 -m unittest discover -s tests -p 'test_document_policy.py' -v`
+- 证据：2026-09-22 本地 13 个行为场景通过；整体 54 个测试及 verify 通过，见 [测试记录](docs/product/09-test-release.md)
+- 2026-09-23 追加 8 个根定位回归：同配置／缓存、子项目优先、显式根及无效根、嵌套 Git 边界、非 Git 与旧四件套、直接 CLI、损坏配置及 linked worktree。验证真实 Bash 钩子和审计器，不代替宿主事件验证。
+
+### TEST-PR-001：PR 前扫描检查真实来源提交并阻断失败推送
+
+- 状态：已覆盖
+- 用途：关键链路、规则保护
+- 来源：[PR 护栏约定](references/document-policy.md)
+- 模拟输入：代码变更、删除／重命名、关联文档缺失、已提交断链及未提交修复、日志改写、错误基线和本地 bare remote
+- 业务预期：扫描 PR 共同祖先到来源提交的完整差异，映射文档并执行 full 审计；失败阻止推送，修复后放行，不修改源仓库 index 与 HEAD
+- 层级：集成
+- 执行组：Python 测试
+- 边界：临时 Git、真实 pre-push、linked worktree；不验证远端必需检查配置，不判定业务语义
+- 测试文件：`tests/test_pr_docs.py`
+- 测试节点：`PrDocsTest`
+- 执行命令：`python3 -m unittest tests.test_pr_docs -v`
+- 证据：2026-09-22 10 个集成测试通过，全套 64 个通过，见 [测试记录](docs/product/09-test-release.md)
+- 2026-09-28 追加 3 个安装回归，13 个集成测试通过：真实推送覆盖旧分支、linked worktree 与断链拦截；已有 hook 默认保留、明确替换先备份，外部 hooksPath 可用、工作树内路径被拒绝。
 
 ### TEST-CONTRACT-TEMPLATE-001：同一机器契约校验响应边界
 
@@ -163,8 +197,8 @@ python -m pip install -r requirements-dev.txt
 
 | 优先级 | TEST-ID 或资产 | 缺口 | 下一步 | 状态 |
 |---|---|---|---|---|
-| P1 | TEST-HOOK-001 | Stop hook 只有可执行权限检查，没有行为回归测试 | 增加临时仓 Shell 集成测试并接入默认 runner | 待补 |
-| P2 | TEST-INIT-001 | Codex 共享流程已跑通，Claude Code 原生命令尚未执行 | 获得明确的数据出境授权后，用当前插件目录在临时空仓复跑 | 开发中 |
+| P2 | TEST-HOOK-001 | 脚本行为已验证，宿主原生 Stop 事件派发仍需真实会话观察 | 插件加载后核对实际触发与提示 | 待验证 |
+| P2 | TEST-INIT-001、TEST-SETUP-001 | 统一 setup 与 init 的 Claude Code 原生命令加载尚未执行 | 获得适用授权后，在宿主加载插件并用无私有数据的临时项目复跑 | 待验证 |
 
 ## 七、维护触发器
 

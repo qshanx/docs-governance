@@ -98,10 +98,12 @@
   <text x="1357.5" y="327" fill="#f8fafc" font-size="10" font-weight="600" text-anchor="middle">module-regression</text>
   <text x="1357.5" y="346" fill="#94a3b8" font-size="8" text-anchor="middle">本模块 + 全部下游</text>
 
-  <rect x="930" y="405" width="415" height="65" rx="7" fill="#0f172a"/>
-  <rect x="930" y="405" width="415" height="65" rx="7" fill="rgba(136,19,55,0.28)" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <text x="1137.5" y="432" fill="#f8fafc" font-size="10" font-weight="600" text-anchor="middle">loop-design-check</text>
-  <text x="1137.5" y="451" fill="#fb7185" font-size="8" text-anchor="middle">闭环目标 / 反馈 / 停止条件 · 邻接能力，去留待定</text>
+  <rect x="820" y="405" width="305" height="65" rx="7" fill="#0f172a" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="972.5" y="432" fill="#f8fafc" font-size="10" font-weight="600" text-anchor="middle">loop-design-check</text>
+  <text x="972.5" y="451" fill="#fb7185" font-size="8" text-anchor="middle">反馈 / 停止条件 · 邻接能力，去留待定</text>
+  <rect x="1140" y="405" width="315" height="65" rx="7" fill="#0f172a" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="1297.5" y="432" fill="#f8fafc" font-size="10" font-weight="600" text-anchor="middle">product-evolution</text>
+  <text x="1297.5" y="451" fill="#94a3b8" font-size="8" text-anchor="middle">十阶段文档 · 来源 / 版本 / 引用审查</text>
 
   <!-- Edge modules -->
   <rect x="65" y="585" width="390" height="220" rx="12" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="8,4"/>
@@ -117,7 +119,7 @@
   <rect x="535" y="640" width="380" height="70" rx="7" fill="#0f172a"/>
   <rect x="535" y="640" width="380" height="70" rx="7" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
   <text x="725" y="669" fill="#f8fafc" font-size="10" font-weight="600" text-anchor="middle">scripts/ · hooks/ · GitHub Actions</text>
-  <text x="725" y="689" fill="#94a3b8" font-size="8" text-anchor="middle">共享日志解析 · 审计结果 → 文字 / JSON · verify</text>
+  <text x="725" y="689" fill="#94a3b8" font-size="8" text-anchor="middle">位置规则 · 变更 Stop / 暂存区 / CI · 共享审计器</text>
   <text x="725" y="754" fill="#64748b" font-size="8" text-anchor="middle">结果区分失败、未验证与执行错误，语义判断留给 Agent</text>
 
   <rect x="995" y="585" width="490" height="220" rx="12" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="8,4"/>
@@ -125,7 +127,7 @@
   <rect x="1025" y="640" width="430" height="85" rx="7" fill="#0f172a"/>
   <rect x="1025" y="640" width="430" height="85" rx="7" fill="rgba(76,29,149,0.4)" stroke="#a78bfa" stroke-width="1.5"/>
   <text x="1240" y="669" fill="#f8fafc" font-size="9.5" font-weight="600" text-anchor="middle">CLAUDE · MAP · STATUS · LOG · ARCHITECTURE</text>
-  <text x="1240" y="690" fill="#f8fafc" font-size="9.5" font-weight="600" text-anchor="middle">CONTEXT · ADR · CONTRACT · TESTS · REGRESSION</text>
+  <text x="1240" y="690" fill="#f8fafc" font-size="9.5" font-weight="600" text-anchor="middle">CONTEXT · ADR · CONTRACT · TESTS · REGRESSION · product/</text>
   <text x="1240" y="709" fill="#94a3b8" font-size="8" text-anchor="middle">字段 → 机器契约 · 执行结论 → 版本与运行证据</text>
   <text x="1240" y="754" fill="#64748b" font-size="8" text-anchor="middle">.governance/ 仅保存可重建派生索引</text>
 
@@ -186,5 +188,5 @@
   <line x1="1080" y1="1255" x2="1125" y2="1255" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrow-cyan)"/>
   <text x="1140" y="1260" fill="#cbd5e1" font-size="8">依赖或运行流转</text>
 
-  <text x="1520" y="1295" fill="#475569" font-size="8" text-anchor="end">当前事实入口：ARCHITECTURE.md · 2026-09-05</text>
+  <text x="1520" y="1295" fill="#475569" font-size="8" text-anchor="end">当前事实入口：ARCHITECTURE.md · 2026-09-22</text>
 </svg>

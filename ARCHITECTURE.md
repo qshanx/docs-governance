@@ -29,9 +29,12 @@ flowchart LR
     SKILL --> SCRIPT["deterministic scripts"]
     SCRIPT --> LOGFORMAT["shared log parser"]
     SCRIPT --> FACTS["project documents / Git"]
-    HOOK["Stop hook"] --> FACTS
+    HOOK["Stop / pre-commit / pre-push hook"] --> SCRIPT
+    SCRIPT --> POLICY["项目位置规则"]
     CI["GitHub Actions"] --> VERIFY["scripts/verify.sh"]
     VERIFY --> SCRIPT
+    CI --> PRSCAN["check-pr-docs.py：PR 提交快照"]
+    PRSCAN --> SCRIPT
 ```
 
 > 箭头表示左侧实现依赖右侧 Interface。方法论依赖只能从宿主入口指向 Skill，不能把方法论复制回 command 或 agent。
@@ -61,15 +64,24 @@ flowchart LR
 |---|---|---|---|
 | 插件发现 | `.claude-plugin/plugin.json`、`.codex-plugin/plugin.json` | Claude Code、Codex / ChatGPT | 双端 manifest |
 | 方法论执行 | `skills/*/SKILL.md` | commands、agents、当前 Codex agent | 对应 Skill |
+| Agent 入口内容规范 | `skills/agent-entrypoints/SKILL.md` | 总路由、统一 setup、活文档治理、当前 Agent | 主文件选择、事实输入、可执行规则和入口检查只在该 Skill；产品基线和文档读序继续引用既有 Skill |
+| Agent 入口长度检查 | `scripts/check-entrypoint-length.py` | `agent-entrypoints` 调用，只读检查显式文件列表 | 0 通过、1 超过 200 行、2 参数／读取错误；不安装 hook |
+| 统一 setup 编排 | `living-docs-governance` 的“统一 setup”模式 | Claude Code 的 setup／init command 与 docs-governor；Codex / ChatGPT 当前 Agent | 识别三类项目与授权 → product-evolution 返回产品主记录 → 按需治理载体 → agent-entrypoints → 统一验证；子调用不重启 setup |
+| 产品资料管理角色 | `agents/product-docs-manager.md` | Claude Code Agent；Codex / ChatGPT 当前 Agent 直接走共享 Skill | `product-evolution` 的管理员执行顺序、来源／编号／状态／授权边界；按需引用 change-impact 和 living-docs-governance |
 | 项目文档生成 | `templates/*.example.md` | docs-governor 或当前 agent | 模板 + 对应 Skill |
 | 机器契约模板 | `templates/openapi.example.json` | CONTRACT 模板、消费方/提供方校验器 | 单一 OpenAPI 文档 |
 | 日志解析 | `scripts/logformat.py` | 文档审计、日志归档与索引 | 同一解析器，调用方决定失败处理 |
+| 文件位置与触发规则 | `.docs-governance.json`、`scripts/docpolicy.py` | Stop、暂存区检查、full/artifacts 审计 | [规则接口](references/document-policy.md) |
+| Stop 治理根定位 | `scripts/auto-audit.py` 的 `governance_root` | Stop 包装与直接 CLI 共用 | 显式根优先、Git 边界内最近配置、旧四件套回退；无法定位报告未执行，细则见规则接口 |
+| PR 前文档扫描 | `scripts/check-pr-docs.py`、`scripts/install-pre-push.py`、`hooks/pre-push.sh` | Agent 创建 PR 前、本地推送与 PR CI | 实际目标分支的共同祖先、来源提交快照、变更到文档的映射；临时 index 与 HEAD 不修改原仓库；安装快照与原 hook 备份归 Git 公共元数据，不随分支切换 |
 | 确定性审计 | `scripts/audit-cheap.sh`、`scripts/audit-docs.py` | governance-audit、CI、当前 Agent | 退出码及结构化结果，见 `references/audit-result-format.md` |
 | 测试与发布前验证 | `TESTS.md`、`scripts/verify.sh` | 本地开发、GitHub Actions | TEST-ID + 命令退出码 |
 
 项目已有代码审查与测试工具继续执行各自职责。治理 Skill 引用其版本、范围、结论和证据位置；当前没有新增外部工具调度器或结果导入服务。运行结果是一次观测，相关实现变化后需要复验，不能仅凭旧报告更新当前健康为绿。
 
 现有展示版架构图在 `diagram/architecture.svg`，渲染预览为 `diagram/architecture.png`；若它与本文冲突，以本文和真实代码为准，并在同次结构变更中同步展示图。
+
+产品文档由 `skills/product-evolution/SKILL.md` 在现有专项 Skill 层承接，使用 `templates/product-index.example.md` 组织十阶段产物。本插件实际入口为 [产品管理](docs/product/README.md)；需求与确认由产品文档承载，任务状态仍归 Issue Tracker，业务验收不由确定性脚本代判。Stop 用内容指纹避免重复审计，提交护栏检查真实暂存快照；现有推送／PR CI 复用同一规则，不新增每日定时器。
 
 ## 更新规则
 
