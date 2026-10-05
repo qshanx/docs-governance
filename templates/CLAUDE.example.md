@@ -26,3 +26,4 @@
 - 架构 / 数据库等难回退决策 → `docs/adr/README.md`（仅当项目已启用）<!-- governance: optional=docs/adr/README.md -->
 - 任务、负责人、阻塞与排期 → 项目已有 Issue Tracker（不要复制进 STATUS / LOG）
 - 产品目标、需求、实现或验收 → 仅在已建立产品空间时，替换本行为实际产品入口链接；先定位当前主题基线，再按 `product-evolution` Skill 的“按任务读取”核对需求与受影响条款，不默认全文加载产品目录。未启用时删除本行。
+- 技术文档表达 → 仅在项目已启用 technical-doc-writing 时，保留一行约定：新写技术说明或改写段落／步骤时调用该 Skill；规则按需加载。未启用时删除本行。

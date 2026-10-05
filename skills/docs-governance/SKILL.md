@@ -19,6 +19,7 @@ description: >-
 | 用户意图 | 路由到 |
 |---|---|
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |
+| 技术文档写作、指定内容表达改写或只读可读性审查 | `technical-doc-writing`；事实审计仍走活文档审计 |
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
 | 维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
@@ -42,7 +43,8 @@ description: >-
 3. 若影响跨端接口，先用 `contract-first` 更新唯一契约源。
 4. 实施后用 `test-collaboration` 将成功标准、Bug 或风险关联到 TEST-ID 与证据。
 5. 用 `module-regression` 执行本模块与下游命令。
-6. 用 `living-docs-governance` 做阶段同步，再运行只读文档审计。
+6. 若需新写技术说明或改写其段落／步骤，按需读取 `skills/technical-doc-writing/SKILL.md`；传入已确认材料、原文与获准文件范围，接回实际改写及语义比对结果。
+7. 用 `living-docs-governance` 做阶段同步，再运行只读文档审计。
 
 ## 边界
 

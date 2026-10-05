@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 ### 新增
+- `technical-doc-writing`：技术文档表达写作、改写与只读可读性审查；总路由和活文档流程按需委托，入口仅留触发路标，保留事实、条件、例外、不确定性与要求强度。
 - `agent-entrypoints`：根据已确认讨论、PRD／Spec 与真实项目配置生成或检查 Agent 入口；按 Vince 文章 1—8 落成逐项规范，结合 Tw93 实践补充规则清理和交付证据，AGENTS.md／CLAUDE.md 每份 ≤200 行为硬验收；区分共享主源、宿主适配和实际自动化，连接现有产品文档读取规范。
 - `/governance-setup`：统一配置新项目、讨论后项目和已有项目，由 docs-governor 按共享 Skill 编排产品文档包与 Agent 入口；保留现有 PRD／Spec 和规则主源，按授权写入。`/governance-init` 改为兼容别名，不再隐含授权 Git 初始化、首提或 hook 安装；日常维护仍用 `/governance`。
 - PM 四类材料索引与按任务读取协议：CLAUDE 从产品入口定位当前需求，沿影响补读条款、依赖与确认；大范围审查分批记录覆盖，避免默认全量加载 PRD。

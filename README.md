@@ -49,6 +49,7 @@ For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the
 ### Focused workflows
 
 - **Agent entrypoints** (`agent-entrypoints`): turn confirmed project context into actionable `AGENTS.md` / `CLAUDE.md` instructions, including requirement-reading triggers, real validation commands, and a single shared rule source.
+- **Technical writing** (`technical-doc-writing`): write, rewrite, or review technical wording while preserving facts, conditions, uncertainty, and requirement strength. Living documentation delegates when creating technical explanations or rewriting paragraphs and procedures; rules load on demand.
 - **Living documentation**: initialize, audit, and synchronize the documentation spine.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.
@@ -60,7 +61,7 @@ For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the
 
 Claude Code 的 [product-docs-manager](agents/product-docs-manager.md) 是产品文档管理员角色，调用现有 Skills 管理来源、需求编号、修订及授权；Codex / ChatGPT 直接使用 `$product-evolution` 执行同一流程。PM 四类材料索引、六类管理位置与十阶段导航共用主记录；CLAUDE 从产品入口触发按任务读取，必要条款分批核对，避免默认全量加载 PRD。
 
-The implementation lives in these skills: `skills/docs-governance`, `skills/living-docs-governance`, `skills/context-and-decisions`, `skills/change-impact`, `skills/contract-first`, `skills/test-collaboration`, `skills/module-regression`, and `skills/loop-design-check`.
+The implementation lives in these skills: `skills/docs-governance`, `skills/technical-doc-writing`, `skills/living-docs-governance`, `skills/context-and-decisions`, `skills/change-impact`, `skills/contract-first`, `skills/test-collaboration`, `skills/module-regression`, and `skills/loop-design-check`.
 
 ## Why it exists
 

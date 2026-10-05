@@ -14,6 +14,8 @@
 
 ## 验证缺口与待确认范围（按需读）
 
+- `technical-doc-writing` 已新增独立入口、包内表达规则及按需调用路标；真实文档改写与验证证据见 [r8 测试记录](docs/product/09-test-release.md#r8技术文档表达2026-10-05)。宿主跨会话发现、Claude Code 原生调用和业务项目效果待验证。
+
 - 统一 setup 已在本地接上三类项目识别、产品文档与 Agent 入口 Skill；init 为兼容别名。`agent-entrypoints` 保留八项规范和逐文件 200 行检查，并区分稳定规则与单次授权；未新装门禁。实际验证范围见 [r7 测试记录](docs/product/09-test-release.md)。PR #14 本地工作树已整合 PR #12 并解决冲突，修复尚未推送；原生宿主与业务效果未验证，不能据旧 PR 绿色结果合并。
 
 - `product-docs-manager` 已新增角色与共享规则，来源、编号、状态、授权及按任务读取场景已做文本复核；Claude Code 原生角色调度、实际上下文节省和业务项目实际试点仍未验证，见 [角色审查](docs/product/07-requirements-review.md)。
@@ -43,7 +45,7 @@
 |---|---|---|---|
 | `scripts/verify.sh` | 通过 | 通过 = 绿 | 🟢 |
 | Claude / Codex 双端 manifest | 名称与版本一致，skills 共用 | 一致 = 绿 | 🟢 |
-| Skill 路由与用户文档 | 10 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
+| Skill 路由与用户文档 | 11 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
 | Python 单元测试 | 79 个（含入口长度、位置规则、暂存快照、Stop 根定位与 PR 推送／安装护栏） | 全过 = 绿 | 🟢 |
 | 自动 CI | 完整 verify 与日志基线比较已在 PR #4 的 dad0dd2 验证；后续提交逐次核对 checks（证据见 [本轮验证](docs/audits/2026-09-05-shared-audit-results.md)） | PR / push 成功运行 = 绿 | 已接通；结果按提交核对 |
 | skill / agent 内部去重 | 是（方法论仅 skill 一处） | 唯一源 | 🟢 |

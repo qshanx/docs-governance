@@ -45,13 +45,39 @@ for d in skills/*/; do
 done
 
 echo "[5] 路径式引用存在"
-REF_PATTERN='(templates|references)/[A-Za-z0-9._-]+\.md|skills/[A-Za-z0-9._-]+/SKILL\.md|scripts/[A-Za-z0-9._-]+\.(py|sh)|docs/adr/[A-Za-z0-9._-]+\.md'
-grep -rhoE "$REF_PATTERN" agents/ skills/ commands/ README.md 使用说明.md CLAUDE.md CLAUDE_MAP.md ARCHITECTURE.md docs/adr 2>/dev/null | sort -u | while read -r ref; do
-  [ -f "$ref" ] && ok "$ref" || bad "$ref 被引用但不存在"
-done
-# 子 shell 里的 FAIL 不外传，单独复核第 5 项
-MISS=$(grep -rhoE "$REF_PATTERN" agents/ skills/ commands/ README.md 使用说明.md CLAUDE.md CLAUDE_MAP.md ARCHITECTURE.md docs/adr 2>/dev/null | sort -u | while read -r ref; do [ -f "$ref" ] || echo "$ref"; done)
-[ -n "$MISS" ] && FAIL=1
+if python3 - <<'PYREF'
+import re
+from pathlib import Path
+pattern = re.compile(r"skills/[A-Za-z0-9._-]+/references/[A-Za-z0-9._-]+\.md|"
+                     r"(?:templates|references)/[A-Za-z0-9._-]+\.md|"
+                     r"skills/[A-Za-z0-9._-]+/SKILL\.md|"
+                     r"scripts/[A-Za-z0-9._-]+\.(?:py|sh)|docs/adr/[A-Za-z0-9._-]+\.md")
+sources = [Path(name) for name in ("README.md", "使用说明.md", "CLAUDE.md",
+                                  "CLAUDE_MAP.md", "ARCHITECTURE.md")]
+for folder in ("agents", "skills", "commands", "docs/adr"):
+    sources.extend(Path(folder).rglob("*.md"))
+missing = set()
+checked = set()
+for source in sources:
+    content = source.read_text(encoding="utf-8")
+    relative_links = {
+        match.start(1)
+        for match in re.finditer(r"\[[^\]\n]*\]\((references/[A-Za-z0-9._-]+\.md)\)", content)
+    }
+    for match in pattern.finditer(content):
+        ref = Path(match.group())
+        target = source.parent / ref if match.start() in relative_links else ref
+        if target.is_file():
+            checked.add(str(target))
+        else:
+            missing.add((str(source), str(target)))
+for target in sorted(checked):
+    print(f"  ✓ {target}")
+for source, target in sorted(missing):
+    print(f"  ✗ {source}: {target} 被引用但不存在")
+raise SystemExit(bool(missing))
+PYREF
+then :; else FAIL=1; fi
 
 echo "[6] 每个 skill 有 SKILL.md / 每个 command 与 agent 是 .md"
 for d in skills/*/; do [ -f "$d/SKILL.md" ] && ok "$d" || bad "$d 缺 SKILL.md"; done

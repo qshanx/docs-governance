@@ -29,6 +29,7 @@
 | 本插件产品管理入口与需求基线 | [产品管理](docs/product/README.md) |
 | 产品阶段入口模板 | `templates/product-index.example.md` |
 | 插件总路由 | `skills/docs-governance/SKILL.md` |
+| 技术文档表达写作、改写与只读可读性审查 | `skills/technical-doc-writing/SKILL.md`；细节按需读取 Skill 包内 reference |
 | 活文档方法论 | `skills/living-docs-governance/SKILL.md` |
 | 领域上下文与 ADR | `skills/context-and-decisions/SKILL.md` |
 | 变更影响分析 | `skills/change-impact/SKILL.md` |

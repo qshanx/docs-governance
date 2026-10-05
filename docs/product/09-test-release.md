@@ -93,3 +93,33 @@ AGENTS 主源布局未预建 CLAUDE 四件套，full 审计因此保留缺失可
 ## pre-push 安装修复（2026-09-28）
 
 TEST-PR-001 新增 3 项安装回归：旧分支与 linked worktree 的真实 push 成功，坏文档仍被拒绝；已有 hook 默认不覆盖，明确替换时备份；支持外部 hooksPath，拒绝工作树内路径。先用旧包装器复现缺脚本失败，再用稳定运行快照通过。仓库根 `.venv` 下执行 `bash scripts/verify.sh` 全部通过，共 79 项测试。本仓库失效包装器已在备份后替换；未替其他项目安装，也未改变远端保护规则。
+
+## r8：技术文档表达（2026-10-05）
+
+对应 TEST-WRITING-001 与 TWR-1—TWR-5。基于主分支 `520696eb519f2dd50531ba91abe5ad89478ffdf3` 的真实文档副本；新增规则独立整理，未安装新依赖、Hook 或宿主 Agent，未执行指南中的业务命令。
+
+| 实际场景 | 执行与核对结果 |
+|---|---|
+| 中文操作指南：`references/document-policy.md` 的隔离副本 | 执行 Agent 从总路由定位新 Skill 并读取包内规则，改写长句、条件和失败分支。独立审阅者逐句对照，未发现语义漂移 |
+| 合成发布约定：推荐测试、数据库备份、文档豁免、回退计划和缓存例外 | 保留“最好”“只有……才必须”“不需要”“尚未验证”“计划”；缓存为空的条件仍覆盖成功和缺失两分支，读取先于重建 |
+| 英文 `CONTRIBUTING.md` 的只读副本 | Agent 从活文档委托读取新 Skill，返回四处可粘贴建议，另列事实疑点；原文与结果字节一致，SHA-256 均为 `5c29068e65b9a6786a2402e509bcf459680bbfe2e852eb8a00c75754a1e2bbb2` |
+
+实际改写片段：
+
+> 原文：目前尚未验证自动回退，下一版本计划支持它。
+>
+> 改写：目前尚未验证自动回退，下一版本计划支持自动回退。
+
+只明确代词，不改变证据或完成状态。两份改写产物的标题、列表编号、代码块、行内代码、链接目标和数字序列与原文逐项一致；这些机械比对与独立语义审查分开进行。指南输出 SHA-256 为 `1f4895e7837a41ce9cb546cd5859600eaef39871a59b64b0e6d17b6b0f201198`，合成样例输出为 `bd1ecd4e8ac3756ada198c111a76669bb1f6126aa7ad642cd36be4300e7beca9`。临时输入、原文副本和产物保存在本轮本地证据目录，没有将改写指南或 CONTRIBUTING 混入插件改动。
+
+| 实际检查 | 结果与覆盖 |
+|---|---|
+| 激活已有 `.venv` 后运行 `bash scripts/verify.sh` | 退出码 0，79 项既有单元测试、11 个 Skill 的路由／说明、Python 编译和 full 文档审计通过 |
+| `quick_validate.py` 检查 technical-doc-writing、docs-governance、living-docs-governance、agent-entrypoints | 四个 Skill 均有效；格式检查不代替行为验证 |
+| `check-entrypoint-length.py` 检查本仓库 AGENTS／CLAUDE 及两个入口模板 | 全部退出 0；分别 7／26 行及 7／29 行 |
+| `bash -n scripts/verify.sh`、`git diff --check` | 均退出 0 |
+| 实际引用检查段的临时夹具 | 根引用与包内引用齐全时退出 0；包内文件或整个 reference 目录缺失且根目录同名文件存在时均退出 1；根引用缺失且包内同名文件存在时退出 1 |
+
+full 审计中的 CONTEXT 缺失是现有按需载体提示，本轮不补空壳。提交后 `check-pr-docs.py --base origin/main` 与远端 CI 须检查实际提交，不能预先由本记录宣称通过。
+
+验证边界：上述结果是实际 Agent 显式读取共享 Skill 后的执行及独立审查，不是宿主安装后自动选择 Skill 的证明。Claude Code 原生调用、Codex 跨会话发现、业务项目效果和标准合规未验证；本轮未合并、部署或发布。
