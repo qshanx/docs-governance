@@ -32,6 +32,7 @@
 | 活文档方法论 | `skills/living-docs-governance/SKILL.md` |
 | 领域上下文与 ADR | `skills/context-and-decisions/SKILL.md` |
 | 变更影响分析 | `skills/change-impact/SKILL.md` |
+| 文档影响的接口变更复跑与验收 | `skills/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |
 | 契约方法论（含两种模式） | `skills/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/test-collaboration/SKILL.md` |
 | 本插件实际测试资产、测试目的与缺口 | `TESTS.md` |

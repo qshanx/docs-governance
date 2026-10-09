@@ -23,6 +23,7 @@ python -m pip install -r requirements-dev.txt
 | Python 测试 | `python3 -m unittest discover -s tests -p 'test_*.py'` | 修改 `scripts/*.py` 或 `tests/*.py` 后 | Python、Git、开发测试依赖 |
 | 文档确定性审计 | `bash scripts/audit-cheap.sh full` | 治理文档或引用变化后 | Bash、Python、Git |
 | setup 场景执行 | 按 `living-docs-governance` 统一 setup 在三个隔离项目执行，并复跑与只读探测 | 编排、初始化流程或模板变化后 | 宿主 Agent；不需联网或 Git 初始化 |
+| 文档影响场景审查 | [接口变更场景](skills/change-impact/examples/interface-change.md) | 按事实核对文档的方法变化后 | 当前 Agent、Python、隔离 Git；无外部业务服务 |
 
 ## 二、测试资产地图
 
@@ -41,7 +42,7 @@ python -m pip install -r requirements-dev.txt
 | 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/living-docs-governance/SKILL.md` | 必要 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
-| PR 前扫描与推送门禁 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖待推送提交、漏掉删除／重命名影响、第二次推送丢失 PR 基线，以及失败仍能推送 | Python 测试 | 本地临时 Git 与 bare remote | `tests/test_pr_docs.py` | 必要 |
+| PR 前扫描、推送门禁与文档影响样例 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖提交、漏掉变更影响或失败仍能推送；保留可复跑的语义审查输入 | Python 测试 + 文档影响场景审查 | 本地临时 Git、bare remote、jsonschema | `tests/test_pr_docs.py`、`tests/fixtures/document-impact.py` | 必要 |
 
 当前汇总：必要 10 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
 
@@ -187,11 +188,26 @@ python -m pip install -r requirements-dev.txt
 - 执行命令：`python3 -m unittest tests.test_contract_template -v`
 - 证据：`templates/openapi.example.json` 被同一套测试加载并校验
 
+### TEST-IMPACT-001：事实变化后的文档核对
+
+- 状态：样例自动回归通过；当前 Codex 已知场景语义复核通过，独立盲测与业务试点未验证
+- 用途：规则保护、回归保护
+- 来源：[Issue #5](https://github.com/qshanx/docs-governance/issues/5#issuecomment-6075874052)；本轮授权实施接口字段变化切片
+- 模拟输入与预期：见唯一的 [场景与验收清单](skills/change-impact/examples/interface-change.md)，不在台账复制逐项规则
+- 层级：集成；执行组：Python 测试 + 文档影响场景审查
+- 边界：真实文件、Git 与序列化响应；合成接口不启动 HTTP 服务。单测只证明样例和确定性边界，语义结论必须由实际 Agent 核对，已知场景不当作盲测
+- 测试文件：[生成器](tests/fixtures/document-impact.py)、[自动回归](tests/test_pr_docs.py) 的 `DocumentImpactFixtureTest`
+- 执行命令：`python3 -m unittest tests.test_pr_docs.DocumentImpactFixtureTest -v`；Agent 执行方式见场景入口
+- 证据：2026-10-09 新增 3 项回归通过，标准 `scripts/verify.sh` 通过（82 项单测）。当前 Codex 以 `6999501892de87a6446610aba1306857f2e0a22f` 为样例基线，分别审查 interface 的 `cf7a0b2f9afa6a4a13164fe145b91a0073d5a13f` 与 internal 的 `81bcb6a411e6e4367953ed0b4d70fdd493933be4`；这些是隔离样例提交，复跑时使用新输出的 SHA。
+- 语义复核：定位三份指南第 3 行的旧调用（含映射外说明），以及 FAQ 第 3 行对当前决定的复制；三类反例与内部修复均无需改写。执行旧订单调用报 `KeyError: 'total'`，库存同名字段正常；两例回执输入哈希均匹配。范围为两份样例的真实 diff、入口、相关文档及其契约／实现／回执，修改样例文件 0 份；语义审查耗时未计量。
+- 局限：执行者参与构造且已读验收清单，本次只证明已知切片可执行，不证明方法修改带来检出率提升。原始发现及后续交付记录沿上述 Issue 引用，不复制测试回执；真实业务项目试点尚未开展。
+
 ## 五、人工验收出口
 
 | 来源 | 无法自动化的理由 | 人工步骤 | 通过证据 | 负责人 |
 |---|---|---|---|---|
 | `diagram/architecture.svg` | 文字溢出、层级清晰度和视觉密度不能仅靠退出码判断 | 渲染 PNG，检查边界、文字、箭头、图例及与 `ARCHITECTURE.md` 的一致性 | `diagram/architecture.png` | 当前变更执行者 |
+| TEST-IMPACT-001 | 当前说明、历史与无关同名字段的判别不由确定性脚本代判 | 按接口变更场景交给 Agent 只读审查，再对照验收清单 | 见该测试点的语义复核与局限 | 当前变更执行者 |
 
 ## 六、本轮缺口与动作
 
@@ -199,6 +215,7 @@ python -m pip install -r requirements-dev.txt
 |---|---|---|---|---|
 | P2 | TEST-HOOK-001 | 脚本行为已验证，宿主原生 Stop 事件派发仍需真实会话观察 | 插件加载后核对实际触发与提示 | 待验证 |
 | P2 | TEST-INIT-001、TEST-SETUP-001 | 统一 setup 与 init 的 Claude Code 原生命令加载尚未执行 | 获得适用授权后，在宿主加载插件并用无私有数据的临时项目复跑 | 待验证 |
+| P2 | TEST-IMPACT-001 | 未做独立盲测、真实业务项目成本与漏报评估 | 沿 Issue #5／#10 做只读试点，区分确定性结果与语义发现 | 待验证 |
 
 ## 七、维护触发器
 

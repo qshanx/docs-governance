@@ -97,3 +97,5 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 [MIT](LICENSE) · [Seekers2001](https://github.com/Seekers2001)
 
 文件归位与变更审计可由项目显式启用 `.docs-governance.json`；Stop 按变更检查，提交检查暂存区，pre-push 与 PR CI 强制扫描提交快照，并按改动列出应核对文档。创建 PR 前使用同一检查入口，失败先修复。配置及安装见 [护栏说明](references/document-policy.md)。
+
+检查通过后，由 Agent 按 [事实变化核对文档](skills/change-impact/SKILL.md#按事实核对文档)，定位正文冲突、映射外说明与重复决定；可从 [接口变更样例](skills/change-impact/examples/interface-change.md) 复跑。脚本不自动判定正文过期。
