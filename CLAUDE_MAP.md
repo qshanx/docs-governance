@@ -37,6 +37,7 @@
 | 测试资产与必要测试点治理 | `skills/test-collaboration/SKILL.md` |
 | 本插件实际测试资产、测试目的与缺口 | `TESTS.md` |
 | 模块联动回归方法论 | `skills/module-regression/SKILL.md` |
+| 架构文档的必要性判断、生成与审查 | `skills/architecture-docs/SKILL.md` |
 | 当前架构与核心流转 | `ARCHITECTURE.md` |
 | 展示版架构图 | `diagram/architecture.svg`（PNG 预览同目录） |
 | ARCHITECTURE.md 空白模板 | `templates/ARCHITECTURE.example.md` |

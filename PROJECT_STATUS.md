@@ -45,7 +45,7 @@
 |---|---|---|---|
 | `scripts/verify.sh` | 通过 | 通过 = 绿 | 🟢 |
 | Claude / Codex 双端 manifest | 名称与版本一致，skills 共用 | 一致 = 绿 | 🟢 |
-| Skill 路由与用户文档 | 10 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
+| Skill 路由与用户文档 | 11 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
 | Python 单元测试 | 82 个（含文档影响样例、入口长度、位置规则、暂存快照、Stop 根定位与 PR 推送／安装护栏） | 全过 = 绿 | 🟢 |
 | 自动 CI | 完整 verify 与日志基线比较已在 PR #4 的 dad0dd2 验证；后续提交逐次核对 checks（证据见 [本轮验证](docs/audits/2026-09-05-shared-audit-results.md)） | PR / push 成功运行 = 绿 | 已接通；结果按提交核对 |
 | skill / agent 内部去重 | 是（方法论仅 skill 一处） | 唯一源 | 🟢 |

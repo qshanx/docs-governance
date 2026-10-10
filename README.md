@@ -44,11 +44,12 @@ The first output is a report, not an automatic rewrite. Use `/governance-setup` 
 
 The point is not to create four documents in every repository. Use them progressively: a small project can stay small, while a long-running project gains a stable handoff surface for humans and agents.
 
-For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the current architecture contract: one owner per responsibility and mutable state, explicit Interfaces, allowed and forbidden dependencies, a code-dependency diagram, and a separate runtime-flow diagram. `CLAUDE_MAP.md` only links to it. The two diagrams stay distinct because data may return upstream while source-code dependencies remain one-way.
+Use `architecture-docs` to decide whether architecture documentation is needed and reuse an existing source when available. It records module responsibilities, state ownership, interfaces, dependencies, and core flows from project evidence, keeping current implementation separate from planned design. `CLAUDE_MAP.md` links to the source; code-dependency and runtime-flow diagrams have distinct meanings.
 
 ### Focused workflows
 
 - **Agent entrypoints** (`agent-entrypoints`): turn confirmed project context into actionable `AGENTS.md` / `CLAUDE.md` instructions, including requirement-reading triggers, real validation commands, and a single shared rule source.
+- **Architecture documents** (`architecture-docs`): decide whether a project needs an architecture document, then create, improve, or review it against project evidence.
 - **Living documentation**: initialize, audit, and synchronize the documentation spine.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.

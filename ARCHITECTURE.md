@@ -65,6 +65,7 @@ flowchart LR
 | 插件发现 | `.claude-plugin/plugin.json`、`.codex-plugin/plugin.json` | Claude Code、Codex / ChatGPT | 双端 manifest |
 | 方法论执行 | `skills/*/SKILL.md` | commands、agents、当前 Codex agent | 对应 Skill |
 | Agent 入口内容规范 | `skills/agent-entrypoints/SKILL.md` | 总路由、统一 setup、活文档治理、当前 Agent | 主文件选择、事实输入、可执行规则和入口检查只在该 Skill；产品基线和文档读序继续引用既有 Skill |
+| 架构文档判断与维护 | `skills/architecture-docs/SKILL.md` | 总路由、活文档治理、当前 Agent | 必要性判断、证据驱动的生成与审查；复用现有主记录，区分现状与计划 |
 | Agent 入口长度检查 | `scripts/check-entrypoint-length.py` | `agent-entrypoints` 调用，只读检查显式文件列表 | 0 通过、1 超过 200 行、2 参数／读取错误；不安装 hook |
 | 统一 setup 编排 | `living-docs-governance` 的“统一 setup”模式 | Claude Code 的 setup／init command 与 docs-governor；Codex / ChatGPT 当前 Agent | 识别三类项目与授权 → product-evolution 返回产品主记录 → 按需治理载体 → agent-entrypoints → 统一验证；子调用不重启 setup |
 | 产品资料管理角色 | `agents/product-docs-manager.md` | Claude Code Agent；Codex / ChatGPT 当前 Agent 直接走共享 Skill | `product-evolution` 的管理员执行顺序、来源／编号／状态／授权边界；按需引用 change-impact 和 living-docs-governance |
