@@ -34,6 +34,7 @@
 | 变更影响分析 | `skills/change-impact/SKILL.md` |
 | 契约方法论（含两种模式） | `skills/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/test-collaboration/SKILL.md` |
+| 测试协作的原始方案、确认与评审历史 | [2026-07-12 历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)；当前方法仍看 Skill |
 | 本插件实际测试资产、测试目的与缺口 | `TESTS.md` |
 | 模块联动回归方法论 | `skills/module-regression/SKILL.md` |
 | 当前架构与核心流转 | `ARCHITECTURE.md` |
@@ -51,6 +52,7 @@
 | 日志共享解析与格式错误 | `scripts/logformat.py`（审计和索引共用） |
 | PROJECT_LOG 归档与索引 | `scripts/project-log-index.py` |
 | 插件自身架构决策 | `docs/adr/README.md` |
+| 早期上游贡献研究 | [Wayfinder 决策生命周期](research/2026-07-22-wayfinder-decision-lifecycle.md)、[Map 与长文档治理](research/2026-07-22-map-long-docs.md)；结论对应文内日期和快照 |
 
 ## 易误读（别混）
 

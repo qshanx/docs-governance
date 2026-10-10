@@ -85,7 +85,7 @@ python -m pip install -r requirements-dev.txt
 
 - 状态：已覆盖
 - 用途：回归保护
-- 来源：`TEST_COLLABORATION_PROPOSAL.md` 的双 Agent 讨论调度需求
+- 来源：[测试协作历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)的双 Agent 讨论调度需求
 - 模拟输入：首次评审、正文未变化、正文变化、评审期间正文被编辑或文件被删除
 - 业务预期：首次调用双方；未变化时跳过；变化后重跑。评审期间编辑或删除时停止写回，不保存过期通过状态；新正文可重新评审。
 - 层级：集成
