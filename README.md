@@ -53,6 +53,7 @@ Use `architecture-docs` to decide whether architecture documentation is needed a
 - **Agent entrypoints** (`agent-entrypoints`): turn confirmed project context into actionable `AGENTS.md` / `CLAUDE.md` instructions, including requirement-reading triggers, real validation commands, and a single shared rule source.
 - **Architecture documents** (`architecture-docs`): decide whether a project needs an architecture document, then create, improve, or review it against project evidence.
 - **Daily document maintenance** (`docs-maintenance`): synchronize documents affected by a completed task, update stale content, consolidate duplicates, and report verification gaps.
+- **Execution retrospective** (`docs-retro`): review session evidence for improvements to navigation, checks, rules, tools, and information access; propose concrete actions and existing destinations without modifying them by default.
 - **Living documentation**: initialize, audit, and synchronize the documentation spine.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.

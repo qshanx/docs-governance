@@ -24,6 +24,7 @@ description: >-
 | 本次改动后的文档同步、整理、收尾或交接 | `docs-maintenance` |
 | LOG 管理或复盘 | `living-docs-governance` |
 | 是否需要架构文档，生成、完善或审查模块分工、状态归属、依赖与核心流程 | `architecture-docs` |
+| 会话、任务或阶段执行复盘，提炼减少返工的改进建议 | `docs-retro` |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |
 | 修改前判断牵连面、迁移、回滚、实施后对照 | `change-impact` |
 | 前后端或服务间接口 | `contract-first` |
