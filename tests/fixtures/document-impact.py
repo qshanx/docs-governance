@@ -73,6 +73,12 @@ def create_fixture(root, case):
     for name in ('api', 'consumer', 'integration'):
         put(f'docs/{name}.md', f'# {name}\n\n订单金额读取 `get_order()["total"]`。\n'
             '字段定义见 [订单契约](../schema/order.json)。\n')
+    # Keep the inline example on line 3 for existing impact-location tests.
+    with (root / 'docs/api.md').open('a') as file:
+        file.write("\n在样例根目录，使用 Python 3 标准库运行；预期输出 100（分）：\n\n"
+                   "```bash\n"
+                   "python3 -c 'from src.api import get_order; print(get_order()[\"total\"])'\n"
+                   "```\n")
     put('docs/reference.md', '# 接口导航\n\n字段直接读取 [机器契约](../schema/order.json)。\n')
     put('docs/history.md', '# 历史记录\n\n历史 v1 曾用 `get_order()["total"]` 读取金额。\n'
         '当前版本请从 [契约入口](../CONTRACT.md) 读取，本页不是当前调用指南。\n')
