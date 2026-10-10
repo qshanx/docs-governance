@@ -1,6 +1,6 @@
 # 产品管理入口
 
-本目录管理 docs-governance 插件自身的产品要求与演变。方法论唯一源仍是 [product-evolution](../../skills/product-evolution/SKILL.md)，这里保存本项目事实。
+本目录管理 docs-governance 插件自身的产品要求与演变。方法论唯一源仍是 [product-evolution](../../skills/documentation/product-evolution/SKILL.md)，这里保存本项目事实。
 
 ## 十阶段文件导航
 

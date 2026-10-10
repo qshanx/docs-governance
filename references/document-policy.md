@@ -2,7 +2,7 @@
 
 项目通过根目录 `.docs-governance.json` 显式采用规则。不配置时保留原有审计和 Stop 提醒，不强迫其他项目使用本仓库的路径。
 
-变更后找候选文档：先通过确定性审计，再按 [change-impact](../skills/change-impact/SKILL.md#按事实核对文档) 运行 `scripts/find-doc-impact.py`；合并路径映射、引用和变更术语，只生成候选，不判定过期或自动修改文档。
+变更后找候选文档：先通过确定性审计，再按 [change-impact](../skills/engineering/change-impact/SKILL.md#按事实核对文档) 运行 `scripts/find-doc-impact.py`；合并路径映射、引用和变更术语，只生成候选，不判定过期或自动修改文档。
 
 ## 配置接口
 
@@ -64,3 +64,5 @@ Git 没有原生的“创建 PR 前”事件。已安装的 pre-push 阻断本�
 ## 接入前评估
 
 推广前按 `product-evolution` 的接入评估记录适用范围、路径映射、既有 hooks、误报、历史问题与成本。当前已复现的跨项目限制见 [可行性评估](../docs/audits/2026-09-22-cross-project-feasibility.md)；规则正确性和自身 CI 通过不等于所有项目可直接强制启用。
+
+目录迁移时，日志只允许更新 Git 在受检基线到当前版本中识别出的重命名文件链接；事件日期、正文、链接文字仍不可改写。新路径及普通文档引用继续接受断链检查。迁移文件须进入 Git 暂存范围才能识别重命名。

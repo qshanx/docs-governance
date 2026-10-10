@@ -264,6 +264,37 @@ def check_status_resurrection(root: Path, report: Report) -> None:
         report.add("status.deleted", "pass", "删除区无复活", path="PROJECT_STATUS.md")
 
 
+def log_link_moves(root: Path, base_ref: str | None) -> dict[str, str]:
+    """Allow link-only relocation when Git identifies a real file rename."""
+    if base_ref is None:
+        return {}
+    result = subprocess.run(
+        ["git", "diff", "--no-ext-diff", "--find-renames", "--name-status", "-z", base_ref, "--"],
+        cwd=root, text=True, capture_output=True, check=True,
+    )
+    fields = iter(result.stdout.rstrip("\0").split("\0"))
+    moves = {}
+    for status in fields:
+        if not status:
+            continue
+        old = next(fields)
+        if status.startswith("R"):
+            moves[old] = next(fields)
+    return moves
+
+
+def relocate_log_links(content: str, moves: dict[str, str]) -> str:
+    def replace(match: re.Match) -> str:
+        target, separator, anchor = match.group(1).partition("#")
+        if target not in moves:
+            return match.group(0)
+        start, end = match.span(1)
+        text = match.group(0)
+        offset = match.start()
+        return text[:start - offset] + moves[target] + separator + anchor + text[end - offset:]
+    return MARKDOWN_LINK_RE.sub(replace, content)
+
+
 def check_log(root: Path, report: Report, threshold: int, base_ref: str | None) -> None:
     active_path = root / "PROJECT_LOG.md"
     archive_path = root / "PROJECT_LOG.archive.md"
@@ -281,12 +312,13 @@ def check_log(root: Path, report: Report, threshold: int, base_ref: str | None) 
         if previous is not None:
             _, entries = parse_entries(previous, relative)
             previous_events.update(entry.content for entry in entries)
-    missing = previous_events - current_events
+    moves = log_link_moves(root, base_ref)
+    missing = {relocate_log_links(event, moves) for event in previous_events} - current_events
     if missing:
         report.add("log.append-only", "fail", f"PROJECT_LOG 历史有 {len(missing)} 条被删除或改写，且未原样进入归档",
                    path="PROJECT_LOG.md", evidence={"missing_count": len(missing)})
     elif base_ref is not None:
-        report.add("log.append-only", "pass", "PROJECT_LOG 活跃文件与归档合并后保持只追加", path="PROJECT_LOG.md")
+        report.add("log.append-only", "pass", "PROJECT_LOG 活跃文件与归档合并后保持只追加（允许 Git 识别的链接迁移）", path="PROJECT_LOG.md")
     else:
         report.add("log.append-only", "unverified", "无 Git 提交基准，历史只追加完整性未验证", path="PROJECT_LOG.md")
 

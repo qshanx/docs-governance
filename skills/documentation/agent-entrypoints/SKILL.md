@@ -12,9 +12,9 @@ description: >-
 
 `AGENTS.md` 是文件名（复数、大写），不是 `Agent.md`；`agent-entrypoints` 是本 Skill 的名称。以下八条按参考文章的原序号排列，规范生成与检查过程，不要求目标入口照抄八个章节。
 
-本 Skill 管入口内容与适配；产品资料及基线按 `skills/product-evolution/SKILL.md` 管理，其他文档职责与分级读序按 `skills/living-docs-governance/SKILL.md` 执行。入口只保留对应触发条件和真实路径。独立请求由当前 Agent 执行，也可作为 setup 编排 Agent 的一个步骤；本 Skill 不创建编排 Agent、不代写整套产品文档。
+本 Skill 管入口内容与适配；产品资料及基线按 `skills/documentation/product-evolution/SKILL.md` 管理，其他文档职责与分级读序按 `skills/documentation/living-docs-governance/SKILL.md` 执行。入口只保留对应触发条件和真实路径。独立请求由当前 Agent 执行，也可作为 setup 编排 Agent 的一个步骤；本 Skill 不创建编排 Agent、不代写整套产品文档。
 
-需要看完整成品时，读取[项目输入与 AGENTS.md 输出示例](examples/confirmed-project.md)；示例用于理解写法，不作为目标项目事实。规则清理与交付验证的补充依据见 [Tw93 文章适配](../../research/2026-09-27-tw93-claude-code-governance.md)，不改变下文八条编号。
+需要看完整成品时，读取[项目输入与 AGENTS.md 输出示例](examples/confirmed-project.md)；示例用于理解写法，不作为目标项目事实。规则清理与交付验证的补充依据见 [Tw93 文章适配](../../../research/2026-09-27-tw93-claude-code-governance.md)，不改变下文八条编号。
 
 ## 先确定输入属于哪种情况
 
@@ -39,7 +39,7 @@ description: >-
 
 本插件自用布局和现有模板以 CLAUDE.md 为主、AGENTS.md 为桥接；沿用该布局时使用 `templates/CLAUDE.example.md` 和 `templates/AGENTS.example.md`。选择其他布局时逐项检查相关模板和审计配置，不能照抄薄桥接模板覆盖一个完整主文件，也不能让两份文件相互导入。
 
-Claude 直接读取 AGENTS 的条件及文章来源见[参考说明](../../research/2026-09-27-vincemask-agent-entrypoints.md)。实际使用前按目标版本／设置核对；不要把支持某文件名写成所有宿主必然自动加载。兼容导入同样占上下文；普通文档路径只在触发条件满足时读取。
+Claude 直接读取 AGENTS 的条件及文章来源见[参考说明](../../../research/2026-09-27-vincemask-agent-entrypoints.md)。实际使用前按目标版本／设置核对；不要把支持某文件名写成所有宿主必然自动加载。兼容导入同样占上下文；普通文档路径只在触发条件满足时读取。
 
 ## 按原文序号执行八条规范
 
@@ -71,7 +71,7 @@ python3 <插件目录>/scripts/check-entrypoint-length.py <入口文件> [更多
 
 - 每个路标写“何时读 → 真实路径／章节 → 用来决定什么”，不只罗列文件名，也不在入口复制全部资料。
 - 需求／实现／验收先指向真实产品入口，按 `product-evolution` 定位当前主题基线、PRD／Spec 条款及确认来源；定位代码读 MAP，跨模块设计读 ARCHITECTURE，追溯原因再查 ADR／LOG。使用目标项目现有路径，无对应资料时报告缺口，不写悬空链接。
-- 接入本插件的模块变更流程时，在已授权的共享入口保留触发条件及 `skills/docs-governance/SKILL.md` 的“模块变更流程”路标；写实际安装路径，外部插件用完整路径，不复制流程正文。
+- 接入本插件的模块变更流程时，在已授权的共享入口保留触发条件及 `skills/documentation/docs-governance/SKILL.md` 的“模块变更流程”路标；写实际安装路径，外部插件用完整路径，不复制流程正文。
 - 项目规则／结构／需求变化分别连接既有治理同步流程。详细业务流程、架构图、测试手册与历史仍各有唯一主记录。
 - 区分按需路标与自动导入：拆文件后若用导入把正文全加载，常驻成本并未降低；检查实际加载链，而非只看根文件行数。
 

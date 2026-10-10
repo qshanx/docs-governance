@@ -45,11 +45,11 @@
 ## [2026-09-27] fix | 修正首次接入入口规则：保留 `CLAUDE.md` 为 Claude 事实源；Codex／跨宿主项目经确认可产出只桥接它的薄 `AGENTS.md`，并把此情景加入 TEST-SETUP-001。
 ## [2026-09-27] feat | 按 ENP-20260927 新增 agent-entrypoints 与 Vince 文章摘要，入口规则由项目证据生成并衔接 PRD／Spec；标准从无条件 AGENTS 薄桥接调整为沿用已确认共享主源、按宿主能力适配，原因是 AGENTS 可为完整入口且 Claude 已有条件支持；本仓库主源不迁移。旧 setup 范围已被后续要求纠正，统一编排与 PR 合并仍未完成，见 [能力规格](docs/product/06-prd.md)。
 
-## [2026-09-27] governance | 标准变更：入口长度仅作复核信号 → 每份 AGENTS.md／CLAUDE.md ≤200 行硬验收；依据阿磊后续明确纠正，同步规范、模板与产品验收，并按文章来源 1—8 补齐具体执行和逐项检查。此为治理规则，不是宿主解析器截断或已安装自动门禁；见 [入口规范](skills/agent-entrypoints/SKILL.md)。
+## [2026-09-27] governance | 标准变更：入口长度仅作复核信号 → 每份 AGENTS.md／CLAUDE.md ≤200 行硬验收；依据阿磊后续明确纠正，同步规范、模板与产品验收，并按文章来源 1—8 补齐具体执行和逐项检查。此为治理规则，不是宿主解析器截断或已安装自动门禁；见 [入口规范](skills/documentation/agent-entrypoints/SKILL.md)。
 
 ## [2026-09-27] fix | 按阿磊要求将入口长度规则收紧为一句约束与脚本调用，新增只读计数脚本及边界测试；200 行标准不变，不安装新 hook，见 [入口长度检查](scripts/check-entrypoint-length.py)。
 
-## [2026-09-27] docs | 新增 Skill 内的完整项目输入与 AGENTS.md 成品示例，明确虚构案例和验证边界，正文仅挂按需链接；其余规范精简和验证建议仍属审阅意见，未实施，见 [示例](skills/agent-entrypoints/examples/confirmed-project.md)。
+## [2026-09-27] docs | 新增 Skill 内的完整项目输入与 AGENTS.md 成品示例，明确虚构案例和验证边界，正文仅挂按需链接；其余规范精简和验证建议仍属审阅意见，未实施，见 [示例](skills/documentation/agent-entrypoints/examples/confirmed-project.md)。
 
 ## [2026-09-27] docs | 按阿磊要求建立 [Issue #15](https://github.com/qshanx/docs-governance/issues/15) 跟踪 Agent 入口规范，置顶文章来源并关联 #11、#10 与 setup PR #14 背景；同步产品索引，优化建议仍待确认，未推送本地实现或合并 PR。
 
@@ -65,8 +65,10 @@
 
 ## [2026-10-09] governance | 按阿磊“修复吧”确认落实 Issue #5 的接口变更切片；标准变更：按映射提醒核对 → 在共享 change-impact 中按固定版本、事实差异及引用补查正文，给出位置、依据和无需更新理由。活文档审查引用该流程，增加可复跑样例；本地验证与已知场景边界见 [TEST-IMPACT-001](TESTS.md#test-impact-001事实变化后的文档核对)，更广事实类型及业务试点仍由 Issue 跟踪。
 
-## [2026-10-10] docs | 按阿磊确认，将架构文档的必要性判断、生成与审查独立为 [architecture-docs](skills/architecture-docs/SKILL.md)；活文档治理改为委托，入口登记同步。先判断需要新建、沿用、暂不需要或证据不足，区分实际结构、确认设计与建议；不拆其他治理流程。
+## [2026-10-10] docs | 按阿磊确认，将架构文档的必要性判断、生成与审查独立为 [architecture-docs](skills/documentation/architecture-docs/SKILL.md)；活文档治理改为委托，入口登记同步。先判断需要新建、沿用、暂不需要或证据不足，区分实际结构、确认设计与建议；不拆其他治理流程。
 
 ## [2026-10-10] governance | 接通模块变更的影响分析、实际 diff 对照、下游回归与文档同步；入口只留路标。增加带来源的文档候选检索和审计失败短路；未配置台账时复用真实依赖与现有测试。范围及验证见 [TEST-IMPACT-001](TESTS.md#test-impact-001事实变化后的文档核对)。
 
-## [2026-10-10] test | 日常维护增加受影响示例与命令的执行验证；复用接口合成样例，直接读取文档原文验证旧调用失败、只修文档后通过、内部重构保持有效及错误输出反例。仅在临时副本执行，边界与命令见 [接口样例](skills/change-impact/examples/interface-change.md#示例与命令验证)。
+## [2026-10-10] test | 日常维护增加受影响示例与命令的执行验证；复用接口合成样例，直接读取文档原文验证旧调用失败、只修文档后通过、内部重构保持有效及错误输出反例。仅在临时副本执行，边界与命令见 [接口样例](skills/engineering/change-impact/examples/interface-change.md#示例与命令验证)。
+
+## [2026-10-10] refactor | Skill 分为 documentation、engineering、in-progress、deprecated；双端只加载前两类，保留调用名。同步路由、相对链接和目录检查；历史仅迁移 Git 可识别的链接目标，事件正文不改。

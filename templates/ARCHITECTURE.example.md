@@ -1,6 +1,6 @@
 # ARCHITECTURE.md —— 当前架构契约
 
-> 使用前按 `skills/architecture-docs/SKILL.md` 判断是否需要。以下模块、分层和约束仅为示例，替换为项目事实，删除不适用部分。
+> 使用前按 `skills/documentation/architecture-docs/SKILL.md` 判断是否需要。以下模块、分层和约束仅为示例，替换为项目事实，删除不适用部分。
 > 本文只写“当前架构是什么”。为什么这样选 → `docs/adr/`；Interface 字段与错误码 → `CONTRACT.md` 或代码 Interface；下游回归命令 → `REGRESSION.md`；知识入口 → `CLAUDE_MAP.md`。
 > 当前实现引用真实代码或配置证据；尚未实现的确认设计单独标为计划。证据不足标“未验证”。
 

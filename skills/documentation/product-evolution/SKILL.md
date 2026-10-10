@@ -24,8 +24,8 @@ Claude Code 可由 `product-docs-manager` Agent 承担此角色；Codex / ChatGP
 
 1. 按“按任务读取”只读定位当前主题、来源登记、需求编号、任务入口和已确认授权；用四类材料索引与六类管理记录找到唯一维护位置。
 2. 登记原始来源后再整理分析；区分原话、事实、假设与决定。核对编号、修订和状态依据，未经确认不把草案转为正式需求。
-3. 涉及需求变更或跨文档影响时读取 `skills/change-impact/SKILL.md`，确定本次需要核对的主记录和下游引用；只分析文档影响，不顺带修改业务实现。
-4. 按“AI 协作与确认边界”执行已授权的文档修改。读取 `skills/living-docs-governance/SKILL.md` 做阶段同步与只读审计；该 Skill 对 PR 前检查的约定继续适用，失败先处理，不另写一套扫描器。
+3. 涉及需求变更或跨文档影响时读取 `skills/engineering/change-impact/SKILL.md`，确定本次需要核对的主记录和下游引用；只分析文档影响，不顺带修改业务实现。
+4. 按“AI 协作与确认边界”执行已授权的文档修改。读取 `skills/documentation/living-docs-governance/SKILL.md` 做阶段同步与只读审计；该 Skill 对 PR 前检查的约定继续适用，失败先处理，不另写一套扫描器。
 5. 交付实际来源、需求编号与主记录位置、文档改动及依据、审计结果和待确认事项。无写入授权时在回复中交付建议，不落盘。
 
 ## PM 四类材料索引
@@ -43,7 +43,7 @@ Claude Code 可由 `product-docs-manager` Agent 承担此角色；Codex / ChatGP
 
 ## 按任务读取
 
-建立产品空间时，在项目已约定的共享规则主文件写入简短触发约定和真实入口链接；入口生成与适配执行 `skills/agent-entrypoints/SKILL.md`。CLAUDE 主源布局可沿用 `templates/CLAUDE.example.md` 的产品读取路标，AGENTS 仅桥接；已有 AGENTS 主源时直接更新其路标。无产品空间时不写悬空链接。完整读取方法只在本 Skill 维护。
+建立产品空间时，在项目已约定的共享规则主文件写入简短触发约定和真实入口链接；入口生成与适配执行 `skills/documentation/agent-entrypoints/SKILL.md`。CLAUDE 主源布局可沿用 `templates/CLAUDE.example.md` 的产品读取路标，AGENTS 仅桥接；已有 AGENTS 主源时直接更新其路标。无产品空间时不写悬空链接。完整读取方法只在本 Skill 维护。
 
 1. **先定位**：涉及产品目标、需求、原型、实现或验收时，先读产品入口的需求索引和当前主题基线。无关任务不加载产品资料；修链接或排版仅读目标与直接引用。不默认遍历全文，不用整目录拼接填满上下文。
 2. **再核对适用要求**：修改前读当前主题主记录的相关条款、验收条件、未决事项及尚未回写的已确认变更；确认来源为 Issue 时核对相关后续评论。先看标题目录和适用范围，再按章节／条款定位读取。摘要和搜索命中只帮助定位，不能代替适用正文。

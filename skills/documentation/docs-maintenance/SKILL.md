@@ -16,7 +16,7 @@ description: >-
   > 每轮任务结束、最终回复前，执行 `docs-maintenance`，对齐本轮变化涉及的文档；没有相关变化就不改，只读任务只报告差异。
 - **用户直接调用**：用户说“同步文档”“整理这次改动”“收尾”“准备交接”时执行；发现资料冲突时，也可针对该范围检查。
 
-Skill 文件本身不保证自动运行。接入收尾约定时按 `skills/agent-entrypoints/SKILL.md` 配置入口；本 Skill 不自行安装 Hook 或扩大写入权限。
+Skill 文件本身不保证自动运行。接入收尾约定时按 `skills/documentation/agent-entrypoints/SKILL.md` 配置入口；本 Skill 不自行安装 Hook 或扩大写入权限。
 
 外部插件的路径写完整路径；入口代码格式中的相对路径按目标项目解析，不把插件的 `skills/`、`scripts/` 裸路径写成项目文件引用。
 
@@ -27,17 +27,17 @@ Skill 文件本身不保证自动运行。接入收尾约定时按 `skills/agent
 | 本次变化 | 核对与维护对象 |
 |---|---|
 | 功能、使用方式、启动或部署命令变化 | README、使用说明、相关操作文档 |
-| 文件移动、入口或模块结构变化 | MAP、相关导航；架构文档按 `skills/architecture-docs/SKILL.md` 处理 |
-| 接口、配置或数据结构变化 | 对应契约、接入说明、示例及旧名称引用；契约规则沿用 `skills/contract-first/SKILL.md` |
-| 需求或设计得到新确认 | 对应 PRD／Spec、决策记录；按 `skills/product-evolution/SKILL.md` 或 `skills/context-and-decisions/SKILL.md` 处理，保留确认来源 |
+| 文件移动、入口或模块结构变化 | MAP、相关导航；架构文档按 `skills/documentation/architecture-docs/SKILL.md` 处理 |
+| 接口、配置或数据结构变化 | 对应契约、接入说明、示例及旧名称引用；契约规则沿用 `skills/engineering/contract-first/SKILL.md` |
+| 需求或设计得到新确认 | 对应 PRD／Spec、决策记录；按 `skills/documentation/product-evolution/SKILL.md` 或 `skills/documentation/context-and-decisions/SKILL.md` 处理，保留确认来源 |
 | 进展、风险或验证结果变化 | STATUS 的对应条目，引用实际版本、范围与证据；任务排期仍留在已有 Tracker |
-| 稳定项目约定变化 | 按 `skills/agent-entrypoints/SKILL.md` 更新入口规则，单次任务要求不升级为常驻规则 |
+| 稳定项目约定变化 | 按 `skills/documentation/agent-entrypoints/SKILL.md` 更新入口规则，单次任务要求不升级为常驻规则 |
 | 值得追溯的重要变化 | LOG 追加简短事件及详细记录链接，历史保留当时事实 |
 
 ## 怎么维护
 
 1. **看本轮变化**：从模块变更流程进入时，复用传入的任务基线、实际 diff、影响清单与回归结果，补查新增变化；测试未通过或未运行不能写成已验收。结合本次任务、实际 diff 和确认材料，明确基线、当前版本与范围。没有 Git 时比较现有材料；来源不足就列出缺口，不猜旧状态。
-2. **找相关文档**：先按 `skills/change-impact/SKILL.md` 的“按事实核对文档”通过确定性审计，再运行候选检索：未提交任务用任务起点与 `--worktree`，已提交任务固定 base/head；再定位主记录与引用，补查映射外说明和功能术语；读命中上下文，区分当前指引、历史与无关同名内容。
+2. **找相关文档**：先按 `skills/engineering/change-impact/SKILL.md` 的“按事实核对文档”通过确定性审计，再运行候选检索：未提交任务用任务起点与 `--worktree`，已提交任务固定 base/head；再定位主记录与引用，补查映射外说明和功能术语；读命中上下文，区分当前指引、历史与无关同名内容。
 3. **完成维护**：没有相关变化或资料已准确时不修改；其余在获准范围内就地修改旧条目，处理过时说明、重复内容、失效引用和已完成待办；同一事实保留一处正文，其余引用。保留条件、例外和必要案例，不为缩短而改变含义。实现与已确认需求冲突时分别记录，不能把需求直接改成代码现状；主源不明时先列待确认。
 4. **核对并简短交代**：复核更新内容、路径和引用，运行项目已有的相关检查；受影响的示例与命令按下节验证。区分已实现、已上线和已验证，缺证据就标未验证。在最终回复中简述更新了什么、还有什么未对齐；无需更新时说明即可，不另写维护报告或同步台账。
 
@@ -50,7 +50,7 @@ Skill 文件本身不保证自动运行。接入收尾约定时按 `skills/agent
 - 失败先区分过期示例、实现错误与环境缺失；按已确认需求修复本轮问题后复跑，不改松预期来凑通过。历史例子保留当时语义，不当作当前调用指南执行。
 - 在现有回复或测试记录中简述文档位置、受检版本、实际命令／环境、预期与结果：通过／失败／未运行及原因；不另建验证台账。
 
-接口样例的失败 → 修复 → 复验，见 [可复跑案例](../change-impact/examples/interface-change.md#示例与命令验证)。
+接口样例的失败 → 修复 → 复验，见 [可复跑案例](../../engineering/change-impact/examples/interface-change.md#示例与命令验证)。
 
 ## 完成标准
 
