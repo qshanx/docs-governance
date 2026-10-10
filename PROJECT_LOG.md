@@ -72,3 +72,5 @@
 ## [2026-10-10] test | 日常维护增加受影响示例与命令的执行验证；复用接口合成样例，直接读取文档原文验证旧调用失败、只修文档后通过、内部重构保持有效及错误输出反例。仅在临时副本执行，边界与命令见 [接口样例](skills/engineering/change-impact/examples/interface-change.md#示例与命令验证)。
 
 ## [2026-10-10] refactor | Skill 分为 documentation、engineering、in-progress、deprecated；双端只加载前两类，保留调用名。同步路由、相对链接和目录检查；历史仅迁移 Git 可识别的链接目标，事件正文不改。
+
+## [2026-10-10] docs | 首次文档体系配置聚焦资料分工与入口：复用主源、按需建立，专项能力委托已有 Skill；保留审计、日志统计和归档，不默认铺满文档包。
