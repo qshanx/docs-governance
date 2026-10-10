@@ -21,8 +21,9 @@ description: >-
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
-| 维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
+| 维护、阶段同步、LOG 管理或日志统计复盘 | `living-docs-governance` |
 | 当前 Module 权责、状态归属、依赖图或核心流转图 | `living-docs-governance` 的 `ARCHITECTURE.md` 路线 |
+| 会话、任务或阶段执行复盘，提炼减少返工的改进建议 | `docs-retro` |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |
 | 修改前判断牵连面、迁移、回滚、实施后对照 | `change-impact` |
 | 前后端或服务间接口 | `contract-first` |

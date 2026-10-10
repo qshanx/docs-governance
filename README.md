@@ -49,6 +49,7 @@ For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the
 ### Focused workflows
 
 - **Agent entrypoints** (`agent-entrypoints`): turn confirmed project context into actionable `AGENTS.md` / `CLAUDE.md` instructions, including requirement-reading triggers, real validation commands, and a single shared rule source.
+- **Execution retrospective** (`docs-retro`): review session evidence for improvements to navigation, checks, rules, tools, and information access; propose concrete actions and existing destinations without modifying them by default.
 - **Living documentation**: initialize, audit, and synchronize the documentation spine.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.
