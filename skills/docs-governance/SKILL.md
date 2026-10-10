@@ -21,7 +21,8 @@ description: >-
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
-| 维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
+| 本次改动后的文档同步、整理、收尾或交接 | `docs-maintenance` |
+| LOG 管理或复盘 | `living-docs-governance` |
 | 是否需要架构文档，生成、完善或审查模块分工、状态归属、依赖与核心流程 | `architecture-docs` |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |
 | 修改前判断牵连面、迁移、回滚、实施后对照 | `change-impact` |
@@ -42,7 +43,7 @@ description: >-
 3. 若影响跨端接口，先用 `contract-first` 更新唯一契约源。
 4. 实施后用 `test-collaboration` 将成功标准、Bug 或风险关联到 TEST-ID 与证据。
 5. 用 `module-regression` 执行本模块与下游命令。
-6. 用 `living-docs-governance` 做阶段同步，再运行只读文档审计。
+6. 用 `docs-maintenance` 同步本次改动涉及的文档，再按 `living-docs-governance` 运行只读文档审计。
 
 ## 边界
 
