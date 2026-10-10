@@ -28,6 +28,20 @@ class AuditDocsTest(unittest.TestCase):
             check=False,
         )
 
+    def test_external_plugin_paths_use_absolute_paths_and_still_detect_missing(self):
+        with tempfile.TemporaryDirectory(prefix="external-plugin-") as directory:
+            plugin = Path(directory).resolve()
+            (plugin / "skills").mkdir()
+            entry = self.project / "AGENTS.md"
+            entry.write_text(f"外部插件入口：`{plugin / 'skills'}`\n", encoding="utf-8")
+            result = self.run_audit("spine")
+            self.assertNotIn("脊柱/载体路径不存在", result.stdout)
+            entry.write_text(f"外部入口：`{plugin / 'missing'}`\n项目入口：`skills/`\n", encoding="utf-8")
+            result = self.run_audit("spine")
+            self.assertEqual(result.returncode, 1)
+            self.assertIn(f"AGENTS.md -> {plugin / 'missing'}", result.stdout)
+            self.assertIn("AGENTS.md -> skills/", result.stdout)
+
     def test_artifact_scope_fails_on_broken_markdown_link(self):
         (self.project / "guide.md").write_text("[缺失](docs/missing.md)\n", encoding="utf-8")
         result = self.run_audit("artifacts")

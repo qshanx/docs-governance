@@ -8,6 +8,8 @@ It works with Claude Code, Codex, and ChatGPT. The goal is not to create more do
 
 [简体中文](README.zh-CN.md) · [Chinese usage guide](使用说明.md) · [Contributing](CONTRIBUTING.md)
 
+模块功能、公共接口或共享数据变更，可在项目入口接入 [模块变更流程](skills/docs-governance/SKILL.md#模块变更流程)：改前分析影响 → 实施后核对 diff → 本模块及下游回归 → 文档同步。它是 Agent 执行约定，不等于已安装自动 Hook。
+
 ## Try it in three minutes
 
 Install it in Claude Code:

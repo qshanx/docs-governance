@@ -2,6 +2,8 @@
 
 项目通过根目录 `.docs-governance.json` 显式采用规则。不配置时保留原有审计和 Stop 提醒，不强迫其他项目使用本仓库的路径。
 
+变更后找候选文档：先通过确定性审计，再按 [change-impact](../skills/change-impact/SKILL.md#按事实核对文档) 运行 `scripts/find-doc-impact.py`；合并路径映射、引用和变更术语，只生成候选，不判定过期或自动修改文档。
+
 ## 配置接口
 
 - `version`：当前为 1。

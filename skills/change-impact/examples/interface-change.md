@@ -19,6 +19,18 @@ python3 tests/fixtures/document-impact.py /tmp/document-impact-run/internal --ca
 
 先运行 `python3 <插件目录>/scripts/check-pr-docs.py --root <root> --base <base> --head <head>`；非零按审计规则先处理。确定性检查可能报告未采用可选载体，不因此补造文件。语义审查使用实际 diff 与文档上下文。
 
+## 候选检索
+
+在语义判读前，对生成器返回的同一 root/base/head 运行：
+
+```bash
+python3 scripts/find-doc-impact.py --root <root> --base <base> --head <head>
+```
+
+JSON 应定位映射外的 `docs/integration.md:3`，并带命中依据。历史、纯引用和同名字段也可能成为候选；Agent 须完成下表判读后再交付，不能把候选数当作问题数。日常未提交维护可用 `--base <任务起点> --worktree`；功能名没有出现在代码标识符中时补 `--term '功能名'`。无 Git 基线的审计仍按当前声明核对，不伪造差异。
+
+自动检索的回归入口：`python3 -m unittest tests.test_doc_impact -v`，覆盖映射外定位、提交快照与工作区隔离、补充功能词及检索失败边界。它不证明语义判读的漏报或误报率；仍须按下表实际复核。
+
 ## 验收清单（审查完成后对照）
 
 | 场景 | 应观察到的行为 |
@@ -34,3 +46,11 @@ python3 tests/fixtures/document-impact.py /tmp/document-impact-run/internal --ca
 记录样例 base/head、Skill 修订／哈希、Agent 与执行方式、具体发现及反例、遗漏／误报、实际读取／修改范围和耗时（未计时则未知）。同一 Agent 已参与构造或读过答案时必须注明“已知场景复核”，不能宣称盲测、稳定检出率或真实项目效果。
 
 自动回归入口为 `python3 -m unittest tests.test_pr_docs.DocumentImpactFixtureTest -v`；它验证样例能复现失败形状及确定性护栏边界，不替代上述 Agent 审查。实际记录从 [测试台账](../../../TESTS.md#test-impact-001事实变化后的文档核对) 进入；跨项目只读试点仍需单独验证。
+
+## 2026-10-10 候选检索复核
+
+当前 Agent 对生成器的 interface／internal 两例运行检索并读取候选上下文，复跑旧字段调用：interface 的订单调用报 `KeyError: 'total'`，库存调用仍返回 3；internal 的订单调用仍返回 100。
+
+- interface：12 份文档进入候选；3 处过期调用全部定位（api／consumer／integration 第 3 行），映射外说明未遗漏。FAQ 与当前决定的重复正文另列维护建议。
+- 判读排除历史、无关库存字段与纯契约引用；内部重构未要求改写说明。该清单内过期调用漏报 0、上述反例误判 0；原始候选仍含无需修改项，不把候选当缺陷。
+- 属于已知合成样例复核，不是盲测或业务项目效果证明。模块行为变化的补充词检索有自动回归，完整语义判断、真实项目耗时和长期可靠率仍未验证。

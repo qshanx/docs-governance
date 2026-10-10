@@ -2,6 +2,8 @@
 
 > 本文是插件**当前架构**的唯一说明入口。设计选择及其理由在 `docs/adr/README.md`；文件定位与误导清单在 `CLAUDE_MAP.md`；方法论唯一源仍在 `skills/*/SKILL.md`。
 
+文档影响检索由 `scripts/find-doc-impact.py` 读取 Git 变更及 Markdown，输出带来源的候选；`change-impact` 判读事实，`docs-maintenance` 完成同步。脚本不执行目标项目代码、不替代语义判断；完整任务顺序见 [模块变更流程](skills/docs-governance/SKILL.md#模块变更流程)。
+
 ## 架构摘要
 
 插件以 `skills/` 为窄腰：Claude Code、Codex 与 ChatGPT 各自通过宿主 Adapter 进入同一套方法论，命令和 agent 不复制方法论。规则、决策与历史保存在项目文档；接口字段以机器契约为准，执行结论以对应版本的运行证据为准。Markdown 登记这些证据的入口与解释，派生索引不替代原文。

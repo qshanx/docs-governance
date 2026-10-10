@@ -31,6 +31,7 @@
 | 插件总路由 | `skills/docs-governance/SKILL.md` |
 | 活文档方法论 | `skills/living-docs-governance/SKILL.md` |
 | 领域上下文与 ADR | `skills/context-and-decisions/SKILL.md` |
+| 文档候选检索（只提供线索，仍需判读正文） | `scripts/find-doc-impact.py`；使用与限制见 `skills/change-impact/SKILL.md` |
 | 变更影响分析 | `skills/change-impact/SKILL.md` |
 | 文档影响的接口变更复跑与验收 | `skills/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |
 | 契约方法论（含两种模式） | `skills/contract-first/SKILL.md` |
