@@ -18,9 +18,10 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 新建核心模块、补齐模块文档或维护模块约定，无须点名 Skill | `module-governance`；讨论只读，普通 Bug／样式不启动建档 |
+| 审计核心模块知识入口覆盖 | `docs-audit`，仅报告；边界核对使用 `architecture-docs` |
 | 检查治理规则应放在入口、Skill、附件、脚本还是 Hook，识别散落的可复用工作流 | `agent-workflow-governance`，默认只读交付证据与建议 |
 | 采集项目健康证据、核对验证入口与 CI 衔接 | `living-docs-governance` 的“项目健康证据采集” |
-
 | 编写或优化 Skill、Agent 入口及 AI 读取的文档 | `writing-for-agents`；事实核对仍走审计流程 |
 | 规划、整理或只读审查文档目录、归属与读取入口 | `docs-structure` |
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |

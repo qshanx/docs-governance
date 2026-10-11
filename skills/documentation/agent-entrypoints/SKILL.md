@@ -1,7 +1,7 @@
 ---
 name: agent-entrypoints
 description: >-
-  创建、优化或审查 AGENTS.md / CLAUDE.md 等 Agent 项目入口文档时使用。根据项目事实精简规则、设置按需读取指针，并检查规则是否可执行、入口是否冲突。
+  创建、优化或审查项目及模块级 AGENTS.md / CLAUDE.md 等 Agent 入口文档时使用。根据项目事实精简规则、设置按需读取指针，支持模块两入口布局，并检查规则是否可执行、入口是否冲突。
 ---
 
 # Agent 项目入口

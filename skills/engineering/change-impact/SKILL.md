@@ -23,6 +23,8 @@ description: >-
 
 ## 路由规则
 
+- 模块职责、公共入口、依赖或状态写入变化：修改前后执行 `architecture-docs` 的“模块文档与代码边界一致性”；读取双方适用的模块入口、CONTEXT 与契约，输出约定到代码的证据和未知项。方法只在该 Skill 维护，不以本次入口文档有 diff 代替检查。
+
 - 架构、数据库、认证、部署拓扑或长期技术策略：检查 `context-and-decisions` / ADR。
 - 跨端接口：先更新 `contract-first` 管理的唯一契约源，再规划消费者、提供者和联调证据。
 - 需求、业务规则、风险或 Bug：让成功标准保留在 Spec/Issue，并用 `test-collaboration` 关联 TEST-ID。

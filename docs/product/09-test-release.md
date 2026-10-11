@@ -122,6 +122,20 @@ TEST-PR-001 新增 3 项安装回归：旧分支与 linked worktree 的真实 pu
 
 项目实跑补查后增加第 5 项回归，防止 unittest 的筛选文件名和 GitHub .sha 字段被识别成脚本；脚本路径仅从调用位置取值。该版本实跑为 19 个源文件、63 条候选，4 项复杂引号／动态路径解析缺口，collection_changed=false；这些缺口不代表命令执行失败。
 
+## MOD-20261011：模块治理与链接检查
+
+阿磊确认将模块流程独立为 module-governance，并按任务意图触发。实现复用入口、领域上下文、契约与架构 Skills；普通 Bug 不建档，纯审计不写入。实际样本、相对路径误报纠正与生成后链接检查见[实跑记录](../audits/2026-10-11-module-governance-real-run.md)。样本通过不等于全宿主命中率保证；未迁移真实业务项目。
+
+独立提交以远端 main 的 `1b07eb2` 为基线，不带入本地主工作区的其他改动；保留上游现有路由、维护及审计流程。使用项目已有 .venv 执行完整 verify：112 项测试及文档审计通过。早先实跑报告的 109 项属于当时混合工作区，不作为本提交测试数量。
+
+### MOD：PR #46 新评审与最新 main 集成
+
+按 [PR #46 新评审](https://github.com/qshanx/docs-governance/pull/46#issuecomment-6110080987) 修正两项 P2：根入口或架构主记录充分覆盖模块时标复用，不因没有局部文件报缺口；contract-first 按进程内与网络边界区分验证要求。ARCHITECTURE 同步模块编排与决策载体选择。普通 merge 接入 `0b6573d`，逐段保留双方路由、说明与测试记录。
+
+新隔离会话显式使用 docs-audit 与 contract-first，读取实际库存／价格样本的 7 个文件并运行 2 项测试，均通过。实际输出认可根入口和共享 CONTEXT 的覆盖；进程内调用不要求网络序列化，价格接口已有真实 JSON bytes 证据但仍指出缺标准 schema 校验和 HTTP 联调。样本 7 个文件的 SHA-256 前后一致。该测试验证规则分支与只读行为，不代表隐式触发或完整业务验收；原始会话记录在 `/private/tmp/pr46-review-events.jsonl`。
+
+在最新 main 集成工作区激活已有 .venv 后，完整 `bash scripts/verify.sh` 退出 0：114 项单元测试、插件结构、引用与 full 文档审计通过。提交快照检查、远端 CI 和合并状态以其后实际回执为准。
+
 ## AWG-PLACEMENT-20261011：规则落点检查实跑
 
 当前混合工作区按新增附件完成只读诊断，范围、证据和建议见[实跑报告](../audits/2026-10-11-governance-rule-placement.md)。文本场景核对覆盖已有 Skill 复用、项目事实不转通用 Skill、单次故障不泛化、已有脚本缺调用与只读停止。AGENTS／CLAUDE 分别 7／26 行，长度检查通过；未安装 Hook、修改门禁或调用原生宿主自动事件。历史审计只登记 Issue #43。

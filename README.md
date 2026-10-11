@@ -114,3 +114,7 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 Skills are grouped under `skills/documentation/` and `skills/engineering/`. `in-progress/` and `deprecated/` are reserved and not loaded. Skill names and invocation remain unchanged.
 
 Project health evidence collection is available through `living-docs-governance`: it inspects project entrypoints, validation commands, CI references, and explicit receipts without executing discovered commands or reading global configuration or session history. Static evidence does not establish a health pass.
+
+## module-governance
+
+新建核心业务模块、补齐模块文档或维护模块约定时，可按任务意图调用 [module-governance](skills/documentation/module-governance/SKILL.md)，无需点名。复用项目／模块 AGENTS、CONTEXT、契约与决策主记录；普通 Bug、样式修改不触发建档，纯审计不授权写入。生成后运行已有链接审计，断链修复后复跑。
