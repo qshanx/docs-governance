@@ -59,11 +59,12 @@ Use `architecture-docs` to decide whether architecture documentation is needed a
 
 ### Focused workflows
 
+- **Document structure** (`docs-structure`): group related documents by responsibility, keeping detailed content behind concise entry points.
 - **Agent entrypoints** (`agent-entrypoints`): turn confirmed project context into actionable `AGENTS.md` / `CLAUDE.md` instructions, including requirement-reading triggers, real validation commands, and a single shared rule source.
 - **Architecture documents** (`architecture-docs`): decide whether a project needs an architecture document, then create, improve, or review it against project evidence.
 - **Daily document maintenance** (`docs-maintenance`): synchronize documents affected by a completed task, update stale content, consolidate duplicates, and report verification gaps.
 - **Execution retrospective** (`docs-retro`): review session evidence for improvements to navigation, checks, rules, tools, and information access; propose concrete actions and existing destinations without modifying them by default.
-- **Living documentation**: initialize, audit, and synchronize the documentation spine.
+- **Living documentation**: establish the initial document system, delegate specialized maintenance, and retain read-only audits and log archiving.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.
 - **Contract-first collaboration**: use one machine-readable contract indexed by `CONTRACT.md` as the shared source of truth for frontend/backend or multi-service work.

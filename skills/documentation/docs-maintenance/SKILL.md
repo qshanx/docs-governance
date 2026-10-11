@@ -32,7 +32,7 @@ Skill 文件本身不保证自动运行。接入收尾约定时按 `skills/docum
 | 需求或设计得到新确认 | 对应 PRD／Spec、决策记录；按 `skills/documentation/product-evolution/SKILL.md` 或 `skills/documentation/context-and-decisions/SKILL.md` 处理，保留确认来源 |
 | 进展、风险或验证结果变化 | STATUS 的对应条目，引用实际版本、范围与证据；任务排期仍留在已有 Tracker |
 | 稳定项目约定变化 | 按 `skills/documentation/agent-entrypoints/SKILL.md` 更新入口规则，单次任务要求不升级为常驻规则 |
-| 值得追溯的重要变化 | LOG 追加简短事件及详细记录链接，历史保留当时事实 |
+| 值得追溯的重要变化 | 记录到项目已约定的历史主源：已采用 LOG 时追加；否则复用能保存原因、确认依据与相关版本的 PR／Issue／决策或 Git 记录，不另建流水，保留既有历史 |
 
 ## 怎么维护
 

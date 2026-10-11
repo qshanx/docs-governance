@@ -72,3 +72,9 @@
 ## [2026-10-10] test | 日常维护增加受影响示例与命令的执行验证；复用接口合成样例，直接读取文档原文验证旧调用失败、只修文档后通过、内部重构保持有效及错误输出反例。仅在临时副本执行，边界与命令见 [接口样例](skills/engineering/change-impact/examples/interface-change.md#示例与命令验证)。
 
 ## [2026-10-10] refactor | Skill 分为 documentation、engineering、in-progress、deprecated；双端只加载前两类，保留调用名。同步路由、相对链接和目录检查；历史仅迁移 Git 可识别的链接目标，事件正文不改。
+
+## [2026-10-10] docs | 首次文档体系配置聚焦资料分工与入口：复用主源、按需建立，专项能力委托已有 Skill；保留审计、日志统计和归档，不默认铺满文档包。
+
+## [2026-10-11] docs | living-docs 建体系流程明确为了解项目、整理 docs、建立 MAP/STATUS、接入 Agent 入口并检查；记录范围、审计和日志管理拆为按需参考。Git 项目不默认新建或要求维护 LOG，保留既有历史；旧检查器布局限制明确报告。目录规划依赖 PR #36，本次不复制 docs-structure 或混入业务项目修改。
+
+## [2026-10-11] fix | PR #33 复审修复：统一可选 LOG 的历史主源约定，同步 setup 完成标准与使用／架构／测试说明；将 PR #36 的 docs-structure 适配到 documentation 分类并保留 setup/审计调用；集成 main 已合并 #21 的主源规则及相对引用。原始测试记录保持历史范围，未声明新版宿主行为通过。
