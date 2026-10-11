@@ -88,6 +88,8 @@ flowchart LR
 
 项目健康证据由 `scripts/collect-project-health.py` 只读采集项目内入口、验证命令、CI 与显式 JSON 记录，输出带文件指纹的候选，不执行被发现的脚本、不判整体健康。现有 `living-docs-governance` 负责解释和路由，文档审计仍复用 `scripts/audit-docs.py`；没有全局配置或会话历史依赖。
 
+`agent-workflow-governance` 在专项 Skill 层承接治理规则落点与散落工作流检查，按需读取附件并复用现有主记录、专项 Skill 和采集能力；只输出证据与建议，不新增执行服务、Hook 或门禁。
+
 ## 更新规则
 
 - 宿主入口、路由、专项 Skill、模板/参考或确定性脚本的职责及依赖变化 → 同次更新本文。
