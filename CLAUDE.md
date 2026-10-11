@@ -21,6 +21,7 @@
 - 当前健康 / 待办 → `PROJECT_STATUS.md`
 - 改了什么 → `PROJECT_LOG.md`
 - 调用治理能力、未指定专项 Skill → 先读 `skills/documentation/docs-governance/SKILL.md`，按意图选择对应 Skill，不全量加载。
+- 编写或优化 Skill、Agent 入口及 AI 按需读取的文档 → 读取 `skills/documentation/writing-for-agents/SKILL.md`，完成后按其补充核对含义。
 - 架构 / 数据库决策 → `docs/adr/README.md`
 - 涉及产品目标、需求、实现或验收 → 先从 [产品管理入口](docs/product/README.md) 定位当前基线，再按 `skills/documentation/product-evolution/SKILL.md` 的“按任务读取”核对当前需求和受影响条款；不默认全文加载产品目录。
 - 文件归位与触发条件 → `.docs-governance.json`，说明见 `references/document-policy.md`

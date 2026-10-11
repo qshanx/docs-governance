@@ -21,6 +21,8 @@
 
 - 文档按事实核对已补接口字段切片、固定样例和已知场景复核；独立盲测、其他事实类型及真实项目成本尚未验证，见 [TEST-IMPACT-001](TESTS.md#test-impact-001事实变化后的文档核对)。Issue #5 保持打开，不把该切片当作完整自动语义检测能力。
 
+- `writing-for-agents` 替代未发布的 technical-doc-writing；上游来源与许可证随包保留，含义核对为本地补充。原 r8 试跑仅证明旧方法，不能证明新 Skill 的宿主调用或业务效果。
+
 - 统一 setup 已在本地接上三类项目识别、产品文档与 Agent 入口 Skill；init 为兼容别名。`agent-entrypoints` 保留八项规范和逐文件 200 行检查，并区分稳定规则与单次授权；未新装门禁。实际验证范围见 [r7 测试记录](docs/product/09-test-release.md)。PR #14 本地工作树已整合 PR #12 并解决冲突，修复尚未推送；原生宿主与业务效果未验证，不能据旧 PR 绿色结果合并。
 
 - `product-docs-manager` 已新增角色与共享规则，来源、编号、状态、授权及按任务读取场景已做文本复核；Claude Code 原生角色调度、实际上下文节省和业务项目实际试点仍未验证，见 [角色审查](docs/product/07-requirements-review.md)。

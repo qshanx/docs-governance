@@ -22,6 +22,7 @@ python -m pip install -r requirements-dev.txt
 | 默认验证 | `bash scripts/verify.sh` | 改任何文件后、提交前、CI | Bash、Python、Git、开发测试依赖 |
 | Python 测试 | `python3 -m unittest discover -s tests -p 'test_*.py'` | 修改 `scripts/*.py` 或 `tests/*.py` 后 | Python、Git、开发测试依赖 |
 | 文档确定性审计 | `bash scripts/audit-cheap.sh full` | 治理文档或引用变化后 | Bash、Python、Git |
+| 面向 AI 的文档写作试跑 | 按 writing-for-agents 在隔离目录改写 Skill，核对结构、读取指针与含义；另做只读审查 | 写作 Skill 或调用边界变化后 | 宿主 Agent；不需联网 |
 | setup 场景执行 | 按 `living-docs-governance` 统一 setup 在三个隔离项目执行，并复跑与只读探测 | 编排、初始化流程或模板变化后 | 宿主 Agent；不需联网或 Git 初始化 |
 | 文档影响场景审查 | [接口变更场景](skills/engineering/change-impact/examples/interface-change.md) | 按事实核对文档的方法变化后 | 当前 Agent、Python、隔离 Git；无外部业务服务 |
 
@@ -40,11 +41,12 @@ python -m pip install -r requirements-dev.txt
 | 插件结构与发布前验证 | 冒烟 | 关键链路 | 防止 manifest、hook、Skill 路由、路径引用或 Python 测试断裂后仍被发布 | 默认验证 | Bash、Python、Git | `scripts/verify.sh` | 必要 |
 | init 兼容入口 | 冒烟 | 回归保护 | 防止旧命令残留另一套初始化流程或隐含 Git／hook 授权 | 默认验证 + 适配层审阅 | Bash、宿主 Agent | `commands/governance-init.md` | 必要 |
 | 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/documentation/living-docs-governance/SKILL.md` | 必要 |
+| 面向 AI 的文档写作试跑 | 按 writing-for-agents 在隔离目录改写 Skill，核对结构、读取指针与含义；另做只读审查 | 写作 Skill 或调用边界变化后 | 宿主 Agent；不需联网 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
 | PR 前扫描、推送门禁与文档影响样例 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖提交、漏掉变更影响或失败仍能推送；保留可复跑的语义审查输入 | Python 测试 + 文档影响场景审查 | 本地临时 Git、bare remote、jsonschema | `tests/test_pr_docs.py`、`tests/fixtures/document-impact.py` | 必要 |
 
-当前汇总：必要 10 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
+当前汇总：必要 11 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
 
 ## 三、跨端契约证据
 
@@ -207,6 +209,17 @@ python -m pip install -r requirements-dev.txt
 2026-10-10 隔离试验：独立 Agent 只收到“导出默认脱敏”的功能要求，从项目入口进入完整流程，查到默认调用与显式关闭脱敏的两个消费者；基线 4 项通过，新增后先失败再修复，最终 7 项通过，主执行者复跑通过。API／用法／Spec／客服说明四份同步，历史／账单／纯引用三份未改；无回归台账也完成本轮验证。临时项目未进入正式仓库。此前维护单独试验还验证了真实断链时停止候选检索和文档同步。以上仅为隔离样例，未验证真实业务成本、原生宿主强制触发或跨模型稳定性。
 
 示例与命令验证：`python3 -m unittest tests.test_doc_examples -v` 直接读取隔离样例的三处行内调用和一条文档命令。接口变更后四处均失败，只修临时副本文档后四处通过；内部重构无需改文档；退出 0 但输出错误也会判失败。实现、契约和历史哈希保持不变。范围为本地 Python 示例，不覆盖 HTTP／部署。复跑说明见 [接口样例](skills/engineering/change-impact/examples/interface-change.md#示例与命令验证)。
+
+### TEST-WRITING-001：技术表达改写保持含义与只读边界
+
+- 用途：回归保护
+- 来源：[能力规格 r8](docs/product/06-prd.md#r8技术文档表达)，TWR-2、TWR-3
+- 层级：集成；实际 Agent 执行共享 Skill，不代替宿主自动发现
+- 输入：本仓库真实技术文档的隔离副本；另以只读请求检查指定文档
+- 预期：保持语言、事实、结构、代码、链接、条件、例外和要求强度；只读场景文件哈希不变
+- 执行：独立 Agent 读取新 Skill 后按真实请求执行，执行者和审阅者分开；原文件与临时产物逐项比较
+- 证据与实际结果：[r8 测试记录](docs/product/09-test-release.md#r8技术文档表达2026-10-05)
+- 未验证：宿主跨会话发现、Claude Code 原生调用和业务项目使用效果
 
 ## 五、人工验收出口
 

@@ -41,6 +41,8 @@
 | 契约方法论（含两种模式） | `skills/engineering/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/engineering/test-collaboration/SKILL.md` |
 | 测试协作的原始方案、确认与评审历史 | [2026-07-12 历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)；当前方法仍看 Skill |
+
+| 写给 AI 的文档结构、读取指针与完成标准 | `skills/documentation/writing-for-agents/SKILL.md`；含义核对、许可证与固定来源随包提供 |
 | 本插件实际测试资产、测试目的与缺口 | `TESTS.md` |
 | 模块联动回归方法论 | `skills/engineering/module-regression/SKILL.md` |
 | 架构文档的必要性判断、生成与审查 | `skills/documentation/architecture-docs/SKILL.md` |
