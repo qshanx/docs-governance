@@ -49,7 +49,7 @@ PR 前护栏追加 10 个集成测试：真实本地 bare remote 上断链推送
 
 同日按用户要求将第 1 条精简为约束与脚本调用，新增 `scripts/check-entrypoint-length.py`。4 项 CLI 测试覆盖 199／200／201 行、LF／CRLF、末行无换行、多文件与嵌套空格路径、读取错误和无参数；脚本不改写输入。本仓库入口实测仍为 7／23 行；完整 verify、76 项测试、Skill 格式和 diff 检查通过。未安装新 hook。
 
-同日补充 [完整输入／输出示例](../../skills/agent-entrypoints/examples/confirmed-project.md)：成品由长度脚本实测为 32 行，Skill 格式、完整 verify、76 项现有测试及 diff 检查通过。示例是明确标注的虚构项目，未执行其业务测试或宿主加载；其余优化建议仅作审阅，未扩展实现范围。
+同日补充 [完整输入／输出示例](../../skills/documentation/agent-entrypoints/examples/confirmed-project.md)：成品由长度脚本实测为 32 行，Skill 格式、完整 verify、76 项现有测试及 diff 检查通过。示例是明确标注的虚构项目，未执行其业务测试或宿主加载；其余优化建议仅作审阅，未扩展实现范围。
 
 ## r6 规则清理与证据补充（2026-09-27）
 
@@ -59,7 +59,7 @@ PR 前护栏追加 10 个集成测试：真实本地 bare remote 上断链推送
 |---|---|
 | `bash scripts/verify.sh` | 76 项测试、结构／路由和 full 文档审计通过；无新增测试或执行脚本 |
 | skill-creator 的 `quick_validate.py` 分别检查 agent-entrypoints、living-docs-governance | 两个 Skill 格式有效；不证明实际 Agent 行为 |
-| `python3 scripts/check-entrypoint-length.py AGENTS.md CLAUDE.md skills/agent-entrypoints/examples/agents.example.md` | 分别 7、23、32 行，全部通过 |
+| `python3 scripts/check-entrypoint-length.py AGENTS.md CLAUDE.md skills/documentation/agent-entrypoints/examples/agents.example.md` | 分别 7、23、32 行，全部通过 |
 | `git diff --check` | 无空白错误 |
 
 人工核对根 AGENTS 指向 CLAUDE，后者未反向要求加载 AGENTS；文章来源、Skill、示例和产品主记录的引用可达。清理依据及命令未运行等场景见 [r6 复核](07-requirements-review.md#r6-规则清理与证据复核2026-09-27)。CONTEXT 缺失仍属按需载体，不补空壳。
@@ -93,3 +93,31 @@ AGENTS 主源布局未预建 CLAUDE 四件套，full 审计因此保留缺失可
 ## pre-push 安装修复（2026-09-28）
 
 TEST-PR-001 新增 3 项安装回归：旧分支与 linked worktree 的真实 push 成功，坏文档仍被拒绝；已有 hook 默认不覆盖，明确替换时备份；支持外部 hooksPath，拒绝工作树内路径。先用旧包装器复现缺脚本失败，再用稳定运行快照通过。仓库根 `.venv` 下执行 `bash scripts/verify.sh` 全部通过，共 79 项测试。本仓库失效包装器已在备份后替换；未替其他项目安装，也未改变远端保护规则。
+
+## PH-20261011：项目健康采集实跑
+
+本轮在既有 agent-workflow-governance 增加项目健康附件和静态采集器，未新增 Skill、安装 Waza、检查全局配置或会话历史。用户要求完成本项目实跑和独立复核，不提交、不推送。采集器只输出候选，文档审计另行复用既有脚本。
+
+项目实跑证据保存于忽略目录 .governance/project-health.json 与 .governance/project-health-doc-audit.json。采集确认项目指令和 CI 字面引用同一 scripts/verify.sh，audit-cheap 的变量路径作为待人工核对项；旧审计回执即使 HEAD 相同也保持未验证，静态采集不证明 CI 已运行或项目整体健康。
+
+独立复核发现并已修正：git status 可触发 clean filter，rev-parse 可加载项目外 Git config include；因此完全去除 Git 子进程，只读取受限本地 refs，不支持的 Git 布局明示缺口。另修复复合命令的空壳误判、显式会话目录回执读取以及 CLI 空格／引号凭据脱敏。专项 15 项回归通过；独立 Agent 复测原故障 fixture、项目实跑和新测试后确认受检范围无剩余阻塞。当前项目全量 108 项单元测试通过，diff 格式检查通过。独立原始回执保留于 /tmp/health-independent-final-tests.log、/tmp/health-independent-final-recheck.json、/tmp/health-independent-final-include.json 与 /tmp/health-independent-final-project.json。采集结果为 9 个源文件、37 条候选命令，1 项动态路径解析缺口；HEAD 为 fe0643a，未提交或推送。
+
+完整工作区验证曾因另一任务新建 docs-audit 尚未接通 README 和总路由失败，两项均不属于本轮改动；不替该任务注册或删除 Skill。环境、范围和并行改动导致的验证差异分别记录，不覆盖失败。
+
+### PH 提交隔离
+
+2026-10-11 阿磊授权仅提交本次项目健康采集，不推送。以 fe0643a 为基线隔离：工作区中的 agent-workflow-governance 尚未提交，因此把本次采集附件与路由接到已提交的 living-docs-governance，不带入其他 Skill、拆分或迁移。上文 108 项和独立复核属于实施工作区；隔离快照的验证单独记录。
+
+隔离快照保留基线 10 个 Skill，使用项目原路径 .venv 完整 verify 通过，共 100 项测试（含 15 项健康采集回归）。采集器与测试和独立复核版本逐字一致，仅调整所属 Skill 的入口与附件路径。原始回执：/tmp/health-isolated-verify.log、/tmp/health-isolated-tests.log。未推送、未运行远端 CI。
+
+### PH 接入最新 main
+
+用户随后授权创建并合并 PR。以 1f7ae10 为基线，仅移入 afa3d87 的健康采集功能，排除其父提交 fe0643a 的治理和环境修复；保留 main 已合并的 Skill 与历史记录。采集器和 15 项回归保持原样，入口继续复用 living-docs-governance。
+
+最新 main 基线上的独立 PR 工作区使用项目 .venv 验证：完整 verify 及 106 项单元测试通过（包含本次 15 项）；原始日志为 /tmp/health-pr-verify-final.log 和 /tmp/health-pr-tests.log。此前 100 项与 108 项分别属于不同快照，不能作为此次 PR 的测试数量。
+
+### PH：PR #40 评审修复
+
+来源为 [合并后独立评审](https://github.com/qshanx/docs-governance/pull/40#issuecomment-6109666108) 及阿磊本会话的修复要求。两类 P2 已用新增 fixture 复现：常见脚本入口漏采／CI 对应缺失，以及环境前缀命令误判空壳。4 项新增参数化测试在修复前出现 11 处断言失败；修复后健康采集专项 20 项全部通过，包含既有不执行、越界、旧回执与脱敏检查。修复只扩展静态识别并保守标注缺口，没有引入 Shell 执行或完整 YAML 解析。回执独立指纹为后续建议，本轮未实施；原生宿主调用验收仍未执行。
+
+项目实跑补查后增加第 5 项回归，防止 unittest 的筛选文件名和 GitHub .sha 字段被识别成脚本；脚本路径仅从调用位置取值。该版本实跑为 19 个源文件、63 条候选，4 项复杂引号／动态路径解析缺口，collection_changed=false；这些缺口不代表命令执行失败。

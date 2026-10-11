@@ -23,6 +23,7 @@ python -m pip install -r requirements-dev.txt
 | Python 测试 | `python3 -m unittest discover -s tests -p 'test_*.py'` | 修改 `scripts/*.py` 或 `tests/*.py` 后 | Python、Git、开发测试依赖 |
 | 文档确定性审计 | `bash scripts/audit-cheap.sh full` | 治理文档或引用变化后 | Bash、Python、Git |
 | setup 场景执行 | 按 `living-docs-governance` 统一 setup 在三个隔离项目执行，并复跑与只读探测 | 编排、初始化流程或模板变化后 | 宿主 Agent；不需联网或 Git 初始化 |
+| 文档影响场景审查 | [接口变更场景](skills/engineering/change-impact/examples/interface-change.md) | 按事实核对文档的方法变化后 | 当前 Agent、Python、隔离 Git；无外部业务服务 |
 
 ## 二、测试资产地图
 
@@ -38,10 +39,10 @@ python -m pip install -r requirements-dev.txt
 | 双 Agent 文档评审循环 | 集成 | 回归保护 | 防止正文未变化时重复付费评审，或评审状态无法落盘 | Python 测试 | fake Claude / Codex 命令 | `tests/test_dual_agent_review_loop.py` | 必要 |
 | 插件结构与发布前验证 | 冒烟 | 关键链路 | 防止 manifest、hook、Skill 路由、路径引用或 Python 测试断裂后仍被发布 | 默认验证 | Bash、Python、Git | `scripts/verify.sh` | 必要 |
 | init 兼容入口 | 冒烟 | 回归保护 | 防止旧命令残留另一套初始化流程或隐含 Git／hook 授权 | 默认验证 + 适配层审阅 | Bash、宿主 Agent | `commands/governance-init.md` | 必要 |
-| 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/living-docs-governance/SKILL.md` | 必要 |
+| 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/documentation/living-docs-governance/SKILL.md` | 必要 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
-| PR 前扫描与推送门禁 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖待推送提交、漏掉删除／重命名影响、第二次推送丢失 PR 基线，以及失败仍能推送 | Python 测试 | 本地临时 Git 与 bare remote | `tests/test_pr_docs.py` | 必要 |
+| PR 前扫描、推送门禁与文档影响样例 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖提交、漏掉变更影响或失败仍能推送；保留可复跑的语义审查输入 | Python 测试 + 文档影响场景审查 | 本地临时 Git、bare remote、jsonschema | `tests/test_pr_docs.py`、`tests/fixtures/document-impact.py` | 必要 |
 
 当前汇总：必要 10 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
 
@@ -55,7 +56,7 @@ python -m pip install -r requirements-dev.txt
 
 - 状态：已覆盖
 - 用途：规则保护、回归保护
-- 来源：`skills/living-docs-governance/SKILL.md` 的“便宜层先判”规则及 `references/audit-result-format.md` 的结果接口；2026-08-13 发现的 TEST-ID 误识别和删除区越界两项 Bug
+- 来源：`skills/documentation/living-docs-governance/SKILL.md` 的“便宜层先判”规则及 `references/audit-result-format.md` 的结果接口；2026-08-13 发现的 TEST-ID 误识别和删除区越界两项 Bug
 - 模拟输入：临时项目中的断链、漏登记 ADR、未登记 TEST-ID、ARCHITECTURE 路径断裂、LOG 归档、示例 TEST-ID 和 P0 中的现存路径
 - 业务预期：文档违规退出码 1，执行失败为 2，无确定性失败或执行错误为 0；文字与 JSON 复用同一结果，未验证及提示保持可识别；历史事件原样进入归档时仍判为只追加
 - 层级：集成
@@ -130,13 +131,13 @@ python -m pip install -r requirements-dev.txt
 
 - 状态：验证结果见 r7 测试记录；宿主原生端到端待试点
 - 用途：关键链路、回归保护
-- 来源：`skills/living-docs-governance/SKILL.md` 的“统一 setup”模式及能力规格 GSU-1—GSU-5
+- 来源：`skills/documentation/living-docs-governance/SKILL.md` 的“统一 setup”模式及能力规格 GSU-1—GSU-5
 - 模拟输入：仅目标／范围的新项目；有确认记录但未实现的项目；有 AGENTS 主源、现有 Spec、测试与 hook 的项目；后者再复跑和只读探测；另用未配置项目验证“仅建议、不写入”
 - 业务预期：产品包与实际入口由对应 Skill 生成，保留来源、主源与未知项；不覆盖规格、Tracker、代码或 hook；每份入口 ≤200 行；复跑不重复建档，只读前后文件不变
 - 层级：集成
 - 执行组：默认验证 + setup 场景执行
 - 边界：实际 Agent 读取 Skill 并在隔离目录生成文档，运行显式目标根审计与行数检查；不验证 Claude Code slash command 加载、业务项目推广或业务验收
-- 测试文件：`commands/governance-setup.md`、`skills/living-docs-governance/SKILL.md`、`scripts/verify.sh`
+- 测试文件：`commands/governance-setup.md`、`skills/documentation/living-docs-governance/SKILL.md`、`scripts/verify.sh`
 - 测试节点：三场景、重复执行、只读权限和受保护文件
 - 执行命令：`bash scripts/verify.sh`；按共享 Skill 逐场景执行并比较文件哈希，证据见 [r7 测试记录](docs/product/09-test-release.md)
 
@@ -176,7 +177,7 @@ python -m pip install -r requirements-dev.txt
 
 - 状态：已覆盖
 - 用途：规则保护、回归保护
-- 来源：`skills/contract-first/SKILL.md` 的机器契约单源规则
+- 来源：`skills/engineering/contract-first/SKILL.md` 的机器契约单源规则
 - 模拟输入：OpenAPI 模板和经 JSON 序列化的订单响应；字段改名、数字 ID、非法枚举、时间和金额精度
 - 业务预期：标准 OpenAPI 校验通过；合法响应通过；非法响应被同一机器定义拒绝
 - 层级：契约
@@ -187,11 +188,32 @@ python -m pip install -r requirements-dev.txt
 - 执行命令：`python3 -m unittest tests.test_contract_template -v`
 - 证据：`templates/openapi.example.json` 被同一套测试加载并校验
 
+### TEST-IMPACT-001：事实变化后的文档核对
+
+- 状态：样例自动回归通过；当前 Codex 已知场景语义复核通过，独立盲测与业务试点未验证
+- 用途：规则保护、回归保护
+- 来源：[Issue #5](https://github.com/qshanx/docs-governance/issues/5#issuecomment-6075874052)；本轮授权实施接口字段变化切片
+- 模拟输入与预期：见唯一的 [场景与验收清单](skills/engineering/change-impact/examples/interface-change.md)，不在台账复制逐项规则
+- 层级：集成；执行组：Python 测试 + 文档影响场景审查
+- 边界：真实文件、Git 与序列化响应；合成接口不启动 HTTP 服务。单测只证明样例和确定性边界，语义结论必须由实际 Agent 核对，已知场景不当作盲测
+- 测试文件：[生成器](tests/fixtures/document-impact.py)、[自动回归](tests/test_pr_docs.py) 的 `DocumentImpactFixtureTest`
+- 执行命令：`python3 -m unittest tests.test_pr_docs.DocumentImpactFixtureTest -v`；Agent 执行方式见场景入口
+- 证据：2026-10-09 新增 3 项回归通过，标准 `scripts/verify.sh` 通过（82 项单测）。当前 Codex 以 `6999501892de87a6446610aba1306857f2e0a22f` 为样例基线，分别审查 interface 的 `cf7a0b2f9afa6a4a13164fe145b91a0073d5a13f` 与 internal 的 `81bcb6a411e6e4367953ed0b4d70fdd493933be4`；这些是隔离样例提交，复跑时使用新输出的 SHA。
+- 语义复核：定位三份指南第 3 行的旧调用（含映射外说明），以及 FAQ 第 3 行对当前决定的复制；三类反例与内部修复均无需改写。执行旧订单调用报 `KeyError: 'total'`，库存同名字段正常；两例回执输入哈希均匹配。范围为两份样例的真实 diff、入口、相关文档及其契约／实现／回执，修改样例文件 0 份；语义审查耗时未计量。
+- 局限：执行者参与构造且已读验收清单，本次只证明已知切片可执行，不证明方法修改带来检出率提升。原始发现及后续交付记录沿上述 Issue 引用，不复制测试回执；真实业务项目试点尚未开展。
+
+候选检索的自动化覆盖见 `tests/test_doc_impact.py`：接口变化及反例候选、提交快照与工作区隔离、同标识符行为变化、删除路径／跳过文件／无效基线。外部插件绝对路径及真实缺失路径由 `tests/test_audit_docs.py` 验证。检索退出 0 只表示完成，不代表文档全部正确。
+
+2026-10-10 隔离试验：独立 Agent 只收到“导出默认脱敏”的功能要求，从项目入口进入完整流程，查到默认调用与显式关闭脱敏的两个消费者；基线 4 项通过，新增后先失败再修复，最终 7 项通过，主执行者复跑通过。API／用法／Spec／客服说明四份同步，历史／账单／纯引用三份未改；无回归台账也完成本轮验证。临时项目未进入正式仓库。此前维护单独试验还验证了真实断链时停止候选检索和文档同步。以上仅为隔离样例，未验证真实业务成本、原生宿主强制触发或跨模型稳定性。
+
+示例与命令验证：`python3 -m unittest tests.test_doc_examples -v` 直接读取隔离样例的三处行内调用和一条文档命令。接口变更后四处均失败，只修临时副本文档后四处通过；内部重构无需改文档；退出 0 但输出错误也会判失败。实现、契约和历史哈希保持不变。范围为本地 Python 示例，不覆盖 HTTP／部署。复跑说明见 [接口样例](skills/engineering/change-impact/examples/interface-change.md#示例与命令验证)。
+
 ## 五、人工验收出口
 
 | 来源 | 无法自动化的理由 | 人工步骤 | 通过证据 | 负责人 |
 |---|---|---|---|---|
 | `diagram/architecture.svg` | 文字溢出、层级清晰度和视觉密度不能仅靠退出码判断 | 渲染 PNG，检查边界、文字、箭头、图例及与 `ARCHITECTURE.md` 的一致性 | `diagram/architecture.png` | 当前变更执行者 |
+| TEST-IMPACT-001 | 当前说明、历史与无关同名字段的判别不由确定性脚本代判 | 按接口变更场景交给 Agent 只读审查，再对照验收清单 | 见该测试点的语义复核与局限 | 当前变更执行者 |
 
 ## 六、本轮缺口与动作
 
@@ -199,6 +221,7 @@ python -m pip install -r requirements-dev.txt
 |---|---|---|---|---|
 | P2 | TEST-HOOK-001 | 脚本行为已验证，宿主原生 Stop 事件派发仍需真实会话观察 | 插件加载后核对实际触发与提示 | 待验证 |
 | P2 | TEST-INIT-001、TEST-SETUP-001 | 统一 setup 与 init 的 Claude Code 原生命令加载尚未执行 | 获得适用授权后，在宿主加载插件并用无私有数据的临时项目复跑 | 待验证 |
+| P2 | TEST-IMPACT-001 | 未做独立盲测、真实业务项目成本与漏报评估 | 沿 Issue #5／#10 做只读试点，区分确定性结果与语义发现 | 待验证 |
 
 ## 七、维护触发器
 
@@ -207,3 +230,13 @@ python -m pip install -r requirements-dev.txt
 - 修改审计、日志索引、评审循环或 hook：更新对应 TEST-ID 并重跑默认验证。
 - 阶段交付前：核对本次涉及的 TEST-ID、命令退出码和人工证据。
 - 只有测试体系整体重构或地图明显失真时，才重新全量盘点。
+
+### TEST-HEALTH-001：项目健康证据采集边界
+
+- 状态：已覆盖；静态证据不代表真实业务验证。
+- 用途：防止体检越界、隐式执行项目命令、空壳检查与旧结果被误当通过。
+- 测试位置：`tests/test_project_health.py`；采集器为 `scripts/collect-project-health.py`。
+- 覆盖：无 Makefile 的脚本入口与 CI 字面对应、空壳提示与不执行、越界和符号链接、旧回执与会话排除、源文件指纹变化、缺失和无效记录、Make／package 候选、无效根、动态路径不误报、复合命令不误判空壳、Git filter 不被触发及显式会话路径拒绝。
+- 执行：`python3 -m unittest discover -s tests -p test_project_health.py`；项目实跑与独立复核见 [验证记录](docs/product/09-test-release.md)。
+
+TEST-HEALTH-001 补充 PR #40 回归：直接脚本／根目录脚本／带空格路径在文档与 CI 中的采集、指纹与字面对应；纯赋值和环境前缀执行的区分；未知 CI 命令缺口；带引号越界与私有路径拒绝。专项共 20 项，含参数化场景，不执行 fixture 内的验证命令。

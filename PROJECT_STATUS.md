@@ -17,6 +17,10 @@
 
 ## 验证缺口与待确认范围（按需读）
 
+- PH-20261011：项目健康静态采集与 15 项回归已接入；静态候选不代表整体健康通过。不同基线的实跑、独立复核与 PR 验证见 [验证记录](docs/product/09-test-release.md#ph-20261011项目健康采集实跑)。
+
+- 文档按事实核对已补接口字段切片、固定样例和已知场景复核；独立盲测、其他事实类型及真实项目成本尚未验证，见 [TEST-IMPACT-001](TESTS.md#test-impact-001事实变化后的文档核对)。Issue #5 保持打开，不把该切片当作完整自动语义检测能力。
+
 - 统一 setup 已在本地接上三类项目识别、产品文档与 Agent 入口 Skill；init 为兼容别名。`agent-entrypoints` 保留八项规范和逐文件 200 行检查，并区分稳定规则与单次授权；未新装门禁。实际验证范围见 [r7 测试记录](docs/product/09-test-release.md)。PR #14 本地工作树已整合 PR #12 并解决冲突，修复尚未推送；原生宿主与业务效果未验证，不能据旧 PR 绿色结果合并。
 
 - `product-docs-manager` 已新增角色与共享规则，来源、编号、状态、授权及按任务读取场景已做文本复核；Claude Code 原生角色调度、实际上下文节省和业务项目实际试点仍未验证，见 [角色审查](docs/product/07-requirements-review.md)。
@@ -46,8 +50,8 @@
 |---|---|---|---|
 | `scripts/verify.sh` | 通过 | 通过 = 绿 | 🟢 |
 | Claude / Codex 双端 manifest | 名称与版本一致，skills 共用 | 一致 = 绿 | 🟢 |
-| Skill 路由与用户文档 | 10 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
-| Python 单元测试 | 79 个（含入口长度、位置规则、暂存快照、Stop 根定位与 PR 推送／安装护栏） | 全过 = 绿 | 🟢 |
+| Skill 路由与用户文档 | 12 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
+| Python 单元测试 | 82 个（含文档影响样例、入口长度、位置规则、暂存快照、Stop 根定位与 PR 推送／安装护栏） | 全过 = 绿 | 🟢 |
 | 自动 CI | 完整 verify 与日志基线比较已在 PR #4 的 dad0dd2 验证；后续提交逐次核对 checks（证据见 [本轮验证](docs/audits/2026-09-05-shared-audit-results.md)） | PR / push 成功运行 = 绿 | 已接通；结果按提交核对 |
 | skill / agent 内部去重 | 是（方法论仅 skill 一处） | 唯一源 | 🟢 |
 | 真实项目 dogfood | 4（经营报表审计、礼仪 demo 审计+修复、本插件自治理、audit-blog 审计） | ≥2 | 🟢 |
