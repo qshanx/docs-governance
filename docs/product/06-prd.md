@@ -113,6 +113,10 @@
 
 依赖产品文档能力所在的 [PR #12](https://github.com/qshanx/docs-governance/pull/12)；统一 setup 对应 [PR #14](https://github.com/qshanx/docs-governance/pull/14)，入口规范关联 [Issue #15](https://github.com/qshanx/docs-governance/issues/15)。本轮修复不授权合并依赖 PR 或改变远端分支关系。
 
+## PH-20261011：项目健康证据采集
+
+来源：阿磊在本会话确认仅实施 Waza health 对照方案第一步，复用现有 Skill，完成后本项目实跑及独立 Agent 复核，不提交、不推送。范围为项目入口、验证命令、CI、显式已有验证记录的静态证据；不读取全局配置或会话历史，不执行发现的命令。验收：稳定脚本入口不要求 Makefile；空壳检查仅作为线索；旧记录不背书当前版本；越界读取被拒绝；输出范围与文件指纹，复用原文档审计。
+
 ## r8：技术文档表达
 
 来源 TWR-20261005：阿磊参考 hai-simplified-technical，确认在现有插件中增加独立 `technical-doc-writing`，由总路由与活文档流程按需调用，并授权提交 PR。规则独立整理，原始材料仅作方法参考。

@@ -41,8 +41,6 @@ python -m pip install -r requirements-dev.txt
 | 插件结构与发布前验证 | 冒烟 | 关键链路 | 防止 manifest、hook、Skill 路由、路径引用或 Python 测试断裂后仍被发布 | 默认验证 | Bash、Python、Git | `scripts/verify.sh` | 必要 |
 | init 兼容入口 | 冒烟 | 回归保护 | 防止旧命令残留另一套初始化流程或隐含 Git／hook 授权 | 默认验证 + 适配层审阅 | Bash、宿主 Agent | `commands/governance-init.md` | 必要 |
 | 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/documentation/living-docs-governance/SKILL.md` | 必要 |
-
-| 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/documentation/living-docs-governance/SKILL.md` | 必要 |
 | 技术文档表达 | 集成 | 回归保护 | 防止润色时改变要求强度、条件或状态，及只读请求越权写入 | 技术文档表达试跑 | 隔离目录、Agent | `skills/documentation/technical-doc-writing/SKILL.md` | 必要 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
@@ -245,3 +243,13 @@ python -m pip install -r requirements-dev.txt
 - 修改审计、日志索引、评审循环或 hook：更新对应 TEST-ID 并重跑默认验证。
 - 阶段交付前：核对本次涉及的 TEST-ID、命令退出码和人工证据。
 - 只有测试体系整体重构或地图明显失真时，才重新全量盘点。
+
+### TEST-HEALTH-001：项目健康证据采集边界
+
+- 状态：已覆盖；静态证据不代表真实业务验证。
+- 用途：防止体检越界、隐式执行项目命令、空壳检查与旧结果被误当通过。
+- 测试位置：`tests/test_project_health.py`；采集器为 `scripts/collect-project-health.py`。
+- 覆盖：无 Makefile 的脚本入口与 CI 字面对应、空壳提示与不执行、越界和符号链接、旧回执与会话排除、源文件指纹变化、缺失和无效记录、Make／package 候选、无效根、动态路径不误报、复合命令不误判空壳、Git filter 不被触发及显式会话路径拒绝。
+- 执行：`python3 -m unittest discover -s tests -p test_project_health.py`；项目实跑与独立复核见 [验证记录](docs/product/09-test-release.md)。
+
+TEST-HEALTH-001 补充 PR #40 回归：直接脚本／根目录脚本／带空格路径在文档与 CI 中的采集、指纹与字面对应；纯赋值和环境前缀执行的区分；未知 CI 命令缺口；带引号越界与私有路径拒绝。专项共 20 项，含参数化场景，不执行 fixture 内的验证命令。

@@ -63,7 +63,7 @@ for source in sources:
     content = source.read_text(encoding="utf-8")
     relative_links = {
         match.start(1)
-        for match in re.finditer(r"\[[^\]\n]*\]\((references/[A-Za-z0-9._-]+\.md)\)", content)
+        for match in re.finditer(r"\[[^\]\n]*\]\((references/[A-Za-z0-9._-]+\.md)(?:#[^\s)]*)?\)", content)
     }
     for match in pattern.finditer(content):
         ref = Path(match.group())

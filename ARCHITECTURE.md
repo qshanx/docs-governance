@@ -87,6 +87,8 @@ flowchart LR
 
 产品文档由 `skills/documentation/product-evolution/SKILL.md` 在现有专项 Skill 层承接，使用 `templates/product-index.example.md` 组织十阶段产物。本插件实际入口为 [产品管理](docs/product/README.md)；需求与确认由产品文档承载，任务状态仍归 Issue Tracker，业务验收不由确定性脚本代判。Stop 用内容指纹避免重复审计，提交护栏检查真实暂存快照；现有推送／PR CI 复用同一规则，不新增每日定时器。
 
+项目健康证据由 `scripts/collect-project-health.py` 只读采集项目内入口、验证命令、CI 与显式 JSON 记录，输出带文件指纹的候选，不执行被发现的脚本、不判整体健康。现有 `living-docs-governance` 负责解释和路由，文档审计仍复用 `scripts/audit-docs.py`；没有全局配置或会话历史依赖。
+
 ## 更新规则
 
 - 宿主入口、路由、专项 Skill、模板/参考或确定性脚本的职责及依赖变化 → 同次更新本文。

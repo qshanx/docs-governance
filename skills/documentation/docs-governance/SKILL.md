@@ -18,6 +18,8 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 采集项目健康证据、核对验证入口与 CI 衔接 | `living-docs-governance` 的“项目健康证据采集” |
+
 | 技术文档写作、指定内容表达改写或只读可读性审查 | `technical-doc-writing`；事实核对仍走审计流程 |
 | 规划、整理或只读审查文档目录、归属与读取入口 | `docs-structure` |
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |

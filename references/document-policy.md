@@ -65,6 +65,8 @@ Git 没有原生的“创建 PR 前”事件。已安装的 pre-push 阻断本�
 
 推广前按 `product-evolution` 的接入评估记录适用范围、路径映射、既有 hooks、误报、历史问题与成本。当前已复现的跨项目限制见 [可行性评估](../docs/audits/2026-09-22-cross-project-feasibility.md)；规则正确性和自身 CI 通过不等于所有项目可直接强制启用。
 
+项目健康静态采集范围及结果边界见[现有 Skill 附件](../skills/documentation/living-docs-governance/supporting-files/project-health.md)，不会改变文件位置策略或提交门禁。
+
 ## Skill 包内引用检查
 
-`bash scripts/verify.sh` 的路径检查同时支持仓库根路径与 Skill 自己的 reference。Skill 正文 Markdown 相对链接中的 reference 从该 Skill 目录解析；显式 `skills/<名称>/references/…` 路径仍从插件根解析。真实 Markdown 链接继续由 full 审计核对。这里只检查资源可达性，不对写作词语、句长或改写语义设门禁。
+`bash scripts/verify.sh` 的路径检查同时支持仓库根路径与 Skill 自己的 reference。Skill 正文 Markdown 相对链接中的 reference 从该 Skill 目录解析；显式 `skills/<category>/<name>/references/…` 路径仍从插件根解析。真实 Markdown 链接继续由 full 审计核对。这里只检查资源可达性，不对写作词语、句长或改写语义设门禁。

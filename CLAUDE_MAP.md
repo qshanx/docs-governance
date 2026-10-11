@@ -50,6 +50,7 @@
 | 收尾同步矩阵 | `references/governance-sync-matrix.md` |
 | 结构完整性自检 | `scripts/verify.sh` |
 | 本地与 CI 测试入口 | `TESTS.md` + `.github/workflows/verify.yml` |
+| 项目健康静态证据 | `scripts/collect-project-health.py`；范围、结果解释与专项衔接见 `skills/documentation/living-docs-governance/supporting-files/project-health.md` |
 | 文档确定性审计 | `scripts/audit-docs.py`（`scripts/audit-cheap.sh` 是入口） |
 | 审计结果与 JSON 接口 | `references/audit-result-format.md` |
 | 日志共享解析与格式错误 | `scripts/logformat.py`（审计和索引共用） |
