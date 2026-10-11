@@ -29,7 +29,8 @@ description: >-
 | 前后端或服务间接口 | `contract-first` |
 | 测试资产、成功标准证据、Bug→TEST-ID | `test-collaboration` |
 | 修改后验证本模块及下游 | `module-regression` |
-| 只读文档审计、链接完整性、孤儿文档 | `living-docs-governance` 的审计模式 |
+| 文档散乱、导航、时效、重复主源与当前／历史区分的只读审计 | `docs-audit` |
+| 指定 spine/context/adr/artifacts/full 的兼容审计 | `living-docs-governance` 的审计模式 |
 | 设计可判定目标和反馈回路 | `loop-design-check` |
 
 ## 模块变更流程
