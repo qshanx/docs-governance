@@ -28,7 +28,7 @@ DOCS_GOVERNANCE_BASE_REF=origin/main bash scripts/verify.sh
 
 ## PR 与独立审查
 
-[PR #4](https://github.com/Seekers2001/docs-governance/pull/4) 的基础提交 `dad0dd2` 已通过 [push 验证](https://github.com/Seekers2001/docs-governance/actions/runs/33959949383)和 [PR 验证](https://github.com/Seekers2001/docs-governance/actions/runs/33959977412)。它们仅证明该提交，后续修复与合并结果按对应 checks 核对。
+[PR #4](https://github.com/qshanx/docs-governance/pull/4) 的基础提交 `dad0dd2` 已通过 [push 验证](https://github.com/qshanx/docs-governance/actions/runs/33959949383)和 [PR 验证](https://github.com/qshanx/docs-governance/actions/runs/33959977412)。它们仅证明该提交，后续修复与合并结果按对应 checks 核对。
 
 按已有 `code-review` Skill 独立检查 Standards 和 Spec 两轴：Standards 发现 2 项接口问题，Spec 发现 2 项，其中 Git 错误分类为两轴共同发现；共 3 个不同问题已补回归并修复：
 

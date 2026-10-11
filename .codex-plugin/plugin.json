@@ -3,12 +3,12 @@
   "version": "0.7.0",
   "description": "面向长期 AI 协作项目的知识、决策与验证治理插件，把 Agent 的一次性工作沉淀为可继承、可验证、可持续演进的项目能力。",
   "author": {
-    "name": "Seekers2001",
+    "name": "qshanx",
     "email": "jiaxinleifm@outlook.com",
-    "url": "https://github.com/Seekers2001"
+    "url": "https://github.com/qshanx"
   },
-  "homepage": "https://github.com/Seekers2001/docs-governance",
-  "repository": "https://github.com/Seekers2001/docs-governance",
+  "homepage": "https://github.com/qshanx/docs-governance",
+  "repository": "https://github.com/qshanx/docs-governance",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -30,13 +30,13 @@
     "displayName": "Docs Governance",
     "shortDescription": "沉淀可继承、可验证的项目能力",
     "longDescription": "通过活文档、领域上下文、ADR、变更影响、契约、测试与回归证据，把优秀 Agent 的一次性工作沉淀为后续 Agent 可继承、可验证、可持续演进的项目集体能力。",
-    "developerName": "Seekers2001",
+    "developerName": "qshanx",
     "category": "Productivity",
     "capabilities": [
       "Read",
       "Write"
     ],
-    "websiteURL": "https://github.com/Seekers2001/docs-governance",
+    "websiteURL": "https://github.com/qshanx/docs-governance",
     "defaultPrompt": [
       "把这次完成的工作沉淀成后续 Agent 可继承、可验证的项目能力。",
       "用 $docs-governance 判断当前项目该启用哪些治理能力。",

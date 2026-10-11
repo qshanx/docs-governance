@@ -66,9 +66,9 @@
 
 2026-07-23 更新：按用户授权完成了三文件实现并推送到 fork：
 
-- [分支 `agent/curate-context-glossary`](https://github.com/Seekers2001/skills/tree/agent/curate-context-glossary)
-- [commit `6a15d2e`](https://github.com/Seekers2001/skills/commit/6a15d2e)
-- [与上游 main 的 compare](https://github.com/mattpocock/skills/compare/main...Seekers2001:skills:agent/curate-context-glossary)
+- [分支 `agent/curate-context-glossary`](https://github.com/qshanx/skills/tree/agent/curate-context-glossary)
+- [commit `6a15d2e`](https://github.com/qshanx/skills/commit/6a15d2e)
+- [与上游 main 的 compare](https://github.com/mattpocock/skills/compare/main...qshanx:skills:agent/curate-context-glossary)
 
 GitHub 拒绝创建上游 PR：`Seekers2001 does not have the correct permissions to execute CreatePullRequest`。已将实现和权限阻塞回贴到 [#130](https://github.com/mattpocock/skills/issues/130#issuecomment-5053634048)，等待维护者开放/邀请外部贡献权限或直接采用 commit。
 
