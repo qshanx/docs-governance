@@ -127,17 +127,18 @@ python -m pip install -r requirements-dev.txt
 - 执行命令：`bash scripts/verify.sh`，人工比较 init 与 setup 适配层
 - 证据：当前验证见 [r7 测试记录](docs/product/09-test-release.md)；旧流程历史证据保留在 `docs/audits/2026-08-13-governance-init-empty-project.md` 与 `docs/audits/2026-09-05-governance-fixes.md`
 
-### TEST-SETUP-001：统一 setup 从真实资料建立产品包与 Agent 入口
+### TEST-SETUP-001：统一 setup 按约定范围接通资料与 Agent 入口
 
-- 状态：验证结果见 r7 测试记录；宿主原生端到端待试点
+- 状态：r7 仅证明当时产品包场景，保留历史范围；新版按需 setup 的宿主端到端待试点
 - 用途：关键链路、回归保护
 - 来源：`skills/documentation/living-docs-governance/SKILL.md` 的“统一 setup”模式及能力规格 GSU-1—GSU-5
 - 模拟输入：仅目标／范围的新项目；有确认记录但未实现的项目；有 AGENTS 主源、现有 Spec、测试与 hook 的项目；后者再复跑和只读探测；另用未配置项目验证“仅建议、不写入”
-- 业务预期：产品包与实际入口由对应 Skill 生成，保留来源、主源与未知项；不覆盖规格、Tracker、代码或 hook；每份入口 ≤200 行；复跑不重复建档，只读前后文件不变
+- 业务预期：本次需要的主记录、导航、状态与维护入口接通；产品包和十阶段导航仅为按需子场景；必要步骤标明完成／不适用／待处理／未验证及依据，保留来源、主源与未知项；不覆盖规格、Tracker、代码或 hook；每份入口 ≤200 行；复跑不重复建档，只读前后文件不变
 - 层级：集成
 - 执行组：默认验证 + setup 场景执行
 - 边界：实际 Agent 读取 Skill 并在隔离目录生成文档，运行显式目标根审计与行数检查；不验证 Claude Code slash command 加载、业务项目推广或业务验收
 - 测试文件：`commands/governance-setup.md`、`skills/documentation/living-docs-governance/SKILL.md`、`scripts/verify.sh`
+- 确定性复核（2026-10-11）：隔离 Git 项目中，未采用 LOG 返回 0；策略要求 LOG 却缺失、断链、删除已提交 LOG 历史分别返回 1；四例前后文件哈希不变。此结果不代表宿主 setup 行为通过。
 - 测试节点：三场景、重复执行、只读权限和受保护文件
 - 执行命令：`bash scripts/verify.sh`；按共享 Skill 逐场景执行并比较文件哈希，证据见 [r7 测试记录](docs/product/09-test-release.md)
 
