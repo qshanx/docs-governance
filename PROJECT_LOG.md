@@ -116,6 +116,8 @@
 
 ## [2026-10-10] cleanup | 按阿磊确认将根目录两份研究归入 research，将已实施的测试协作方案归入 docs/archive；保留研究内容与历史评审，更新自引用、测试来源及 MAP 导航，旧路径替代登记在 STATUS 删除区。仅调整资料位置与历史标识，插件方法和运行行为不变。
 
+## [2026-10-11] governance | 按阿磊要求在 agent-workflow-governance 补充规则与工作流落点检查，区分入口、Skill、附件、项目事实、脚本与 Hook；当前项目只读诊断见[实跑报告](docs/audits/2026-10-11-governance-rule-placement.md)。历史证据沉淀另记 Issue #43；未安装 Hook、修改门禁或迁移散落正文。
+
 ## [2026-10-05] feat | 按阿磊确认新增 technical-doc-writing：独立原创表达规则，经总路由与活文档流程按需调用，已启用项目入口仅留触发路标；改写保留事实、条件、例外、不确定性和要求强度，补包内 reference 路径检查。范围见 [能力规格 r8](docs/product/06-prd.md#r8技术文档表达)，实际验证与宿主边界见 [测试记录](docs/product/09-test-release.md#r8技术文档表达2026-10-05)。
 
 ## [2026-10-11] docs | 按阿磊确认将 PR #17 的未发布 technical-doc-writing 替换为 Matt writing-for-agents；保留上游 MIT 许可证和固定来源，含义核对作为本地补充；同步调用范围，保留引用检查修复。旧试验记录仅作历史证据，新宿主行为未验证。

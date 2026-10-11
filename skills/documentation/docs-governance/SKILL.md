@@ -18,6 +18,7 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 检查治理规则应放在入口、Skill、附件、脚本还是 Hook，识别散落的可复用工作流 | `agent-workflow-governance`，默认只读交付证据与建议 |
 | 采集项目健康证据、核对验证入口与 CI 衔接 | `living-docs-governance` 的“项目健康证据采集” |
 
 | 编写或优化 Skill、Agent 入口及 AI 读取的文档 | `writing-for-agents`；事实核对仍走审计流程 |

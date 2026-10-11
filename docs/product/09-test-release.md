@@ -122,6 +122,14 @@ TEST-PR-001 新增 3 项安装回归：旧分支与 linked worktree 的真实 pu
 
 项目实跑补查后增加第 5 项回归，防止 unittest 的筛选文件名和 GitHub .sha 字段被识别成脚本；脚本路径仅从调用位置取值。该版本实跑为 19 个源文件、63 条候选，4 项复杂引号／动态路径解析缺口，collection_changed=false；这些缺口不代表命令执行失败。
 
+## AWG-PLACEMENT-20261011：规则落点检查实跑
+
+当前混合工作区按新增附件完成只读诊断，范围、证据和建议见[实跑报告](../audits/2026-10-11-governance-rule-placement.md)。文本场景核对覆盖已有 Skill 复用、项目事实不转通用 Skill、单次故障不泛化、已有脚本缺调用与只读停止。AGENTS／CLAUDE 分别 7／26 行，长度检查通过；未安装 Hook、修改门禁或调用原生宿主自动事件。历史审计只登记 Issue #43。
+
+### AWG-PLACEMENT 提交隔离
+
+以 main 的 1b07eb2 为基线，单独提取规则落点附件、实跑报告及必要登记。agent-workflow-governance 的广义框架尚未进入 main，本 PR 沿用该名称但仅提供本次只读检查的最小入口；未带入上下文／工具／隔离治理附件、其他未提交 Skill、治理修复、脚本或 Hook 改动。原实跑属于混合工作区，不能当成本次隔离快照的验收。
+
 ## r8：技术文档表达（2026-10-05）
 
 > 2026-10-11 调整：下文保留原方案与试验记录；当前改为引入 [writing-for-agents](../../skills/documentation/writing-for-agents/SKILL.md)，保留 MIT 许可证、固定来源与本地含义核对。旧试验不代表新 Skill 已通过行为验证。

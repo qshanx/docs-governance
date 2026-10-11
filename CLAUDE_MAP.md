@@ -19,6 +19,7 @@
 | 本插件文档按职责查找、区分当前记录与历史资料 | [项目文档入口](docs/README.md) |
 | 外部文章、方法比较与候选贡献 | [研究资料索引](research/README.md) |
 | 已停用的 Skill 及替代入口 | [停用目录说明](skills/deprecated/README.md)；不用于存放普通旧文档 |
+| 治理规则落点与散落工作流沉淀检查 | `skills/documentation/agent-workflow-governance/SKILL.md`；细则按需读取其 supporting-files，默认只读 |
 | Agent 入口内容、共享主源选择与规则可执行性 | `skills/documentation/agent-entrypoints/SKILL.md`；来源见 [Vince 八条经验](research/2026-09-27-vincemask-agent-entrypoints.md)、[Tw93 工程实践](research/2026-09-27-tw93-claude-code-governance.md) |
 | Agent 入口 200 行检查 | `scripts/check-entrypoint-length.py`，传入本次受检文件 |
 | Agent 入口完整示例（项目输入 → AGENTS.md 成品） | `skills/documentation/agent-entrypoints/examples/confirmed-project.md`；虚构案例，不能作为目标项目事实 |
