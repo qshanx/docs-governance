@@ -284,6 +284,37 @@ class AuditDocsTest(unittest.TestCase):
         result = self.run_audit("artifacts")
         self.assertEqual(result.returncode, 0, result.stdout)
 
+    def test_log_allows_only_git_renamed_link_targets(self):
+        def git(*args):
+            return subprocess.run(
+                ["git", "-c", "user.email=test@example.com", "-c", "user.name=Test", *args],
+                cwd=self.project, text=True, capture_output=True, check=True,
+            )
+        git("init")
+        old = self.project / "old.md"
+        old.write_text("# Guide\n\nStable content.\n")
+        log = self.project / "PROJECT_LOG.md"
+        original = "## [2026-01-01] docs | read [guide](old.md#section)\n"
+        log.write_text(original)
+        git("add", ".")
+        git("commit", "-m", "baseline")
+        base = git("rev-parse", "HEAD").stdout.strip()
+        old.rename(self.project / "new.md")
+        migrated = original.replace("old.md", "new.md")
+        log.write_text(migrated)
+        git("add", ".")
+        git("commit", "-m", "move")
+        result = self.run_audit("spine", "--base-ref", base)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        for changed in (migrated.replace("read", "rewrite"),
+                        migrated.replace("[guide]", "[changed]"),
+                        migrated.replace("#section", "#other"),
+                        migrated.replace("new.md", "unrelated.md")):
+            log.write_text(changed)
+            result = self.run_audit("spine", "--base-ref", base)
+            self.assertEqual(result.returncode, 1, result.stdout)
+            self.assertIn("被删除或改写", result.stdout)
+
     def test_committed_log_rewrite_is_rejected_against_explicit_base(self):
         def git(*args):
             return subprocess.run(

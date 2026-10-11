@@ -4,7 +4,7 @@
 
 ## 准备与执行
 
-从插件根目录运行 [样例生成器](../../../tests/fixtures/document-impact.py)，目标必须是不存在的目录：
+从插件根目录运行 [样例生成器](../../../../tests/fixtures/document-impact.py)，目标必须是不存在的目录：
 
 ```bash
 python3 tests/fixtures/document-impact.py /tmp/document-impact-run/api --case interface
@@ -33,7 +33,7 @@ JSON 应定位映射外的 `docs/integration.md:3`，并带命中依据。历史
 
 ## 示例与命令验证
 
-日常执行规则见 [日常维护](../../docs-maintenance/SKILL.md#示例与命令怎么验证)。在插件根目录、已有开发环境中运行：
+日常执行规则见 [日常维护](../../../documentation/docs-maintenance/SKILL.md#示例与命令怎么验证)。在插件根目录、已有开发环境中运行：
 
 ```bash
 python3 -m unittest tests.test_doc_examples -v
@@ -61,7 +61,7 @@ python3 -m unittest tests.test_doc_examples -v
 
 记录样例 base/head、Skill 修订／哈希、Agent 与执行方式、具体发现及反例、遗漏／误报、实际读取／修改范围和耗时（未计时则未知）。同一 Agent 已参与构造或读过答案时必须注明“已知场景复核”，不能宣称盲测、稳定检出率或真实项目效果。
 
-自动回归入口为 `python3 -m unittest tests.test_pr_docs.DocumentImpactFixtureTest -v`；它验证样例能复现失败形状及确定性护栏边界，不替代上述 Agent 审查。实际记录从 [测试台账](../../../TESTS.md#test-impact-001事实变化后的文档核对) 进入；跨项目只读试点仍需单独验证。
+自动回归入口为 `python3 -m unittest tests.test_pr_docs.DocumentImpactFixtureTest -v`；它验证样例能复现失败形状及确定性护栏边界，不替代上述 Agent 审查。实际记录从 [测试台账](../../../../TESTS.md#test-impact-001事实变化后的文档核对) 进入；跨项目只读试点仍需单独验证。
 
 ## 2026-10-10 候选检索复核
 

@@ -8,7 +8,7 @@ It works with Claude Code, Codex, and ChatGPT. The goal is not to create more do
 
 [简体中文](README.zh-CN.md) · [Chinese usage guide](使用说明.md) · [Contributing](CONTRIBUTING.md)
 
-模块功能、公共接口或共享数据变更，可在项目入口接入 [模块变更流程](skills/docs-governance/SKILL.md#模块变更流程)：改前分析影响 → 实施后核对 diff → 本模块及下游回归 → 文档同步。它是 Agent 执行约定，不等于已安装自动 Hook。
+模块功能、公共接口或共享数据变更，可在项目入口接入 [模块变更流程](skills/documentation/docs-governance/SKILL.md#模块变更流程)：改前分析影响 → 实施后核对 diff → 本模块及下游回归 → 文档同步。它是 Agent 执行约定，不等于已安装自动 Hook。
 
 ## Try it in three minutes
 
@@ -102,4 +102,6 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 
 文件归位与变更审计可由项目显式启用 `.docs-governance.json`；Stop 按变更检查，提交检查暂存区，pre-push 与 PR CI 强制扫描提交快照，并按改动列出应核对文档。创建 PR 前使用同一检查入口，失败先修复。配置及安装见 [护栏说明](references/document-policy.md)。
 
-检查通过后，由 Agent 按 [事实变化核对文档](skills/change-impact/SKILL.md#按事实核对文档)，定位正文冲突、映射外说明与重复决定；可从 [接口变更样例](skills/change-impact/examples/interface-change.md) 复跑。脚本不自动判定正文过期。
+检查通过后，由 Agent 按 [事实变化核对文档](skills/engineering/change-impact/SKILL.md#按事实核对文档)，定位正文冲突、映射外说明与重复决定；可从 [接口变更样例](skills/engineering/change-impact/examples/interface-change.md) 复跑。脚本不自动判定正文过期。
+
+Skills are grouped under `skills/documentation/` and `skills/engineering/`. `in-progress/` and `deprecated/` are reserved and not loaded. Skill names and invocation remain unchanged.

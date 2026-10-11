@@ -26,7 +26,7 @@ description: >-
 - 架构、数据库、认证、部署拓扑或长期技术策略：检查 `context-and-decisions` / ADR。
 - 跨端接口：先更新 `contract-first` 管理的唯一契约源，再规划消费者、提供者和联调证据。
 - 需求、业务规则、风险或 Bug：让成功标准保留在 Spec/Issue，并用 `test-collaboration` 关联 TEST-ID。
-- Module 行为或下游依赖变化：实施后运行 `module-regression`；若权责、状态归属、Interface、依赖方向或核心流转改变，同步更新 `ARCHITECTURE.md`，并确保 MAP 仍能导航到它。
+- Module 行为或下游依赖变化：实施后运行 `module-regression`；若权责、状态归属、Interface、依赖方向或核心流转改变，调用 `architecture-docs` 判断必要性并维护实际架构主记录，确保 MAP 能导航；无需创建或证据不足时说明依据与缺口。
 - 数据库迁移、破坏性接口、认证和生产发布：必须写回滚条件、恢复步骤、兼容期和不可逆部分；缺任何一项就标为阻塞，不代替人执行回滚。
 
 ## 输出
