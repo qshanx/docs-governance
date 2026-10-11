@@ -20,7 +20,7 @@ description: >-
 |---|---|
 | 采集项目健康证据、核对验证入口与 CI 衔接 | `living-docs-governance` 的“项目健康证据采集” |
 
-| 技术文档写作、指定内容表达改写或只读可读性审查 | `technical-doc-writing`；事实核对仍走审计流程 |
+| 编写或优化 Skill、Agent 入口及 AI 读取的文档 | `writing-for-agents`；事实核对仍走审计流程 |
 | 规划、整理或只读审查文档目录、归属与读取入口 | `docs-structure` |
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
@@ -45,7 +45,7 @@ description: >-
 1. **改前看影响**：记录任务起点及已有未提交修改，按 `change-impact` 查真实调用方、数据与契约，确定受影响模块、候选文档和验证命令。需求不清先定位已确认 Spec／Issue；跨端接口按 `contract-first` 处理，难回退决策按 `context-and-decisions` 处理。
 2. **实施并核对范围**：完成获准修改，对照实际 diff 补查新增影响。任务开始时已有修改须单独区分，不能全归为本轮；出现新的需求或授权冲突时先澄清该部分。
 3. **验证本模块与下游**：按 `module-regression` 执行影响分析确定的回归；测试点与证据需要维护时调用 `test-collaboration`。本次引入的失败由当前改动者修复并复验；旧失败、环境阻塞与未跑范围分别说明，不能把局部通过说成全部通过。
-4. **同步文档并交付**：需新写或改写技术表达时，先按需读取 `skills/documentation/technical-doc-writing/SKILL.md`，传入已确认材料、原文与获准范围，核对改写含义后再同步。将任务范围、实际 diff、影响清单和回归结果交给 `docs-maintenance`；复用同一基线与有效审计结果，补查实际变化，不重复推导。最终简述改了什么、影响谁、跑了什么、同步了哪些文档及剩余缺口。回归受阻仍可记录已知状态，但不能把功能写成验收通过。
+4. **同步文档并交付**：需编写或优化面向 AI 的文档时，先按需读取 `skills/documentation/writing-for-agents/SKILL.md`，传入已确认材料、原文与获准范围，核对改写含义后再同步。将任务范围、实际 diff、影响清单和回归结果交给 `docs-maintenance`；复用同一基线与有效审计结果，补查实际变化，不重复推导。最终简述改了什么、影响谁、跑了什么、同步了哪些文档及剩余缺口。回归受阻仍可记录已知状态，但不能把功能写成验收通过。
 
 ### 接入项目入口
 

@@ -18,9 +18,9 @@ metadata:
 
 只检查项目健康证据时，执行[项目健康采集](supporting-files/project-health.md)：采集项目入口、验证命令、CI 与显式回执，按需衔接既有专项 Skill。静态候选不代表验证通过；不检查全局配置或会话历史。
 
-## 技术文档表达委托
+## 面向 AI 的文档写作
 
-新写 README、设计说明或操作指南，改写其段落／步骤，或用户明确要求表达改写／可读性审查时，按需读取 `skills/documentation/technical-doc-writing/SKILL.md`。先定位本流程所需事实与依据，再交给该 Skill 原文、目标、项目约定及已授权范围；接回语义比对结果后继续原有验证与同步。只读任务委托只读模式。专项方法和详细规则只在该 Skill 维护。
+编写或优化 Skill、Agent 入口及 AI 按需读取的文档时，读取 `skills/documentation/writing-for-agents/SKILL.md`。传入已确认材料、目标与授权范围，按其方法组织内容并完成含义核对，再继续原有验证与同步；只读任务保持只读。
 
 单项状态更新、路径修正与 LOG 追加不自动触发全文改写。仅在目标项目已启用此能力且入口配置在授权范围内时，通过 `agent-entrypoints` 留一行触发路标；不将规则全文导入项目入口。
 

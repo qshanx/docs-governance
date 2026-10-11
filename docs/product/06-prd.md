@@ -119,6 +119,8 @@
 
 ## r8：技术文档表达
 
+> 2026-10-11 调整：下文保留原方案与试验记录；当前改为引入 [writing-for-agents](../../skills/documentation/writing-for-agents/SKILL.md)，保留 MIT 许可证、固定来源与本地含义核对。旧试验不代表新 Skill 已通过行为验证。
+
 来源 TWR-20261005：阿磊参考 hai-simplified-technical，确认在现有插件中增加独立 `technical-doc-writing`，由总路由与活文档流程按需调用，并授权提交 PR。规则独立整理，原始材料仅作方法参考。
 
 范围：README、设计说明、API 文档、操作指南及技术性 PR 说明的写作／改写／只读表达审查。先确定事实依据，再修改措辞，最后对照输入核对含义。项目入口只留触发路标，细节留 Skill 包内 reference；单项状态、路径修正和 LOG 追加不自动全文润色。第一版不增加写作检查脚本、硬门禁或宿主专用 Agent，不改变既有事实审计、产品决定与写入授权。

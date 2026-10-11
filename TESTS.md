@@ -22,7 +22,7 @@ python -m pip install -r requirements-dev.txt
 | 默认验证 | `bash scripts/verify.sh` | 改任何文件后、提交前、CI | Bash、Python、Git、开发测试依赖 |
 | Python 测试 | `python3 -m unittest discover -s tests -p 'test_*.py'` | 修改 `scripts/*.py` 或 `tests/*.py` 后 | Python、Git、开发测试依赖 |
 | 文档确定性审计 | `bash scripts/audit-cheap.sh full` | 治理文档或引用变化后 | Bash、Python、Git |
-| 技术文档表达试跑 | 按 technical-doc-writing 在隔离目录改写真实文档，并只读审查另一份文档 | 写作 Skill 或调用边界变化后 | 宿主 Agent；不需联网 |
+| 面向 AI 的文档写作试跑 | 按 writing-for-agents 在隔离目录改写 Skill，核对结构、读取指针与含义；另做只读审查 | 写作 Skill 或调用边界变化后 | 宿主 Agent；不需联网 |
 | setup 场景执行 | 按 `living-docs-governance` 统一 setup 在三个隔离项目执行，并复跑与只读探测 | 编排、初始化流程或模板变化后 | 宿主 Agent；不需联网或 Git 初始化 |
 | 文档影响场景审查 | [接口变更场景](skills/engineering/change-impact/examples/interface-change.md) | 按事实核对文档的方法变化后 | 当前 Agent、Python、隔离 Git；无外部业务服务 |
 
@@ -41,7 +41,7 @@ python -m pip install -r requirements-dev.txt
 | 插件结构与发布前验证 | 冒烟 | 关键链路 | 防止 manifest、hook、Skill 路由、路径引用或 Python 测试断裂后仍被发布 | 默认验证 | Bash、Python、Git | `scripts/verify.sh` | 必要 |
 | init 兼容入口 | 冒烟 | 回归保护 | 防止旧命令残留另一套初始化流程或隐含 Git／hook 授权 | 默认验证 + 适配层审阅 | Bash、宿主 Agent | `commands/governance-init.md` | 必要 |
 | 统一 setup 编排 | 集成 | 关键链路、回归保护 | 防止只写入口空模板、丢失 PRD／Spec 主源、越权写入或重复建档 | 默认验证 + setup 场景执行 | Python、宿主 Agent、隔离文件系统 | `commands/governance-setup.md`、`skills/documentation/living-docs-governance/SKILL.md` | 必要 |
-| 技术文档表达 | 集成 | 回归保护 | 防止润色时改变要求强度、条件或状态，及只读请求越权写入 | 技术文档表达试跑 | 隔离目录、Agent | `skills/documentation/technical-doc-writing/SKILL.md` | 必要 |
+| 面向 AI 的文档写作试跑 | 按 writing-for-agents 在隔离目录改写 Skill，核对结构、读取指针与含义；另做只读审查 | 写作 Skill 或调用边界变化后 | 宿主 Agent；不需联网 |
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
 | PR 前扫描、推送门禁与文档影响样例 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖提交、漏掉变更影响或失败仍能推送；保留可复跑的语义审查输入 | Python 测试 + 文档影响场景审查 | 本地临时 Git、bare remote、jsonschema | `tests/test_pr_docs.py`、`tests/fixtures/document-impact.py` | 必要 |
@@ -88,7 +88,7 @@ python -m pip install -r requirements-dev.txt
 
 - 状态：已覆盖
 - 用途：回归保护
-- 来源：`TEST_COLLABORATION_PROPOSAL.md` 的双 Agent 讨论调度需求
+- 来源：[测试协作历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)的双 Agent 讨论调度需求
 - 模拟输入：首次评审、正文未变化、正文变化、评审期间正文被编辑或文件被删除
 - 业务预期：首次调用双方；未变化时跳过；变化后重跑。评审期间编辑或删除时停止写回，不保存过期通过状态；新正文可重新评审。
 - 层级：集成

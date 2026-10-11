@@ -124,6 +124,8 @@ TEST-PR-001 新增 3 项安装回归：旧分支与 linked worktree 的真实 pu
 
 ## r8：技术文档表达（2026-10-05）
 
+> 2026-10-11 调整：下文保留原方案与试验记录；当前改为引入 [writing-for-agents](../../skills/documentation/writing-for-agents/SKILL.md)，保留 MIT 许可证、固定来源与本地含义核对。旧试验不代表新 Skill 已通过行为验证。
+
 对应 TEST-WRITING-001 与 TWR-1—TWR-5。基于主分支 `520696eb519f2dd50531ba91abe5ad89478ffdf3` 的真实文档副本；新增规则独立整理，未安装新依赖、Hook 或宿主 Agent，未执行指南中的业务命令。
 
 | 实际场景 | 执行与核对结果 |
