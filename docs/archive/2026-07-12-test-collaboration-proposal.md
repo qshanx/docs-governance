@@ -2,6 +2,8 @@
 
 # 测试清单与测试开发协作方案
 
+> 归档说明（2026-10-10）：本文件保留当时的方案、确认和评审记录；下文建议、命令及通过结论仅用于历史追溯，不作为当前执行指令。当前方法见 [test-collaboration](../../skills/engineering/test-collaboration/SKILL.md)，测试资产与验证缺口见 [TESTS](../../TESTS.md)。
+
 > 状态：2026-07-12 §20 最终复审 PASS；v1 已实现（skill + TESTS 模板 + 判定点职责迁移），下一步只剩真实项目试点。§16 的 PASS 和历史 CHANGES_NEEDED 保留作评审证据。
 > 项目路径：`/Users/daoer/Desktop/0-GitHub/docs-governance`
 
@@ -440,7 +442,7 @@ v1 验证方式：在试点项目（经营报表加工系统）人肉试点一�
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/agents/regression-auditor.md`
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/commands/regression-audit.md`
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/templates/REGRESSION.example.md`
-- `/Users/daoer/Desktop/0-GitHub/docs-governance/TEST_COLLABORATION_PROPOSAL.md`
+- `/Users/daoer/Desktop/0-GitHub/docs-governance/docs/archive/2026-07-12-test-collaboration-proposal.md`
 
 重点讨论：
 
@@ -484,7 +486,7 @@ v1 验证方式：在试点项目（经营报表加工系统）人肉试点一�
 在项目根目录运行：
 
 ```bash
-python3 scripts/dual-agent-review-loop.py TEST_COLLABORATION_PROPOSAL.md --force
+python3 scripts/dual-agent-review-loop.py docs/archive/2026-07-12-test-collaboration-proposal.md --force
 ```
 
 默认最多讨论 2 轮。Claude 和 Codex 第一行都返回 `VERDICT: PASS` 时提前停止；否则达到最大轮数后停止并等待人工判断。
@@ -494,7 +496,7 @@ python3 scripts/dual-agent-review-loop.py TEST_COLLABORATION_PROPOSAL.md --force
 每 10 分钟检查一次：
 
 ```bash
-python3 scripts/dual-agent-review-loop.py TEST_COLLABORATION_PROPOSAL.md --watch-interval 600
+python3 scripts/dual-agent-review-loop.py docs/archive/2026-07-12-test-collaboration-proposal.md --watch-interval 600
 ```
 
 按 `Ctrl-C` 停止。脚本状态保存在项目 `.git/` 目录，不污染工作区，也不会被提交。
@@ -513,7 +515,7 @@ python3 scripts/dual-agent-review-loop.py TEST_COLLABORATION_PROPOSAL.md --watch
 
 将本文交给 Claude 后，可以直接告诉它：
 
-> 请先阅读本文件第 12 节和第 14 节，再在项目根目录执行 `python3 scripts/dual-agent-review-loop.py TEST_COLLABORATION_PROPOSAL.md --force`。执行后检查文档末尾的双 Agent 评审区，并把仍未解决的问题报告给阿磊。不要直接实现测试治理功能。
+> 请先阅读本文件第 12 节和第 14 节，再在项目根目录执行 `python3 scripts/dual-agent-review-loop.py docs/archive/2026-07-12-test-collaboration-proposal.md --force`。执行后检查文档末尾的双 Agent 评审区，并把仍未解决的问题报告给阿磊。不要直接实现测试治理功能。
 
 ---
 

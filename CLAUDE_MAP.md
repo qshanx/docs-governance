@@ -16,6 +16,9 @@
 
 | 要找 | 去 |
 |---|---|
+| 本插件文档按职责查找、区分当前记录与历史资料 | [项目文档入口](docs/README.md) |
+| 外部文章、方法比较与候选贡献 | [研究资料索引](research/README.md) |
+| 已停用的 Skill 及替代入口 | [停用目录说明](skills/deprecated/README.md)；不用于存放普通旧文档 |
 | 治理规则落点与散落工作流沉淀检查 | `skills/documentation/agent-workflow-governance/SKILL.md`；细则按需读取其 supporting-files，默认只读 |
 | Agent 入口内容、共享主源选择与规则可执行性 | `skills/documentation/agent-entrypoints/SKILL.md`；来源见 [Vince 八条经验](research/2026-09-27-vincemask-agent-entrypoints.md)、[Tw93 工程实践](research/2026-09-27-tw93-claude-code-governance.md) |
 | Agent 入口 200 行检查 | `scripts/check-entrypoint-length.py`，传入本次受检文件 |
@@ -37,6 +40,7 @@
 | 文档影响的接口变更复跑与验收 | `skills/engineering/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |
 | 契约方法论（含两种模式） | `skills/engineering/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/engineering/test-collaboration/SKILL.md` |
+| 测试协作的原始方案、确认与评审历史 | [2026-07-12 历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)；当前方法仍看 Skill |
 | 本插件实际测试资产、测试目的与缺口 | `TESTS.md` |
 | 模块联动回归方法论 | `skills/engineering/module-regression/SKILL.md` |
 | 架构文档的必要性判断、生成与审查 | `skills/documentation/architecture-docs/SKILL.md` |
@@ -56,6 +60,7 @@
 | 日志共享解析与格式错误 | `scripts/logformat.py`（审计和索引共用） |
 | PROJECT_LOG 归档与索引 | `scripts/project-log-index.py` |
 | 插件自身架构决策 | `docs/adr/README.md` |
+| 早期上游贡献研究 | [Wayfinder 决策生命周期](research/2026-07-22-wayfinder-decision-lifecycle.md)、[Map 与长文档治理](research/2026-07-22-map-long-docs.md)；结论对应文内日期和快照 |
 
 ## 易误读（别混）
 
