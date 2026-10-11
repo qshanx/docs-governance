@@ -60,7 +60,7 @@ For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the
 
 Claude Code 的 [product-docs-manager](agents/product-docs-manager.md) 是产品文档管理员角色，调用现有 Skills 管理来源、需求编号、修订及授权；Codex / ChatGPT 直接使用 `$product-evolution` 执行同一流程。PM 四类材料索引、六类管理位置与十阶段导航共用主记录；CLAUDE 从产品入口触发按任务读取，必要条款分批核对，避免默认全量加载 PRD。
 
-The implementation lives in these skills: `skills/docs-governance`, `skills/living-docs-governance`, `skills/context-and-decisions`, `skills/change-impact`, `skills/contract-first`, `skills/test-collaboration`, `skills/module-regression`, and `skills/loop-design-check`.
+The implementation lives in these skills: `skills/documentation/docs-governance`, `skills/documentation/living-docs-governance`, `skills/documentation/context-and-decisions`, `skills/engineering/change-impact`, `skills/engineering/contract-first`, `skills/engineering/test-collaboration`, `skills/engineering/module-regression`, and `skills/engineering/loop-design-check`.
 
 ## Why it exists
 
@@ -97,3 +97,5 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 [MIT](LICENSE) · [Seekers2001](https://github.com/Seekers2001)
 
 文件归位与变更审计可由项目显式启用 `.docs-governance.json`；Stop 按变更检查，提交检查暂存区，pre-push 与 PR CI 强制扫描提交快照，并按改动列出应核对文档。创建 PR 前使用同一检查入口，失败先修复。配置及安装见 [护栏说明](references/document-policy.md)。
+
+Skills are grouped under `skills/documentation/` and `skills/engineering/`. `in-progress/` and `deprecated/` are reserved and not loaded. Skill names and invocation remain unchanged.

@@ -45,11 +45,11 @@
 ## [2026-09-27] fix | 修正首次接入入口规则：保留 `CLAUDE.md` 为 Claude 事实源；Codex／跨宿主项目经确认可产出只桥接它的薄 `AGENTS.md`，并把此情景加入 TEST-SETUP-001。
 ## [2026-09-27] feat | 按 ENP-20260927 新增 agent-entrypoints 与 Vince 文章摘要，入口规则由项目证据生成并衔接 PRD／Spec；标准从无条件 AGENTS 薄桥接调整为沿用已确认共享主源、按宿主能力适配，原因是 AGENTS 可为完整入口且 Claude 已有条件支持；本仓库主源不迁移。旧 setup 范围已被后续要求纠正，统一编排与 PR 合并仍未完成，见 [能力规格](docs/product/06-prd.md)。
 
-## [2026-09-27] governance | 标准变更：入口长度仅作复核信号 → 每份 AGENTS.md／CLAUDE.md ≤200 行硬验收；依据阿磊后续明确纠正，同步规范、模板与产品验收，并按文章来源 1—8 补齐具体执行和逐项检查。此为治理规则，不是宿主解析器截断或已安装自动门禁；见 [入口规范](skills/agent-entrypoints/SKILL.md)。
+## [2026-09-27] governance | 标准变更：入口长度仅作复核信号 → 每份 AGENTS.md／CLAUDE.md ≤200 行硬验收；依据阿磊后续明确纠正，同步规范、模板与产品验收，并按文章来源 1—8 补齐具体执行和逐项检查。此为治理规则，不是宿主解析器截断或已安装自动门禁；见 [入口规范](skills/documentation/agent-entrypoints/SKILL.md)。
 
 ## [2026-09-27] fix | 按阿磊要求将入口长度规则收紧为一句约束与脚本调用，新增只读计数脚本及边界测试；200 行标准不变，不安装新 hook，见 [入口长度检查](scripts/check-entrypoint-length.py)。
 
-## [2026-09-27] docs | 新增 Skill 内的完整项目输入与 AGENTS.md 成品示例，明确虚构案例和验证边界，正文仅挂按需链接；其余规范精简和验证建议仍属审阅意见，未实施，见 [示例](skills/agent-entrypoints/examples/confirmed-project.md)。
+## [2026-09-27] docs | 新增 Skill 内的完整项目输入与 AGENTS.md 成品示例，明确虚构案例和验证边界，正文仅挂按需链接；其余规范精简和验证建议仍属审阅意见，未实施，见 [示例](skills/documentation/agent-entrypoints/examples/confirmed-project.md)。
 
 ## [2026-09-27] docs | 按阿磊要求建立 [Issue #15](https://github.com/qshanx/docs-governance/issues/15) 跟踪 Agent 入口规范，置顶文章来源并关联 #11、#10 与 setup PR #14 背景；同步产品索引，优化建议仍待确认，未推送本地实现或合并 PR。
 
@@ -63,14 +63,16 @@
 
 ## [2026-09-28] fix | 将 PR #12 已提交产品能力整合到 PR #14，本地解决 6 份文档冲突并保留双方历史事件；统一 setup 与入口规范修复一并纳入，未混入作者名迁移及无关研究。远端推送与合并尚未执行。
 
-## [2026-10-10] docs | 按阿磊要求及 writing-for-agents 重整 [Agent 入口 Skill](skills/agent-entrypoints/SKILL.md)：先核对事实、判断内容用途与放置位置，再组织入口并逐项验收；精简描述和重复解释，示例补充事实到内容的取舍。保留八条编号、每份入口 200 行及既有授权、主源和证据要求。
+## [2026-10-10] docs | 按阿磊要求及 writing-for-agents 重整 [Agent 入口 Skill](skills/documentation/agent-entrypoints/SKILL.md)：先核对事实、判断内容用途与放置位置，再组织入口并逐项验收；精简描述和重复解释，示例补充事实到内容的取舍。保留八条编号、每份入口 200 行及既有授权、主源和证据要求。
 
-## [2026-10-10] docs | 根据独立入口试验补强 [Agent 入口 Skill](skills/agent-entrypoints/SKILL.md) 第 4、6 条：用典型任务沿指针核对正文与实现，自动化触发与执行状态查配置和运行证据，避免只查断链或固化易过时状态。试验材料留在业务仓库外，本次未修改正式业务入口、安装 Hook 或增加检查脚本。
+## [2026-10-10] docs | 根据独立入口试验补强 [Agent 入口 Skill](skills/documentation/agent-entrypoints/SKILL.md) 第 4、6 条：用典型任务沿指针核对正文与实现，自动化触发与执行状态查配置和运行证据，避免只查断链或固化易过时状态。试验材料留在业务仓库外，本次未修改正式业务入口、安装 Hook 或增加检查脚本。
 
-## [2026-10-10] docs | 精简 [Agent 入口 Skill](skills/agent-entrypoints/SKILL.md) 前置流程：明确生成／优化／审查任务，从已确认对话和项目资料获取依据，再按八条规范处理与交付；删除重复的常驻内容分配表和分散完成条件，八条规范及按需参考保持原样。
+## [2026-10-10] docs | 精简 [Agent 入口 Skill](skills/documentation/agent-entrypoints/SKILL.md) 前置流程：明确生成／优化／审查任务，从已确认对话和项目资料获取依据，再按八条规范处理与交付；删除重复的常驻内容分配表和分散完成条件，八条规范及按需参考保持原样。
 
-## [2026-10-11] docs | 调整 [Agent 入口 Skill](skills/agent-entrypoints/SKILL.md) 第一步：结合相关项目文档与已有对话了解项目，移除“没有对话才读文档”的条件；配置和验证命令按需查实际项目，其余步骤与八条规范保持不变。
+## [2026-10-11] docs | 调整 [Agent 入口 Skill](skills/documentation/agent-entrypoints/SKILL.md) 第一步：结合相关项目文档与已有对话了解项目，移除“没有对话才读文档”的条件；配置和验证命令按需查实际项目，其余步骤与八条规范保持不变。
 
-## [2026-10-11] docs | Agent 入口流程精简为阅读、合并、逐段取舍、补齐检查四步；八项规范下沉至 [独立参考](skills/agent-entrypoints/entrypoint-standards.md)，执行时明确读取。优先合并到 AGENTS.md，保留独有有效规则并更新引用后删除旧入口；逐段检查全部受检入口，避免遗漏主文件中的冗余说明。已知 SaaS 案例用于复核，业务项目文件不包含在本次提交，宿主加载效果未验证。
+## [2026-10-11] docs | Agent 入口流程精简为阅读、合并、逐段取舍、补齐检查四步；八项规范下沉至 [独立参考](skills/documentation/agent-entrypoints/entrypoint-standards.md)，执行时明确读取。优先合并到 AGENTS.md，保留独有有效规则并更新引用后删除旧入口；逐段检查全部受检入口，避免遗漏主文件中的冗余说明。已知 SaaS 案例用于复核，业务项目文件不包含在本次提交，宿主加载效果未验证。
 
 ## [2026-10-11] docs | 根据 PR #21 复审统一入口主源选择：保留既定主源，无既定主源时优先 AGENTS.md，已有迁移授权直接沿用；迁移保留宿主专属约束并核对加载方式。同步八项规范措辞并清理末尾空行，使用提交范围检查验证格式。
+
+## [2026-10-11] docs | 将 main 已有 Skill 按文档管理与工程分类，预留试验与废弃目录；同步双端加载配置、引用及目录检查，不合入其他功能 PR。历史仅更新 Git 可识别的迁移链接。

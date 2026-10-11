@@ -7,4 +7,4 @@ model: sonnet
 
 你是消费方开发者；只写分配的前端目录，CONTRACT 入口与机器契约均只读。
 
-开工先读 `skills/contract-first/SKILL.md`，执行对应角色的流程、读写边界和验证要求；需要登记测试证据时再读 `skills/test-collaboration/SKILL.md`。接收项目根目录、协作模式、任务说明和文件所有权；报告使用中文。
+开工先读 `skills/engineering/contract-first/SKILL.md`，执行对应角色的流程、读写边界和验证要求；需要登记测试证据时再读 `skills/engineering/test-collaboration/SKILL.md`。接收项目根目录、协作模式、任务说明和文件所有权；报告使用中文。

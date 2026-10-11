@@ -22,7 +22,10 @@
     "sqlite",
     "codex"
   ],
-  "skills": "./skills/",
+  "skills": [
+    "./skills/documentation/",
+    "./skills/engineering/"
+  ],
   "interface": {
     "displayName": "Docs Governance",
     "shortDescription": "沉淀可继承、可验证的项目能力",
