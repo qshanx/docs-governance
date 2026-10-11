@@ -18,6 +18,7 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 规划、整理或只读审查文档目录、归属与读取入口 | `docs-structure` |
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
