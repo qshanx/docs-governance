@@ -22,8 +22,10 @@ description: >-
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
-| 维护、阶段同步、LOG 管理或复盘 | `living-docs-governance` |
-| 当前 Module 权责、状态归属、依赖图或核心流转图 | `living-docs-governance` 的 `ARCHITECTURE.md` 路线 |
+| 本次改动后的文档同步、整理、收尾或交接 | `docs-maintenance` |
+| 从对话、文档变更与审计记录复盘文档管理经验 | `docs-retro` |
+| LOG 管理或复盘 | `living-docs-governance` |
+| 是否需要架构文档，生成、完善或审查模块分工、状态归属、依赖与核心流程 | `architecture-docs` |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |
 | 修改前判断牵连面、迁移、回滚、实施后对照 | `change-impact` |
 | 前后端或服务间接口 | `contract-first` |
@@ -32,18 +34,22 @@ description: >-
 | 只读文档审计、链接完整性、孤儿文档 | `living-docs-governance` 的审计模式 |
 | 设计可判定目标和反馈回路 | `loop-design-check` |
 
-## 大型变更顺序
+## 模块变更流程
 
-需求不清、基线冲突或需要产品过程管理时，先进入 `product-evolution`，明确已确认范围与成功标准，再进入工程变更。
+修改模块功能、公共接口或共享数据时，当前 Agent 负责串起以下流程，无须用户逐个点名 Skill。只读请求保持只读；纯排版等小改动只做相关检查，不展开整套流程或另写报告。
 
-按需执行，未触发的步骤直接跳过：
+1. **改前看影响**：记录任务起点及已有未提交修改，按 `change-impact` 查真实调用方、数据与契约，确定受影响模块、候选文档和验证命令。需求不清先定位已确认 Spec／Issue；跨端接口按 `contract-first` 处理，难回退决策按 `context-and-decisions` 处理。
+2. **实施并核对范围**：完成获准修改，对照实际 diff 补查新增影响。任务开始时已有修改须单独区分，不能全归为本轮；出现新的需求或授权冲突时先澄清该部分。
+3. **验证本模块与下游**：按 `module-regression` 执行影响分析确定的回归；测试点与证据需要维护时调用 `test-collaboration`。本次引入的失败由当前改动者修复并复验；旧失败、环境阻塞与未跑范围分别说明，不能把局部通过说成全部通过。
+4. **同步文档并交付**：将任务范围、实际 diff、影响清单和回归结果交给 `docs-maintenance`；复用同一基线与有效审计结果，补查实际变化，不重复推导。最终简述改了什么、影响谁、跑了什么、同步了哪些文档及剩余缺口。回归受阻仍可记录已知状态，但不能把功能写成验收通过。
 
-1. 用 `change-impact` 形成有证据的影响清单。
-2. 若涉及难回退的架构、数据库、认证或部署决策，先用 `context-and-decisions` 建立或更新 ADR。
-3. 若影响跨端接口，先用 `contract-first` 更新唯一契约源。
-4. 实施后用 `test-collaboration` 将成功标准、Bug 或风险关联到 TEST-ID 与证据。
-5. 用 `module-regression` 执行本模块与下游命令。
-6. 用 `living-docs-governance` 做阶段同步，再运行只读文档审计。
+### 接入项目入口
+
+由 `agent-entrypoints` 在已授权配置的共享入口保留一句路标：
+
+> 修改模块功能、公共接口或共享数据前，读取 docs-governance 的“模块变更流程”，完成影响分析、实施后对照、相关回归和文档同步后再交付。
+
+将 Skill 名替换为实际可读取路径；外部插件使用完整路径。setup 通过 `agent-entrypoints` 接入；已有项目只补这条路标，不复制流程正文。Skill 存在不等于自动运行：这是 Agent 执行约定，未安装 Hook／CI 就不声称强制触发。
 
 ## 边界
 

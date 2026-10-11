@@ -21,8 +21,8 @@ description: >-
 ## 按需参考
 
 - 需要看输入如何取舍并形成成品 → [完整示例](examples/confirmed-project.md)。
-- 需要追溯八条来源及 200 行约束依据 → [Vince 文章与本项目适配](../../research/2026-09-27-vincemask-agent-entrypoints.md)；规则清理和证据要求的补充来源 → [Tw93 适配](../../research/2026-09-27-tw93-claude-code-governance.md)。
+- 需要追溯八条来源及 200 行约束依据 → [Vince 文章与本项目适配](../../../research/2026-09-27-vincemask-agent-entrypoints.md)；规则清理和证据要求的补充来源 → [Tw93 适配](../../../research/2026-09-27-tw93-claude-code-governance.md)。
 - 使用本插件的 CLAUDE 主源布局 → `templates/CLAUDE.example.md`、`templates/AGENTS.example.md`；其他布局核对模板和审计配置的适用性，工具限制如实报告。
-- 设置需求／实现／验收的读取指针 → 按 `skills/product-evolution/SKILL.md` 定位真实产品入口、当前基线与适用条款；缺少主记录时在获准范围内补充后链接。
-- 分配其他文档职责、同步或统一 setup → `skills/living-docs-governance/SKILL.md`。
+- 设置需求／实现／验收的读取指针 → 按 `skills/documentation/product-evolution/SKILL.md` 定位真实产品入口、当前基线与适用条款；缺少主记录时在获准范围内补充后链接。
+- 分配其他文档职责、同步或统一 setup → `skills/documentation/living-docs-governance/SKILL.md`。
 - 接入 Claude Code Hook、核对事件及阻断方式 → [官方 Hook 参考](https://code.claude.com/docs/en/hooks)，按目标版本核对配置与输入输出。

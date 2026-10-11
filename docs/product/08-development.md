@@ -8,7 +8,7 @@
 
 ## 产出
 
-实现入口：[Skill](../../skills/product-evolution/SKILL.md)、[模板](../../templates/product-index.example.md)、[总路由](../../skills/docs-governance/SKILL.md)。具体实现见 [草稿 PR #12](https://github.com/qshanx/docs-governance/pull/12)，分支为 codex/product-docs-management，待外部评审。
+实现入口：[Skill](../../skills/documentation/product-evolution/SKILL.md)、[模板](../../templates/product-index.example.md)、[总路由](../../skills/documentation/docs-governance/SKILL.md)。具体实现见 [草稿 PR #12](https://github.com/qshanx/docs-governance/pull/12)，分支为 codex/product-docs-management，待外部评审。
 
 ## 未解决事项与下一步
 
@@ -22,9 +22,9 @@ PR 前强制扫描入口为 [check-pr-docs.py](../../scripts/check-pr-docs.py)�
 
 2026-09-23 按能力规格 r3 扩展共享 Skill 的 PM 四类索引与按任务读取协议；产品入口模板增加主记录章节、依赖和分批审查信息，CLAUDE 及模板保留简短触发路标，Agent 引用共享协议。未增加扫描器、修改业务项目或复制规则到 AGENTS。
 
-2026-09-27 按能力规格 r4 新增 [已有项目首次接入命令](../../commands/governance-setup.md)，其探测、草案、确认、最小写入与验证边界只写入 [活文档治理 Skill](../../skills/living-docs-governance/SKILL.md)。总路由、日常治理命令、双语说明、地图、架构与变更记录同步更新；`scripts/verify.sh` 增加所有 command 必须委托共享 Skill 的结构检查。未修改业务项目、现有 Tracker、hook 或宿主配置。
+2026-09-27 按能力规格 r4 新增 [已有项目首次接入命令](../../commands/governance-setup.md)，其探测、草案、确认、最小写入与验证边界只写入 [活文档治理 Skill](../../skills/documentation/living-docs-governance/SKILL.md)。总路由、日常治理命令、双语说明、地图、架构与变更记录同步更新；`scripts/verify.sh` 增加所有 command 必须委托共享 Skill 的结构检查。未修改业务项目、现有 Tracker、hook 或宿主配置。
 
-2026-09-27 r5 在包含 product-evolution 的当前工作区新增 [agent-entrypoints](../../skills/agent-entrypoints/SKILL.md) 与[文章来源整理](../../research/2026-09-27-vincemask-agent-entrypoints.md)。接入总路由、活文档与产品读取入口，模板移除会被误用为普适规则的导入风格／禁建文件示例。原 PR #14 基于更早主线，尚未含该产品体系及本轮工作；统一 setup 的重做和合并未完成。
+2026-09-27 r5 在包含 product-evolution 的当前工作区新增 [agent-entrypoints](../../skills/documentation/agent-entrypoints/SKILL.md) 与[文章来源整理](../../research/2026-09-27-vincemask-agent-entrypoints.md)。接入总路由、活文档与产品读取入口，模板移除会被误用为普适规则的导入风格／禁建文件示例。原 PR #14 基于更早主线，尚未含该产品体系及本轮工作；统一 setup 的重做和合并未完成。
 
 同日按阿磊纠正，将规范改为与原文 1—8 同序号的执行要求和检查项；补入每份入口 ≤200 行的硬验收及计数命令，同步共享章程、模板和调用方，消除“仅作复核信号”的冲突表述。没有新增自动门禁、修改宿主配置或扩大到 setup 编排实现。
 

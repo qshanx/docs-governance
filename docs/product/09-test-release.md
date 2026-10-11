@@ -49,7 +49,7 @@ PR 前护栏追加 10 个集成测试：真实本地 bare remote 上断链推送
 
 同日按用户要求将第 1 条精简为约束与脚本调用，新增 `scripts/check-entrypoint-length.py`。4 项 CLI 测试覆盖 199／200／201 行、LF／CRLF、末行无换行、多文件与嵌套空格路径、读取错误和无参数；脚本不改写输入。本仓库入口实测仍为 7／23 行；完整 verify、76 项测试、Skill 格式和 diff 检查通过。未安装新 hook。
 
-同日补充 [完整输入／输出示例](../../skills/agent-entrypoints/examples/confirmed-project.md)：成品由长度脚本实测为 32 行，Skill 格式、完整 verify、76 项现有测试及 diff 检查通过。示例是明确标注的虚构项目，未执行其业务测试或宿主加载；其余优化建议仅作审阅，未扩展实现范围。
+同日补充 [完整输入／输出示例](../../skills/documentation/agent-entrypoints/examples/confirmed-project.md)：成品由长度脚本实测为 32 行，Skill 格式、完整 verify、76 项现有测试及 diff 检查通过。示例是明确标注的虚构项目，未执行其业务测试或宿主加载；其余优化建议仅作审阅，未扩展实现范围。
 
 ## r6 规则清理与证据补充（2026-09-27）
 
@@ -59,7 +59,7 @@ PR 前护栏追加 10 个集成测试：真实本地 bare remote 上断链推送
 |---|---|
 | `bash scripts/verify.sh` | 76 项测试、结构／路由和 full 文档审计通过；无新增测试或执行脚本 |
 | skill-creator 的 `quick_validate.py` 分别检查 agent-entrypoints、living-docs-governance | 两个 Skill 格式有效；不证明实际 Agent 行为 |
-| `python3 scripts/check-entrypoint-length.py AGENTS.md CLAUDE.md skills/agent-entrypoints/examples/agents.example.md` | 分别 7、23、32 行，全部通过 |
+| `python3 scripts/check-entrypoint-length.py AGENTS.md CLAUDE.md skills/documentation/agent-entrypoints/examples/agents.example.md` | 分别 7、23、32 行，全部通过 |
 | `git diff --check` | 无空白错误 |
 
 人工核对根 AGENTS 指向 CLAUDE，后者未反向要求加载 AGENTS；文章来源、Skill、示例和产品主记录的引用可达。清理依据及命令未运行等场景见 [r6 复核](07-requirements-review.md#r6-规则清理与证据复核2026-09-27)。CONTEXT 缺失仍属按需载体，不补空壳。
