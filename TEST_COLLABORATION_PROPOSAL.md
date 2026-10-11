@@ -28,7 +28,7 @@
 
 第二类能力已经由模块回归体系承担：
 
-- 方法论：`skills/module-regression/SKILL.md`
+- 方法论：`skills/engineering/module-regression/SKILL.md`
 - 审查 Agent：`agents/regression-auditor.md`
 - 命令入口：`commands/regression-audit.md`
 - 台账模板：`templates/REGRESSION.example.md`
@@ -83,12 +83,12 @@ regression-auditor 在交付前执行本模块及下游回归
 
 ### 3.1 判定点清单迁移（搬家派拍板的落地步骤）
 
-现有「判定点清单」住在 module-regression 体系里（`skills/module-regression/SKILL.md` 与 `templates/REGRESSION.example.md`），登记的正是"规则→执法命令→缺口"，与 TESTS.md 核心事实重叠。按 §0 拍板迁移如下，且所有功能引用必须与 TESTS.md 落地在同一次改动内完成，防止两个 skill 各教一套：
+现有「判定点清单」住在 module-regression 体系里（`skills/engineering/module-regression/SKILL.md` 与 `templates/REGRESSION.example.md`），登记的正是"规则→执法命令→缺口"，与 TESTS.md 核心事实重叠。按 §0 拍板迁移如下，且所有功能引用必须与 TESTS.md 落地在同一次改动内完成，防止两个 skill 各教一套：
 
-1. `skills/module-regression/SKILL.md`：删除「判定点清单」一节，原位置改为指路牌——"规则→测试→缺口登记在 TESTS.md（见 test-collaboration skill），REGRESSION.md 以 TEST-ID 回引"；
+1. `skills/engineering/module-regression/SKILL.md`：删除「判定点清单」一节，原位置改为指路牌——"规则→测试→缺口登记在 TESTS.md（见 test-collaboration skill），REGRESSION.md 以 TEST-ID 回引"；
 2. `templates/REGRESSION.example.md`：删除判定点清单示例，模块段只留下游/验收命令/联动规则，判定点写 TEST-ID 引用；
-3. `skills/module-regression/SKILL.md`：删除由 `/regression-audit` 统计判定覆盖率的职责；判定覆盖率随判定点迁入 test-collaboration，v1 由主会话根据 TESTS.md 人工统计；
-4. `skills/module-regression/SKILL.md` 铁律 4：将“登记进该模块的判定点清单”改为“登记进 TESTS.md 并取得对应 TEST-ID”；
+3. `skills/engineering/module-regression/SKILL.md`：删除由 `/regression-audit` 统计判定覆盖率的职责；判定覆盖率随判定点迁入 test-collaboration，v1 由主会话根据 TESTS.md 人工统计；
+4. `skills/engineering/module-regression/SKILL.md` 铁律 4：将“登记进该模块的判定点清单”改为“登记进 TESTS.md 并取得对应 TEST-ID”；
 5. `commands/governance-retro.md`：将“指向 module-regression 的判定点清单登记格式”改为指向 test-collaboration 的 TESTS.md 登记格式；
 6. 迁移完成后，"某条规则有没有测试执法"这一事实只活在 TESTS.md 一处；对功能文件执行全仓机械检查，确认 module-regression、regression-audit、governance-retro 和旧模板不再拥有或指向旧判定点清单。历史 LOG 与本文评审记录不作迁移对象。
 
@@ -272,7 +272,7 @@ Hermes 的测试规模和运行器不适合直接复制到所有项目，但以�
 
 二期建议新增：
 
-- 方法论：`skills/test-collaboration/SKILL.md`
+- 方法论：`skills/engineering/test-collaboration/SKILL.md`
 - Agent：`agents/test-auditor.md`
 - 命令：`commands/test-audit.md`
 - 模板：`templates/TESTS.example.md`
@@ -413,7 +413,7 @@ Agent 的定位不是“替开发者随便多写几个测试”，而是测试�
 第一版保持轻量（按 §0 拍板砍半），只实现：
 
 1. `TESTS.md` 模板（`templates/TESTS.example.md`），同时包含“现有测试资产地图”和“必要测试点清单”，使用四态状态集，不含执行历史字段；
-2. `test-collaboration` 方法论（`skills/test-collaboration/SKILL.md`），包含“测试盘点”和“Bug 转测试”两个工作模式、Hermes 借鉴纪律，以及双 auditor 执行边界铁律；
+2. `test-collaboration` 方法论（`skills/engineering/test-collaboration/SKILL.md`），包含“测试盘点”和“Bug 转测试”两个工作模式、Hermes 借鉴纪律，以及双 auditor 执行边界铁律；
 3. §3.1 的完整判定点迁移（方法论、模板、判定覆盖率、坑必下沉铁律和 governance-retro 指路牌同步修订）。
 
 第一版暂不实现：
@@ -436,7 +436,7 @@ v1 验证方式：在试点项目（经营报表加工系统）人肉试点一�
 
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/README.md`
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/CLAUDE.md`
-- `/Users/daoer/Desktop/0-GitHub/docs-governance/skills/module-regression/SKILL.md`
+- `/Users/daoer/Desktop/0-GitHub/docs-governance/skills/engineering/module-regression/SKILL.md`
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/agents/regression-auditor.md`
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/commands/regression-audit.md`
 - `/Users/daoer/Desktop/0-GitHub/docs-governance/templates/REGRESSION.example.md`
@@ -525,7 +525,7 @@ python3 scripts/dual-agent-review-loop.py TEST_COLLABORATION_PROPOSAL.md --watch
 
 ### 14.1 最大问题：方案通篇没提「判定点清单」
 
-`skills/module-regression/SKILL.md` 中已存在「判定点清单」一节，干的就是 TESTS.md 想干的事：
+`skills/engineering/module-regression/SKILL.md` 中已存在「判定点清单」一节，干的就是 TESTS.md 想干的事：
 
 > 把该模块"什么算对"的规则逐条列出，标注由哪条可执行命令执法……说不出"落在哪条命令上"的判定点 = 侥幸，进缺口清单。
 
@@ -602,7 +602,7 @@ Codex 当前未发现新的方向性冲突。旧的“双 Agent 自动评审”�
 请 Claude 读取：
 
 - 本文 §0、§3.1、§6、§9、§10.5、§11、§13 和本节；
-- `skills/module-regression/SKILL.md`；
+- `skills/engineering/module-regression/SKILL.md`；
 - `templates/REGRESSION.example.md`；
 - `commands/governance-retro.md`；
 - `commands/regression-audit.md`。
@@ -634,8 +634,8 @@ CLAUDE VERDICT: PASS
 **逐项核对**
 
 1. **§3.1 迁移清单完整性**：全仓 grep「判定点」命中 5 处（不含本讨论稿自身），其中 4 处是功能引用、1 处是历史 LOG（`PROJECT_LOG.md:15`）。§3.1 六条逐一覆盖：
-   - `skills/module-regression/SKILL.md:29-42`「判定点清单」整节（含 42 行判定覆盖率描述）→ 条目 1、3；
-   - `skills/module-regression/SKILL.md:64` 铁律 4 措辞 → 条目 4；
+   - `skills/engineering/module-regression/SKILL.md:29-42`「判定点清单」整节（含 42 行判定覆盖率描述）→ 条目 1、3；
+   - `skills/engineering/module-regression/SKILL.md:64` 铁律 4 措辞 → 条目 4；
    - `templates/REGRESSION.example.md:21` 判定点清单示例 → 条目 2；
    - `commands/governance-retro.md:19` 指路牌 → 条目 5；
    - `PROJECT_LOG.md:15` → 条目 6 已明确排除在迁移对象外（历史流水账）。
@@ -733,7 +733,7 @@ VERDICT: CHANGES_NEEDED
 **阻塞问题（事实，已逐一现场核对）**
 
 1. **§3.1 迁移清单不完整，照单实现会留下悬空引用**。全仓 grep「判定点」显示引用共四处，§3.1 只覆盖两处：
-   - `skills/module-regression/SKILL.md:64` 铁律4 要求"登记进该模块的判定点清单"——迁移后该清单已不在 REGRESSION.md，此句会指向不存在的位置；
+   - `skills/engineering/module-regression/SKILL.md:64` 铁律4 要求"登记进该模块的判定点清单"——迁移后该清单已不在 REGRESSION.md，此句会指向不存在的位置；
    - `SKILL.md:42` 规定 `/regression-audit` 报"判定覆盖率"——数据源迁走后该指标由谁、从哪份文档算，未裁决；
    - `commands/governance-retro.md:19` 指向"module-regression 的判定点清单登记格式"——迁移后成死链。
    按方案自己的原则（迁移必须同一次改动完成、防两套教法），这三处不进 §3.1 清单，实现后插件内部立即漂移，且 governance-audit 自己就会查出这种死引用。
@@ -754,7 +754,7 @@ VERDICT: CHANGES_NEEDED
 阿磊，审查结论：方案方向可行，但还有阻塞项，不能直接进入实现。
 
 **事实 1：§3.1 迁移清单仍不完整。**
-全仓现有功能文档里除 `skills/module-regression/SKILL.md` 的“判定点清单”正文和 `templates/REGRESSION.example.md` 外，仍有迁移后会悬空的引用：`skills/module-regression/SKILL.md` 铁律 4 还要求“登记进该模块的判定点清单”；`commands/governance-retro.md` 仍指向 `module-regression` 的判定点清单登记格式。只按 §3.1 实现，会违反本项目“方法论唯一源在 skill / 每个事实只活一处”的规则。
+全仓现有功能文档里除 `skills/engineering/module-regression/SKILL.md` 的“判定点清单”正文和 `templates/REGRESSION.example.md` 外，仍有迁移后会悬空的引用：`skills/engineering/module-regression/SKILL.md` 铁律 4 还要求“登记进该模块的判定点清单”；`commands/governance-retro.md` 仍指向 `module-regression` 的判定点清单登记格式。只按 §3.1 实现，会违反本项目“方法论唯一源在 skill / 每个事实只活一处”的规则。
 
 **事实 2：§11 v1 范围自相矛盾。**
 §0 拍板 v1 是“模板 + skill”，但 §11 又把“文件存在性、测试节点存在性、命令退出码检查下沉到脚本执法”列入第一版。脚本放在插件 `scripts/`、目标项目模板、还是二期命令体系中，方案没有落点。
@@ -774,8 +774,8 @@ VERDICT: CHANGES_NEEDED
 **事实（已重新现场核对）**
 
 1. **§3.1 迁移清单仍不完整**。全仓 grep「判定点」确认，除 §3.1 已覆盖的两处（SKILL.md 判定点清单一节、REGRESSION.example.md 示例）外，仍有三处引用会因迁移变死链，且 §3.1 一条都没提及：
-   - `skills/module-regression/SKILL.md:42`——"`/regression-audit` 顺带报缺口数（判定覆盖率 = 有执法命令的判定点 / 全部判定点）"，数据源迁走后这句话失去落点；
-   - `skills/module-regression/SKILL.md:64`——铁律4"登记进该模块的判定点清单"，迁移后此清单已不在 REGRESSION.md；
+   - `skills/engineering/module-regression/SKILL.md:42`——"`/regression-audit` 顺带报缺口数（判定覆盖率 = 有执法命令的判定点 / 全部判定点）"，数据源迁走后这句话失去落点；
+   - `skills/engineering/module-regression/SKILL.md:64`——铁律4"登记进该模块的判定点清单"，迁移后此清单已不在 REGRESSION.md；
    - `commands/governance-retro.md:19`——"指向 `module-regression` 的判定点清单登记格式"，迁移后指向空处。
    （`PROJECT_LOG.md:15` 的一条是历史流水账，不需要跟着改，不算漏项。）
 
@@ -796,7 +796,7 @@ VERDICT: CHANGES_NEEDED
 
 阿磊，事实：我按 §12 只读核对了正文和现有规则；状态集、`最近验证`、双 auditor 边界已回落正文，但仍有阻塞。
 
-1. 事实：§3.1 迁移清单仍漏功能入口。现仓库 `skills/module-regression/SKILL.md:64` 仍要求“登记进该模块的判定点清单”；`commands/governance-retro.md:19` 仍指向 `module-regression` 的判定点清单登记格式。
+1. 事实：§3.1 迁移清单仍漏功能入口。现仓库 `skills/engineering/module-regression/SKILL.md:64` 仍要求“登记进该模块的判定点清单”；`commands/governance-retro.md:19` 仍指向 `module-regression` 的判定点清单登记格式。
 推断：按现稿实现会留下死指路牌，违反“每个事实只活一处”。
 
 2. 事实：§0 写 v1 砍到“模板 + skill”，但 §11 第 4 项又把文件存在性、测试节点存在性、命令退出码检查列入“脚本执法”，未定义脚本路径、触发方式和失败规则。

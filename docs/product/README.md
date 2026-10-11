@@ -1,6 +1,6 @@
 # 产品管理入口
 
-本目录管理 docs-governance 插件自身的产品要求与演变。方法论唯一源仍是 [product-evolution](../../skills/product-evolution/SKILL.md)，这里保存本项目事实。
+本目录管理 docs-governance 插件自身的产品要求与演变。方法论唯一源仍是 [product-evolution](../../skills/documentation/product-evolution/SKILL.md)，这里保存本项目事实。
 
 ## 十阶段文件导航
 
@@ -40,6 +40,8 @@
 | 产品执行 | [能力规格 r3](06-prd.md)、[需求评审](07-requirements-review.md)、[测试上线](09-test-release.md)；其他阶段见上方导航 |
 
 当前需求索引：[Issue #11](https://github.com/qshanx/docs-governance/issues/11) 管产品文档、来源与修订及按任务读取；[Issue #15](https://github.com/qshanx/docs-governance/issues/15) 管 Agent 入口规范 Skill、文章来源和后续优化建议。主记录和确认范围见上方基线。涉及读取协议时定位能力规格的“本轮范围”和 PE-9／PE-10；入口规范定位 r5／r6 的 ENP 条款。适用公共约束为 [CLAUDE](../../CLAUDE.md)，审查证据为阶段 07、09；方法实现见共享 Skill，不作为第二份需求正文。
+
+[Issue #5](https://github.com/qshanx/docs-governance/issues/5#issuecomment-6075874052) 是按事实核对文档的需求主记录；2026-10-09 阿磊在本会话确认实施接口字段变化切片，验收入口见 [TEST-IMPACT-001](../../TESTS.md#test-impact-001事实变化后的文档核对)。更广的事实类型与业务项目试点不因该切片完成自动验收，状态仍由 Issue 管理。
 
 ## 资料位置与来源
 

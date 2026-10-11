@@ -1,4 +1,5 @@
 import json
+import re
 import shutil
 from pathlib import Path
 import subprocess
@@ -232,6 +233,77 @@ class PrDocsTest(unittest.TestCase):
         self.assertEqual(push_event('invalid event\n').returncode, 2)
         # 有待推送分支却没有可解析目标基线，不能静默放行。
         self.assertEqual(push_event(f'refs/heads/main {self.base} refs/heads/main {"0" * 40}\n').returncode, 2)
+
+
+class DocumentImpactFixtureTest(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name) / 'project'
+
+    def build(self, case):
+        result = subprocess.run(
+            [sys.executable, str(ROOT / 'tests/fixtures/document-impact.py'),
+             str(self.root), '--case', case], text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        return json.loads(result.stdout)
+
+    def scan(self, fixture):
+        return subprocess.run([sys.executable, str(SCRIPT), '--root', str(self.root),
+                               '--base', fixture['base'], '--head', fixture['head']],
+                              text=True, capture_output=True)
+
+    def documented_usage(self, name):
+        text = (self.root / name).read_text()
+        expression = re.search(r'`(get_order\(\)\["[a-z_]+"\])`', text).group(1)
+        return subprocess.run([sys.executable, '-B', '-c',
+                               f'from src.api import get_order; print({expression})'],
+                              cwd=self.root, text=True, capture_output=True)
+
+    def test_stale_instructions_fail_while_structural_scan_only_lists_candidates(self):
+        from jsonschema import Draft202012Validator
+        fixture = self.build('interface')
+        receipt = json.loads((self.root / 'evidence/response.json').read_text())
+        schema = json.loads((self.root / 'schema/order.json').read_text())
+        Draft202012Validator(schema).validate(receipt['response'])
+        result = self.scan(fixture)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn('docs/api.md（本次未修改', result.stdout)
+        self.assertIn('docs/consumer.md（本次已修改', result.stdout)
+        self.assertNotIn('语义审查：docs/integration.md', result.stdout)
+        for name in ('api', 'consumer', 'integration'):
+            with self.subTest(document=name):
+                result = self.documented_usage(f'docs/{name}.md')
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("KeyError: 'total'", result.stderr)
+        # A real broken link must still block after the semantic-only cases pass.
+        with (self.root / 'docs/api.md').open('a') as file:
+            file.write('\n[broken](missing.json)\n')
+        for args in (('add', '.'), ('commit', '-qm', 'Broken link control')):
+            subprocess.run(['git', *args], cwd=self.root, check=True, capture_output=True)
+        fixture['head'] = 'HEAD'
+        self.assertEqual(self.scan(fixture).returncode, 1)
+
+    def test_internal_change_keeps_documented_calls_valid_without_guide_edits(self):
+        fixture = self.build('internal')
+        result = self.scan(fixture)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for name in ('api', 'consumer', 'integration'):
+            self.assertEqual(self.documented_usage(f'docs/{name}.md').returncode, 0)
+        changed = subprocess.run(['git', 'diff', '--name-only', fixture['base'], fixture['head']],
+                                 cwd=self.root, check=True, text=True, capture_output=True).stdout.splitlines()
+        self.assertEqual([name for name in changed if name.endswith('.md')], ['PROJECT_LOG.md'])
+        self.assertNotIn('schema/order.json', changed)
+
+    def test_generator_refuses_existing_directory_without_overwriting_it(self):
+        self.root.mkdir()
+        sentinel = self.root / 'keep.txt'
+        sentinel.write_text('keep')
+        result = subprocess.run([sys.executable, str(ROOT / 'tests/fixtures/document-impact.py'),
+                                 str(self.root)], text=True, capture_output=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(sentinel.read_text(), 'keep')
+        self.assertEqual(list(self.root.iterdir()), [sentinel])
 
 
 if __name__ == '__main__':

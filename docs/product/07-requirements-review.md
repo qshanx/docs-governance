@@ -4,7 +4,7 @@
 
 ## 输入与确认来源
 
-评审对象为 [PRD r1](06-prd.md)、[十阶段入口](README.md)、[共享 Skill](../../skills/product-evolution/SKILL.md) 与 [模板](../../templates/product-index.example.md)。建设方向、docs 专门入口与十阶段顺序由阿磊在当前会话明确；实现细节按该范围整理，没有代为批准新的产品业务取舍。
+评审对象为 [PRD r1](06-prd.md)、[十阶段入口](README.md)、[共享 Skill](../../skills/documentation/product-evolution/SKILL.md) 与 [模板](../../templates/product-index.example.md)。建设方向、docs 专门入口与十阶段顺序由阿磊在当前会话明确；实现细节按该范围整理，没有代为批准新的产品业务取舍。
 
 本记录是本轮建设后的复核，不补写虚构的历史评审会议。未来业务需求按 Skill 在研发前形成评审结论。
 

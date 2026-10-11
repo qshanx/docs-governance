@@ -16,8 +16,8 @@
 
 ## 执行规范与范围
 
-- 入口清理及证据要求：见 [agent-entrypoints](../skills/agent-entrypoints/SKILL.md) 第 7 条和交付检查；沿用 Vince 的八条编号，不另立一套入口规则。
-- 现有 setup 的探测与编排：见 [living-docs-governance](../skills/living-docs-governance/SKILL.md)“已有项目首次接入”。本次补充该模式，不等于统一 setup Agent 或完整文档包初始化已经实现。
+- 入口清理及证据要求：见 [agent-entrypoints](../skills/documentation/agent-entrypoints/SKILL.md) 第 7 条和交付检查；沿用 Vince 的八条编号，不另立一套入口规则。
+- 现有 setup 的探测与编排：见 [living-docs-governance](../skills/documentation/living-docs-governance/SKILL.md)“已有项目首次接入”。本次补充该模式，不等于统一 setup Agent 或完整文档包初始化已经实现。
 - 跨会话记录复用既有状态、决策和历史载体，不因文章提到 HANDOFF 而再建一份重复事实源。
 - 不采纳为通用约束：固定 token／费用数字、具体模型或工具清单、所有任务使用子 Agent。命令、配置字段和加载行为须按实际宿主核实；本文未重新验证这些版本相关细节。
 

@@ -1,6 +1,8 @@
 # ARCHITECTURE.md — docs-governance 当前架构
 
-> 本文是插件**当前架构**的唯一说明入口。设计选择及其理由在 `docs/adr/README.md`；文件定位与误导清单在 `CLAUDE_MAP.md`；方法论唯一源仍在 `skills/*/SKILL.md`。
+> 本文是插件**当前架构**的唯一说明入口。设计选择及其理由在 `docs/adr/README.md`；文件定位与误导清单在 `CLAUDE_MAP.md`；方法论唯一源仍在 `skills/<category>/<name>/SKILL.md`。
+
+文档影响检索由 `scripts/find-doc-impact.py` 读取 Git 变更及 Markdown，输出带来源的候选；`change-impact` 判读事实，`docs-maintenance` 完成同步。脚本不执行目标项目代码、不替代语义判断；完整任务顺序见 [模块变更流程](skills/documentation/docs-governance/SKILL.md#模块变更流程)。
 
 ## 架构摘要
 
@@ -11,8 +13,8 @@
 | Module | 唯一职责 | 状态归属 | 对外 Interface | 允许依赖 | 禁止依赖 |
 |---|---|---|---|---|---|
 | 宿主 Adapter | 把 Claude Code、Codex、ChatGPT 的入口转换为统一 Skill 调用 | 无持久状态 | manifest、command、agent 调用约定 | 总路由与专项 Skill | 持有或复制方法论 |
-| 总路由 | 根据用户意图选择专项 Skill 和执行顺序 | 无持久状态 | `skills/docs-governance/SKILL.md` | 专项 Skill | 复制专项方法论 |
-| 专项 Skill | 保存治理方法论唯一真相 | 无运行时状态 | 各 `skills/*/SKILL.md` | 模板、参考与确定性脚本 | 宿主专用实现 |
+| 总路由 | 根据用户意图选择专项 Skill 和执行顺序 | 无持久状态 | `skills/documentation/docs-governance/SKILL.md` | 专项 Skill | 复制专项方法论 |
+| 专项 Skill | 保存治理方法论唯一真相 | 无运行时状态 | 各 `skills/<category>/<name>/SKILL.md` | 模板、参考与确定性脚本 | 宿主专用实现 |
 | 模板与参考 | 提供空白载体和同步矩阵 | 无运行时状态 | `templates/`、`references/` | 无 | 反向依赖 agent 或 command |
 | 日志格式 | 统一事件识别、原文边界及格式错误 | 无持久状态 | `scripts/logformat.py` 的 `parse_entries` / `Entry` / `LogFormatError` | Python 标准库 | 文件读写、CLI 退出、审计或归档策略 |
 | 确定性执行 | 检查事实、生成结构化结果，并按需渲染文字或 JSON | 结果在本次内存中；`.governance/` 只保存可重建派生状态 | `scripts/`、`hooks/`、`.github/workflows/verify.yml` | 日志格式、项目文档、Git | 把派生索引或旧运行结果当当前事实 |
@@ -63,9 +65,10 @@ flowchart LR
 | Interface / Seam | 定义位置 | Adapter / 调用方 | 约束唯一来源 |
 |---|---|---|---|
 | 插件发现 | `.claude-plugin/plugin.json`、`.codex-plugin/plugin.json` | Claude Code、Codex / ChatGPT | 双端 manifest |
-| 方法论执行 | `skills/*/SKILL.md` | commands、agents、当前 Codex agent | 对应 Skill |
-| Agent 入口内容规范 | `skills/agent-entrypoints/SKILL.md` | 总路由、统一 setup、活文档治理、当前 Agent | 主文件选择、事实输入、可执行规则和入口检查只在该 Skill；产品基线和文档读序继续引用既有 Skill |
-| 技术文档表达 | `skills/technical-doc-writing/SKILL.md` | 总路由、活文档治理、当前 Agent；已启用项目可留触发路标 | 原文／已确认材料 → 表达修改 → 语义比对；详细规则按需加载，事实审计仍独立 |
+| 方法论执行 | `skills/<category>/<name>/SKILL.md` | commands、agents、当前 Codex agent | 对应 Skill |
+| Agent 入口内容规范 | `skills/documentation/agent-entrypoints/SKILL.md` | 总路由、统一 setup、活文档治理、当前 Agent | 主文件选择、事实输入、可执行规则和入口检查只在该 Skill；产品基线和文档读序继续引用既有 Skill |
+| 架构文档判断与维护 | `skills/documentation/architecture-docs/SKILL.md` | 总路由、活文档治理、当前 Agent | 必要性判断、证据驱动的生成与审查；复用现有主记录，区分现状与计划 |
+| 技术文档表达 | `skills/documentation/technical-doc-writing/SKILL.md` | 总路由、活文档治理、当前 Agent；已启用项目可留触发路标 | 原文／已确认材料 → 表达修改 → 语义比对；详细规则按需加载，事实审计仍独立 |
 | Agent 入口长度检查 | `scripts/check-entrypoint-length.py` | `agent-entrypoints` 调用，只读检查显式文件列表 | 0 通过、1 超过 200 行、2 参数／读取错误；不安装 hook |
 | 统一 setup 编排 | `living-docs-governance` 的“统一 setup”模式 | Claude Code 的 setup／init command 与 docs-governor；Codex / ChatGPT 当前 Agent | 识别三类项目与授权 → product-evolution 返回产品主记录 → 按需治理载体 → agent-entrypoints → 统一验证；子调用不重启 setup |
 | 产品资料管理角色 | `agents/product-docs-manager.md` | Claude Code Agent；Codex / ChatGPT 当前 Agent 直接走共享 Skill | `product-evolution` 的管理员执行顺序、来源／编号／状态／授权边界；按需引用 change-impact 和 living-docs-governance |
@@ -82,7 +85,7 @@ flowchart LR
 
 现有展示版架构图在 `diagram/architecture.svg`，渲染预览为 `diagram/architecture.png`；若它与本文冲突，以本文和真实代码为准，并在同次结构变更中同步展示图。
 
-产品文档由 `skills/product-evolution/SKILL.md` 在现有专项 Skill 层承接，使用 `templates/product-index.example.md` 组织十阶段产物。本插件实际入口为 [产品管理](docs/product/README.md)；需求与确认由产品文档承载，任务状态仍归 Issue Tracker，业务验收不由确定性脚本代判。Stop 用内容指纹避免重复审计，提交护栏检查真实暂存快照；现有推送／PR CI 复用同一规则，不新增每日定时器。
+产品文档由 `skills/documentation/product-evolution/SKILL.md` 在现有专项 Skill 层承接，使用 `templates/product-index.example.md` 组织十阶段产物。本插件实际入口为 [产品管理](docs/product/README.md)；需求与确认由产品文档承载，任务状态仍归 Issue Tracker，业务验收不由确定性脚本代判。Stop 用内容指纹避免重复审计，提交护栏检查真实暂存快照；现有推送／PR CI 复用同一规则，不新增每日定时器。
 
 ## 更新规则
 

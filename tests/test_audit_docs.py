@@ -28,6 +28,20 @@ class AuditDocsTest(unittest.TestCase):
             check=False,
         )
 
+    def test_external_plugin_paths_use_absolute_paths_and_still_detect_missing(self):
+        with tempfile.TemporaryDirectory(prefix="external-plugin-") as directory:
+            plugin = Path(directory).resolve()
+            (plugin / "skills").mkdir()
+            entry = self.project / "AGENTS.md"
+            entry.write_text(f"外部插件入口：`{plugin / 'skills'}`\n", encoding="utf-8")
+            result = self.run_audit("spine")
+            self.assertNotIn("脊柱/载体路径不存在", result.stdout)
+            entry.write_text(f"外部入口：`{plugin / 'missing'}`\n项目入口：`skills/`\n", encoding="utf-8")
+            result = self.run_audit("spine")
+            self.assertEqual(result.returncode, 1)
+            self.assertIn(f"AGENTS.md -> {plugin / 'missing'}", result.stdout)
+            self.assertIn("AGENTS.md -> skills/", result.stdout)
+
     def test_artifact_scope_fails_on_broken_markdown_link(self):
         (self.project / "guide.md").write_text("[缺失](docs/missing.md)\n", encoding="utf-8")
         result = self.run_audit("artifacts")
@@ -269,6 +283,42 @@ class AuditDocsTest(unittest.TestCase):
         )
         result = self.run_audit("artifacts")
         self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_log_allows_only_git_renamed_link_targets(self):
+        def git(*args):
+            return subprocess.run(
+                ["git", "-c", "user.email=test@example.com", "-c", "user.name=Test", *args],
+                cwd=self.project, text=True, capture_output=True, check=True,
+            )
+        git("init")
+        old = self.project / "old.md"
+        old.write_text("# Guide\n\nStable content.\n")
+        log = self.project / "PROJECT_LOG.md"
+        original = "## [2026-01-01] docs | read [guide](old.md#section)\n"
+        log.write_text(original)
+        git("add", ".")
+        git("commit", "-m", "baseline")
+        base = git("rev-parse", "HEAD").stdout.strip()
+        # The final file no longer resembles the baseline, but the later
+        # rename is explicit in Git history and must preserve log links.
+        old.write_text("# Rewritten guide\n\nCompletely different instructions.\n")
+        git("add", "old.md")
+        git("commit", "-m", "rewrite guide before relocation")
+        old.rename(self.project / "new.md")
+        migrated = original.replace("old.md", "new.md")
+        log.write_text(migrated)
+        git("add", ".")
+        git("commit", "-m", "move")
+        result = self.run_audit("spine", "--base-ref", base)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        for changed in (migrated.replace("read", "rewrite"),
+                        migrated.replace("[guide]", "[changed]"),
+                        migrated.replace("#section", "#other"),
+                        migrated.replace("new.md", "unrelated.md")):
+            log.write_text(changed)
+            result = self.run_audit("spine", "--base-ref", base)
+            self.assertEqual(result.returncode, 1, result.stdout)
+            self.assertIn("被删除或改写", result.stdout)
 
     def test_committed_log_rewrite_is_rejected_against_explicit_base(self):
         def git(*args):

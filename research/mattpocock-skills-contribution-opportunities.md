@@ -61,7 +61,7 @@
 
 本地证据：
 
-- [`living-docs-governance/SKILL.md`](../skills/living-docs-governance/SKILL.md)：渐进式采用、分级读取、防腐规则、阶段收尾与“一文一职”。
+- [`living-docs-governance/SKILL.md`](../skills/documentation/living-docs-governance/SKILL.md)：渐进式采用、分级读取、防腐规则、阶段收尾与“一文一职”。
 - [`governance-audit.md`](../commands/governance-audit.md)：只读、便宜层先行、证据化分级报告。
 - 外部本地材料 `dbs-agent-migration/SKILL.md`（未随本仓库分发）：多宿主规则文件审计、真源与 bridge 分离。
 - 外部本地材料 `dbs-skill-cleaner/SKILL.md`（未随本仓库分发）：只读扫描、证据分级、用户确认后才执行。
@@ -345,7 +345,7 @@ Matt 已在 [#556 评论](https://github.com/mattpocock/skills/issues/556#issuec
 
 ### B. 多端并行工作的机器可验证接口契约
 
-本地 [`contract-first/SKILL.md`](../skills/contract-first/SKILL.md) 的可移植核心是：
+本地 [`contract-first/SKILL.md`](../skills/engineering/contract-first/SKILL.md) 的可移植核心是：
 
 - 一个跨端接口只有一个机器可读的契约来源；
 - 消费方可以从契约生成类型或 mock；
