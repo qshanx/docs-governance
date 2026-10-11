@@ -8,6 +8,9 @@
 | 路径 | 原因 | 日期 | 替代物 |
 |---|---|---|---|
 | `README.en.md` | 英文概览统一回主入口 | 2026-09-05 | `README.md` |
+| `research.md` | 研究资料归位，不在根目录重建 | 2026-10-10 | [Wayfinder 研究](research/2026-07-22-wayfinder-decision-lifecycle.md) |
+| `research-map-long-docs.md` | 研究资料归位，不在根目录重建 | 2026-10-10 | [Map 与长文档研究](research/2026-07-22-map-long-docs.md) |
+| `TEST_COLLABORATION_PROPOSAL.md` | 已实施方案保留为评审历史，不在根目录重建 | 2026-10-10 | [测试协作历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md) |
 
 ### 未决 P0
 - 暂无已确认 P0；普通验证缺口和范围决策见下文。
