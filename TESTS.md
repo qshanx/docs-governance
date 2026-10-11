@@ -238,3 +238,5 @@ python -m pip install -r requirements-dev.txt
 - 测试位置：`tests/test_project_health.py`；采集器为 `scripts/collect-project-health.py`。
 - 覆盖：无 Makefile 的脚本入口与 CI 字面对应、空壳提示与不执行、越界和符号链接、旧回执与会话排除、源文件指纹变化、缺失和无效记录、Make／package 候选、无效根、动态路径不误报、复合命令不误判空壳、Git filter 不被触发及显式会话路径拒绝。
 - 执行：`python3 -m unittest discover -s tests -p test_project_health.py`；项目实跑与独立复核见 [验证记录](docs/product/09-test-release.md)。
+
+TEST-HEALTH-001 补充 PR #40 回归：直接脚本／根目录脚本／带空格路径在文档与 CI 中的采集、指纹与字面对应；纯赋值和环境前缀执行的区分；未知 CI 命令缺口；带引号越界与私有路径拒绝。专项共 20 项，含参数化场景，不执行 fixture 内的验证命令。

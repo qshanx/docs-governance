@@ -5,16 +5,28 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import shlex
 from datetime import datetime, timezone
 
 LIMIT = 2 * 1024 * 1024
-COMMAND = re.compile(r'(?<![\w/-])(?:bash|sh|python3?|make|npm|pnpm|yarn|pytest|cargo|go)\s+[^`\n]+')
-SCRIPT = re.compile(r'(?<![\w/])(?:\./)?(?:[\w.-]+/)+[\w.-]+\.(?:sh|py)\b')
-TRIVIAL = re.compile(r'^(?:echo\b.*|printf\b.*|true|false|exit(?:\s+\d+)?|set\s+.*|cd\s+.*|export\s+.*|[A-Za-z_]\w*=.*)$')
+# Literal script invocations, including quoted paths, are candidates too.
+DIRECT_SCRIPT = r"(?:\"[^\"\n]+\.(?:sh|py)\"|'[^'\n]+\.(?:sh|py)'|(?:\./)?[\w./-]+\.(?:sh|py))"
+COMMAND = re.compile(r'(?<![\w/$.-])(?:(?:bash|sh|python3?|make|npm|pnpm|yarn|pytest|cargo|go)\s+[^`\n]+|'
+                     + DIRECT_SCRIPT + r'(?![\w.-])(?:[ \t]+[^`\n]*)?)')
+TRIVIAL = re.compile(r'^(?:echo\b.*|printf\b.*|true|false|exit(?:\s+\d+)?|set\s+.*|cd\s+.*|export\s+.*)$')
+ASSIGNMENT = re.compile(r'[A-Za-z_]\w*=.*', re.DOTALL)
 
 
 def trivial(value):
-    return not any(token in value for token in ('&&', '||', ';', '|', '`', '$(')) and bool(TRIVIAL.fullmatch(value))
+    if any(token in value for token in ('&&', '||', ';', '|', '`', '$(')):
+        return False
+    try:
+        words = shlex.split(value)
+    except ValueError:
+        return False
+    # Quoted values may contain spaces; a subsequent command is a separate word.
+    assignments_only = bool(words) and all(ASSIGNMENT.fullmatch(word) for word in words)
+    return assignments_only or bool(TRIVIAL.fullmatch(value))
 
 
 def digest(raw):
@@ -73,13 +85,29 @@ class Collector:
         item = {'source': path, 'line': line, 'kind': kind,
                 'command': redact(value), 'status': 'candidate_not_executed', 'scripts': []}
         self.commands.append(item)
-        for match in SCRIPT.finditer(value):
-            name = match.group()
-            prefix = value[:match.start()].rsplit(None, 1)[-1] if value[:match.start()].strip() else ''
-            if '$' in prefix or '$' in name or '<' in prefix or '>' in prefix:
+        try:
+            words = shlex.split(value)
+        except ValueError:
+            self.gap(path, 'unparsed_command_syntax')
+            words = []
+        # Only invocation positions are scripts: unittest -p test_*.py and
+        # pytest arguments are not Python script entrypoints.
+        script_words = words[:1]
+        if words and words[0] in ('bash', 'sh', 'python', 'python3'):
+            script_words = []
+            for word in words[1:]:
+                if word in ('-m', '-c'):
+                    break
+                if word.startswith('-'):
+                    continue
+                script_words = [word]
+                break
+        for name in script_words:
+            if not name.endswith(('.sh', '.py')) or '=' in name:
+                continue
+            if any(marker in name for marker in ('$', '<', '>', '~', '*', '?', '[', '`')):
                 self.gap(path, 'dynamic_command_reference'); continue
-            # A regex suffix of an absolute/parent-relative path is not a local reference.
-            if re.search(r'(?:/|\.\./)' + re.escape(name), value):
+            if Path(name).is_absolute() or '..' in Path(name).parts:
                 self.gap(path, 'external_or_parent_command_reference'); continue
             item['scripts'].append(name.removeprefix('./'))
             body = self.read(name, required=True)
@@ -103,8 +131,14 @@ class Collector:
         for line, value in enumerate(text.splitlines(), 1):
             if value.lstrip().startswith('#'):
                 continue
-            for match in COMMAND.finditer(value):
+            matches = list(COMMAND.finditer(value))
+            for match in matches:
                 self.command(match.group(), path, line, kind, depth)
+            # Explicit CI run steps must not silently look like absent validation.
+            run = re.match(r'\s*-?\s*run:\s*(.+)', value) if kind == 'ci' else None
+            if not matches and run and run.group(1).strip() not in ('|', '>', '|-', '>-'):
+                self.gap(path, 'unrecognized_command')
+                self.command(run.group(1), path, line, kind, depth)
 
     def collect(self):
         for name in ('AGENTS.md', 'CLAUDE.md', 'README.md', 'TESTS.md'):
