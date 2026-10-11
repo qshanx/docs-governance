@@ -230,3 +230,11 @@ python -m pip install -r requirements-dev.txt
 - 修改审计、日志索引、评审循环或 hook：更新对应 TEST-ID 并重跑默认验证。
 - 阶段交付前：核对本次涉及的 TEST-ID、命令退出码和人工证据。
 - 只有测试体系整体重构或地图明显失真时，才重新全量盘点。
+
+### TEST-HEALTH-001：项目健康证据采集边界
+
+- 状态：已覆盖；静态证据不代表真实业务验证。
+- 用途：防止体检越界、隐式执行项目命令、空壳检查与旧结果被误当通过。
+- 测试位置：`tests/test_project_health.py`；采集器为 `scripts/collect-project-health.py`。
+- 覆盖：无 Makefile 的脚本入口与 CI 字面对应、空壳提示与不执行、越界和符号链接、旧回执与会话排除、源文件指纹变化、缺失和无效记录、Make／package 候选、无效根、动态路径不误报、复合命令不误判空壳、Git filter 不被触发及显式会话路径拒绝。
+- 执行：`python3 -m unittest discover -s tests -p test_project_health.py`；项目实跑与独立复核见 [验证记录](docs/product/09-test-release.md)。
