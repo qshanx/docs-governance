@@ -4,10 +4,16 @@
 
 ## Agent 入口与工作流
 
+- [Anthropic：AI 原生开发流程](anthropic-ai-native-sdlc-playbook-2026-08-21.md)
+
 - [Vince：Agent 入口八条经验](2026-09-27-vincemask-agent-entrypoints.md)
 - [Tw93：Claude Code 工程实践](2026-09-27-tw93-claude-code-governance.md)
 
 ## 文档结构与治理方法
+
+- [awesome-design-md：适配评估](2026-09-24-awesome-design-md-fit.md)
+- [文档树方案比较](2026-09-22-ricoui-document-tree-comparison.md)
+- [Matt Skills：项目改进调研](2026-10-04-matt-skills-project-improvements.md)
 
 - [Matt Skills：产物治理审查](mattpocock-skills-artifact-governance-audit.md)
 
