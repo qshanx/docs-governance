@@ -31,11 +31,14 @@
 | 插件总路由 | `skills/documentation/docs-governance/SKILL.md` |
 | 活文档方法论 | `skills/documentation/living-docs-governance/SKILL.md` |
 | 领域上下文与 ADR | `skills/documentation/context-and-decisions/SKILL.md` |
+| 文档候选检索（只提供线索，仍需判读正文） | `scripts/find-doc-impact.py`；使用与限制见 `skills/engineering/change-impact/SKILL.md` |
 | 变更影响分析 | `skills/engineering/change-impact/SKILL.md` |
+| 文档影响的接口变更复跑与验收 | `skills/engineering/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |
 | 契约方法论（含两种模式） | `skills/engineering/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/engineering/test-collaboration/SKILL.md` |
 | 本插件实际测试资产、测试目的与缺口 | `TESTS.md` |
 | 模块联动回归方法论 | `skills/engineering/module-regression/SKILL.md` |
+| 架构文档的必要性判断、生成与审查 | `skills/documentation/architecture-docs/SKILL.md` |
 | 当前架构与核心流转 | `ARCHITECTURE.md` |
 | 展示版架构图 | `diagram/architecture.svg`（PNG 预览同目录） |
 | ARCHITECTURE.md 空白模板 | `templates/ARCHITECTURE.example.md` |

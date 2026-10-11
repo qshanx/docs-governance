@@ -13,6 +13,8 @@
 - 文件名 kebab-case；治理正文默认中文，现有英文文档、代码标识及技术术语保留原语言。
 - commit message 用英文；`git push` 等小磊说。
 
+- 修改模块功能、公共接口或共享数据前，读取 `skills/documentation/docs-governance/SKILL.md` 的“模块变更流程”，完成影响分析、实施后对照、相关回归和文档同步后再交付。
+
 ## 路标
 - 路径导航 / 误导清单 / 别动区 → `CLAUDE_MAP.md`
 - 当前 Module 权责、状态归属、依赖与核心流转 → `ARCHITECTURE.md`

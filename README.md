@@ -8,6 +8,8 @@ It works with Claude Code, Codex, and ChatGPT. The goal is not to create more do
 
 [简体中文](README.zh-CN.md) · [Chinese usage guide](使用说明.md) · [Contributing](CONTRIBUTING.md)
 
+模块功能、公共接口或共享数据变更，可在项目入口接入 [模块变更流程](skills/documentation/docs-governance/SKILL.md#模块变更流程)：改前分析影响 → 实施后核对 diff → 本模块及下游回归 → 文档同步。它是 Agent 执行约定，不等于已安装自动 Hook。
+
 ## Try it in three minutes
 
 Install it in Claude Code:
@@ -44,11 +46,13 @@ The first output is a report, not an automatic rewrite. Use `/governance-setup` 
 
 The point is not to create four documents in every repository. Use them progressively: a small project can stay small, while a long-running project gains a stable handoff surface for humans and agents.
 
-For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the current architecture contract: one owner per responsibility and mutable state, explicit Interfaces, allowed and forbidden dependencies, a code-dependency diagram, and a separate runtime-flow diagram. `CLAUDE_MAP.md` only links to it. The two diagrams stay distinct because data may return upstream while source-code dependencies remain one-way.
+Use `architecture-docs` to decide whether architecture documentation is needed and reuse an existing source when available. It records module responsibilities, state ownership, interfaces, dependencies, and core flows from project evidence, keeping current implementation separate from planned design. `CLAUDE_MAP.md` links to the source; code-dependency and runtime-flow diagrams have distinct meanings.
 
 ### Focused workflows
 
 - **Agent entrypoints** (`agent-entrypoints`): turn confirmed project context into actionable `AGENTS.md` / `CLAUDE.md` instructions, including requirement-reading triggers, real validation commands, and a single shared rule source.
+- **Architecture documents** (`architecture-docs`): decide whether a project needs an architecture document, then create, improve, or review it against project evidence.
+- **Daily document maintenance** (`docs-maintenance`): synchronize documents affected by a completed task, update stale content, consolidate duplicates, and report verification gaps.
 - **Living documentation**: initialize, audit, and synchronize the documentation spine.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.
@@ -60,7 +64,7 @@ For a multi-Module project, an optional standalone `ARCHITECTURE.md` carries the
 
 Claude Code 的 [product-docs-manager](agents/product-docs-manager.md) 是产品文档管理员角色，调用现有 Skills 管理来源、需求编号、修订及授权；Codex / ChatGPT 直接使用 `$product-evolution` 执行同一流程。PM 四类材料索引、六类管理位置与十阶段导航共用主记录；CLAUDE 从产品入口触发按任务读取，必要条款分批核对，避免默认全量加载 PRD。
 
-The implementation lives in these skills: `skills/documentation/docs-governance`, `skills/documentation/living-docs-governance`, `skills/documentation/context-and-decisions`, `skills/engineering/change-impact`, `skills/engineering/contract-first`, `skills/engineering/test-collaboration`, `skills/engineering/module-regression`, and `skills/engineering/loop-design-check`.
+The implementation lives in these skills: `skills/docs-governance`, `skills/living-docs-governance`, `skills/context-and-decisions`, `skills/change-impact`, `skills/contract-first`, `skills/test-collaboration`, `skills/module-regression`, and `skills/loop-design-check`.
 
 ## Why it exists
 
@@ -97,5 +101,7 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 [MIT](LICENSE) · [Seekers2001](https://github.com/Seekers2001)
 
 文件归位与变更审计可由项目显式启用 `.docs-governance.json`；Stop 按变更检查，提交检查暂存区，pre-push 与 PR CI 强制扫描提交快照，并按改动列出应核对文档。创建 PR 前使用同一检查入口，失败先修复。配置及安装见 [护栏说明](references/document-policy.md)。
+
+检查通过后，由 Agent 按 [事实变化核对文档](skills/engineering/change-impact/SKILL.md#按事实核对文档)，定位正文冲突、映射外说明与重复决定；可从 [接口变更样例](skills/engineering/change-impact/examples/interface-change.md) 复跑。脚本不自动判定正文过期。
 
 Skills are grouped under `skills/documentation/` and `skills/engineering/`. `in-progress/` and `deprecated/` are reserved and not loaded. Skill names and invocation remain unchanged.

@@ -272,14 +272,26 @@ def log_link_moves(root: Path, base_ref: str | None) -> dict[str, str]:
         ["git", "diff", "--no-ext-diff", "--find-renames", "--name-status", "-z", base_ref, "--"],
         cwd=root, text=True, capture_output=True, check=True,
     )
-    fields = iter(result.stdout.rstrip("\0").split("\0"))
+    # A rewrite followed by a rename may lose similarity against the base.
+    # Recover only renames recorded in the intervening commits, with the old
+    # path absent and the destination still present in the inspected tree.
+    history = subprocess.run(
+        ["git", "log", "--format=", "--find-renames", "--diff-filter=R",
+         "--name-status", "-z", f"{base_ref}..HEAD", "--"],
+        cwd=root, text=True, capture_output=True, check=True,
+    )
     moves = {}
-    for status in fields:
-        if not status:
-            continue
-        old = next(fields)
-        if status.startswith("R"):
-            moves[old] = next(fields)
+    for output in (history.stdout, result.stdout):
+        fields = iter(output.rstrip("\0").split("\0"))
+        for status in fields:
+            status = status.strip()
+            if not status:
+                continue
+            old = next(fields)
+            if status.startswith("R"):
+                new = next(fields)
+                if not (root / old).exists() and (root / new).is_file():
+                    moves[old] = new
     return moves
 
 
