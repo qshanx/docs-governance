@@ -68,6 +68,7 @@ flowchart LR
 | 方法论执行 | `skills/<category>/<name>/SKILL.md` | commands、agents、当前 Codex agent | 对应 Skill |
 | Agent 入口内容规范 | `skills/documentation/agent-entrypoints/SKILL.md` | 总路由、统一 setup、活文档治理、当前 Agent | 主文件选择、事实输入、可执行规则和入口检查只在该 Skill；产品基线和文档读序继续引用既有 Skill |
 | 架构文档判断与维护 | `skills/documentation/architecture-docs/SKILL.md` | 总路由、活文档治理、当前 Agent | 必要性判断、证据驱动的生成与审查；复用现有主记录，区分现状与计划 |
+| 面向 AI 的文档写作 | `skills/documentation/writing-for-agents/SKILL.md` | 总路由、活文档治理、当前 Agent | 步骤与参考分层、按需读取、完成标准；本地补充核对含义 |
 | Agent 入口长度检查 | `scripts/check-entrypoint-length.py` | `agent-entrypoints` 调用，只读检查显式文件列表 | 0 通过、1 超过 200 行、2 参数／读取错误；不安装 hook |
 | 统一 setup 编排 | `living-docs-governance` 的“统一 setup”模式 | Claude Code 的 setup／init command 与 docs-governor；Codex / ChatGPT 当前 Agent | 识别三类项目与授权 → product-evolution 返回产品主记录 → 按需治理载体 → agent-entrypoints → 统一验证；子调用不重启 setup |
 | 产品资料管理角色 | `agents/product-docs-manager.md` | Claude Code Agent；Codex / ChatGPT 当前 Agent 直接走共享 Skill | `product-evolution` 的管理员执行顺序、来源／编号／状态／授权边界；按需引用 change-impact 和 living-docs-governance |
@@ -88,8 +89,14 @@ flowchart LR
 
 项目健康证据由 `scripts/collect-project-health.py` 只读采集项目内入口、验证命令、CI 与显式 JSON 记录，输出带文件指纹的候选，不执行被发现的脚本、不判整体健康。现有 `living-docs-governance` 负责解释和路由，文档审计仍复用 `scripts/audit-docs.py`；没有全局配置或会话历史依赖。
 
+`agent-workflow-governance` 在专项 Skill 层承接治理规则落点与散落工作流检查，按需读取附件并复用现有主记录、专项 Skill 和采集能力；只输出证据与建议，不新增执行服务、Hook 或门禁。
+
 ## 更新规则
 
+模块建档由 [module-governance](skills/documentation/module-governance/SKILL.md) 按任务意图编排：入口规范交给 agent-entrypoints，领域语言与决策交给 context-and-decisions，接口核对交给 contract-first，文档／代码边界交给 architecture-docs；maintenance 同步引用，audit 只读核对覆盖。已有根入口或共享主记录充分覆盖时直接复用，局部入口只补真实新增约定。生成后复用 artifacts 链接审计，不增加执行服务。
+
+决策载体由 [context-and-decisions](skills/documentation/context-and-decisions/SKILL.md) 选择：保留已有 ADR；简短且仅影响模块的决策可内联于模块入口，长决策或跨模块决策沿用 ADR 主记录。术语仍归对应 CONTEXT，接口定义与决策理由不复制进词汇表。
+
 - 宿主入口、路由、专项 Skill、模板/参考或确定性脚本的职责及依赖变化 → 同次更新本文。
-- 难回退的架构选择及理由 → 一项一份 ADR；本文只反映 accepted 决策后的当前结构。
+- 难回退的架构选择及理由 → 按 context-and-decisions 选择既有 ADR 或简短模块内联记录；本文只反映 accepted 决策后的当前结构。
 - Interface 字段、测试证据和下游命令分别留在 CONTRACT、TESTS、REGRESSION 对应载体，不复制进本文。

@@ -127,3 +127,51 @@ TEST-PR-001 新增 3 项安装回归：旧分支与 linked worktree 的真实 pu
 阿磊确认将模块流程独立为 module-governance，并按任务意图触发。实现复用入口、领域上下文、契约与架构 Skills；普通 Bug 不建档，纯审计不写入。实际样本、相对路径误报纠正与生成后链接检查见[实跑记录](../audits/2026-10-11-module-governance-real-run.md)。样本通过不等于全宿主命中率保证；未迁移真实业务项目。
 
 独立提交以远端 main 的 `1b07eb2` 为基线，不带入本地主工作区的其他改动；保留上游现有路由、维护及审计流程。使用项目已有 .venv 执行完整 verify：112 项测试及文档审计通过。早先实跑报告的 109 项属于当时混合工作区，不作为本提交测试数量。
+
+### MOD：PR #46 新评审与最新 main 集成
+
+按 [PR #46 新评审](https://github.com/qshanx/docs-governance/pull/46#issuecomment-6110080987) 修正两项 P2：根入口或架构主记录充分覆盖模块时标复用，不因没有局部文件报缺口；contract-first 按进程内与网络边界区分验证要求。ARCHITECTURE 同步模块编排与决策载体选择。普通 merge 接入 `0b6573d`，逐段保留双方路由、说明与测试记录。
+
+新隔离会话显式使用 docs-audit 与 contract-first，读取实际库存／价格样本的 7 个文件并运行 2 项测试，均通过。实际输出认可根入口和共享 CONTEXT 的覆盖；进程内调用不要求网络序列化，价格接口已有真实 JSON bytes 证据但仍指出缺标准 schema 校验和 HTTP 联调。样本 7 个文件的 SHA-256 前后一致。该测试验证规则分支与只读行为，不代表隐式触发或完整业务验收；原始会话记录在 `/private/tmp/pr46-review-events.jsonl`。
+
+在最新 main 集成工作区激活已有 .venv 后，完整 `bash scripts/verify.sh` 退出 0：114 项单元测试、插件结构、引用与 full 文档审计通过。提交快照检查、远端 CI 和合并状态以其后实际回执为准。
+
+## AWG-PLACEMENT-20261011：规则落点检查实跑
+
+当前混合工作区按新增附件完成只读诊断，范围、证据和建议见[实跑报告](../audits/2026-10-11-governance-rule-placement.md)。文本场景核对覆盖已有 Skill 复用、项目事实不转通用 Skill、单次故障不泛化、已有脚本缺调用与只读停止。AGENTS／CLAUDE 分别 7／26 行，长度检查通过；未安装 Hook、修改门禁或调用原生宿主自动事件。历史审计只登记 Issue #43。
+
+### AWG-PLACEMENT 提交隔离
+
+以 main 的 1b07eb2 为基线，单独提取规则落点附件、实跑报告及必要登记。agent-workflow-governance 的广义框架尚未进入 main，本 PR 沿用该名称但仅提供本次只读检查的最小入口；未带入上下文／工具／隔离治理附件、其他未提交 Skill、治理修复、脚本或 Hook 改动。原实跑属于混合工作区，不能当成本次隔离快照的验收。
+
+## r8：技术文档表达（2026-10-05）
+
+> 2026-10-11 调整：下文保留原方案与试验记录；当前改为引入 [writing-for-agents](../../skills/documentation/writing-for-agents/SKILL.md)，保留 MIT 许可证、固定来源与本地含义核对。旧试验不代表新 Skill 已通过行为验证。
+
+对应 TEST-WRITING-001 与 TWR-1—TWR-5。基于主分支 `520696eb519f2dd50531ba91abe5ad89478ffdf3` 的真实文档副本；新增规则独立整理，未安装新依赖、Hook 或宿主 Agent，未执行指南中的业务命令。
+
+| 实际场景 | 执行与核对结果 |
+|---|---|
+| 中文操作指南：`references/document-policy.md` 的隔离副本 | 执行 Agent 从总路由定位新 Skill 并读取包内规则，改写长句、条件和失败分支。独立审阅者逐句对照，未发现语义漂移 |
+| 合成发布约定：推荐测试、数据库备份、文档豁免、回退计划和缓存例外 | 保留“最好”“只有……才必须”“不需要”“尚未验证”“计划”；缓存为空的条件仍覆盖成功和缺失两分支，读取先于重建 |
+| 英文 `CONTRIBUTING.md` 的只读副本 | Agent 从活文档委托读取新 Skill，返回四处可粘贴建议，另列事实疑点；原文与结果字节一致，SHA-256 均为 `5c29068e65b9a6786a2402e509bcf459680bbfe2e852eb8a00c75754a1e2bbb2` |
+
+实际改写片段：
+
+> 原文：目前尚未验证自动回退，下一版本计划支持它。
+>
+> 改写：目前尚未验证自动回退，下一版本计划支持自动回退。
+
+只明确代词，不改变证据或完成状态。两份改写产物的标题、列表编号、代码块、行内代码、链接目标和数字序列与原文逐项一致；这些机械比对与独立语义审查分开进行。指南输出 SHA-256 为 `1f4895e7837a41ce9cb546cd5859600eaef39871a59b64b0e6d17b6b0f201198`，合成样例输出为 `bd1ecd4e8ac3756ada198c111a76669bb1f6126aa7ad642cd36be4300e7beca9`。临时输入、原文副本和产物保存在本轮本地证据目录，没有将改写指南或 CONTRIBUTING 混入插件改动。
+
+| 实际检查 | 结果与覆盖 |
+|---|---|
+| 激活已有 `.venv` 后运行 `bash scripts/verify.sh` | 退出码 0，79 项既有单元测试、11 个 Skill 的路由／说明、Python 编译和 full 文档审计通过 |
+| `quick_validate.py` 检查 technical-doc-writing、docs-governance、living-docs-governance、agent-entrypoints | 四个 Skill 均有效；格式检查不代替行为验证 |
+| `check-entrypoint-length.py` 检查本仓库 AGENTS／CLAUDE 及两个入口模板 | 全部退出 0；分别 7／26 行及 7／29 行 |
+| `bash -n scripts/verify.sh`、`git diff --check` | 均退出 0 |
+| 实际引用检查段的临时夹具 | 根引用与包内引用齐全时退出 0；包内文件或整个 reference 目录缺失且根目录同名文件存在时均退出 1；根引用缺失且包内同名文件存在时退出 1 |
+
+full 审计中的 CONTEXT 缺失是现有按需载体提示，本轮不补空壳。提交后 `check-pr-docs.py --base origin/main` 与远端 CI 须检查实际提交，不能预先由本记录宣称通过。
+
+验证边界：上述结果是实际 Agent 显式读取共享 Skill 后的执行及独立审查，不是宿主安装后自动选择 Skill 的证明。Claude Code 原生调用、Codex 跨会话发现、业务项目效果和标准合规未验证；本轮未合并、部署或发布。

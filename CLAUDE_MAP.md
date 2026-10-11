@@ -19,6 +19,7 @@
 | 本插件文档按职责查找、区分当前记录与历史资料 | [项目文档入口](docs/README.md) |
 | 外部文章、方法比较与候选贡献 | [研究资料索引](research/README.md) |
 | 已停用的 Skill 及替代入口 | [停用目录说明](skills/deprecated/README.md)；不用于存放普通旧文档 |
+| 治理规则落点与散落工作流沉淀检查 | `skills/documentation/agent-workflow-governance/SKILL.md`；细则按需读取其 supporting-files，默认只读 |
 | Agent 入口内容、共享主源选择与规则可执行性 | `skills/documentation/agent-entrypoints/SKILL.md`；来源见 [Vince 八条经验](research/2026-09-27-vincemask-agent-entrypoints.md)、[Tw93 工程实践](research/2026-09-27-tw93-claude-code-governance.md) |
 | Agent 入口 200 行检查 | `scripts/check-entrypoint-length.py`，传入本次受检文件 |
 | Agent 入口完整示例（项目输入 → AGENTS.md 成品） | `skills/documentation/agent-entrypoints/examples/confirmed-project.md`；虚构案例，不能作为目标项目事实 |
@@ -40,6 +41,8 @@
 | 契约方法论（含两种模式） | `skills/engineering/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/engineering/test-collaboration/SKILL.md` |
 | 测试协作的原始方案、确认与评审历史 | [2026-07-12 历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)；当前方法仍看 Skill |
+
+| 写给 AI 的文档结构、读取指针与完成标准 | `skills/documentation/writing-for-agents/SKILL.md`；含义核对、许可证与固定来源随包提供 |
 | 本插件实际测试资产、测试目的与缺口 | `TESTS.md` |
 | 模块联动回归方法论 | `skills/engineering/module-regression/SKILL.md` |
 | 架构文档的必要性判断、生成与审查 | `skills/documentation/architecture-docs/SKILL.md` |
