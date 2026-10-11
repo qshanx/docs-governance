@@ -13,7 +13,7 @@
 1. 在 Claude Code 中安装：
 
    ```text
-   /plugin marketplace add Seekers2001/docs-governance
+   /plugin marketplace add qshanx/docs-governance
    /plugin install docs-governance@docs-governance
    ```
 
@@ -131,14 +131,14 @@ AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶�
 **方式一（推荐）— Claude Code 插件市场：**
 
 ```
-/plugin marketplace add Seekers2001/docs-governance
+/plugin marketplace add qshanx/docs-governance
 /plugin install docs-governance@docs-governance
 ```
 
 **方式二 — Codex CLI：**
 
 ```bash
-codex plugin marketplace add Seekers2001/docs-governance
+codex plugin marketplace add qshanx/docs-governance
 codex plugin add docs-governance@docs-governance
 ```
 
@@ -213,7 +213,7 @@ docs-governance/
 首次开发先创建并激活 `.venv`，运行 `python -m pip install -r requirements-dev.txt` 安装契约模板校验依赖。改任何文件后、提交前跑 `bash scripts/verify.sh`（检查 Claude/Codex manifest 一致、JSON、hook、路由与引用不断链，并执行单元测试、OpenAPI 模板验证和 full 文档审计）。本插件实际有哪些测试、为什么存在、保护哪些风险和还缺什么，统一看根目录 `TESTS.md`。关键 Skill 另用 Codex `quick_validate.py` 校验。
 
 ---
-MIT · Seekers2001（小磊）· jiaxinleifm@outlook.com
+MIT · qshanx（小磊）· jiaxinleifm@outlook.com
 
 产品资料采用完整十阶段入口，方法仅管理文档。项目可通过 `.docs-governance.json` 约束必需文件、PRD 标题／文件名位置与脚本目录；变更收尾、暂存区提交和 CI 共用规则。见 [文档护栏说明](references/document-policy.md)。
 

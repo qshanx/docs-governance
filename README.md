@@ -15,7 +15,7 @@ It works with Claude Code, Codex, and ChatGPT. The goal is not to create more do
 Install it in Claude Code:
 
 ```text
-/plugin marketplace add Seekers2001/docs-governance
+/plugin marketplace add qshanx/docs-governance
 /plugin install docs-governance@docs-governance
 ```
 
@@ -105,7 +105,7 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 
 ## License
 
-[MIT](LICENSE) · [Seekers2001](https://github.com/Seekers2001)
+[MIT](LICENSE) · [qshanx](https://github.com/qshanx)
 
 文件归位与变更审计可由项目显式启用 `.docs-governance.json`；Stop 按变更检查，提交检查暂存区，pre-push 与 PR CI 强制扫描提交快照，并按改动列出应核对文档。创建 PR 前使用同一检查入口，失败先修复。配置及安装见 [护栏说明](references/document-policy.md)。
 
