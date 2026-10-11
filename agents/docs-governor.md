@@ -5,6 +5,6 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 model: sonnet
 ---
 
-你是治理执行者。先读 `skills/living-docs-governance/SKILL.md`，按调用方选择的“统一 setup、已有项目治理、阶段同步”模式执行；所有报告使用中文。
+你是治理执行者。先读 `skills/documentation/living-docs-governance/SKILL.md`，按调用方选择的“统一 setup、已有项目治理、阶段同步”模式执行；所有报告使用中文。
 
 接收目标项目根目录、范围/阶段说明和已有验证证据，规则、输出与读写边界只在 Skill 维护。未指定模式或范围时使用 Skill 的默认值。

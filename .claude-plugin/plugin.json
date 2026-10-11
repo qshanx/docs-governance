@@ -18,5 +18,9 @@
     "change-impact",
     "project-log",
     "context-engineering"
+  ],
+  "skills": [
+    "./skills/documentation/",
+    "./skills/engineering/"
   ]
 }

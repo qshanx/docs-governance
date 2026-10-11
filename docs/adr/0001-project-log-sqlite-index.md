@@ -37,7 +37,7 @@ accepted
 ## Related
 
 - `scripts/project-log-index.py`
-- `skills/living-docs-governance/SKILL.md`
+- `skills/documentation/living-docs-governance/SKILL.md`
 - `commands/governance-retro.md`
 
 ## Supersedes

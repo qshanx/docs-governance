@@ -4,7 +4,7 @@
 
 先检查读完能否回答：做什么产品、用什么技术、新代码放哪里；尚未确定的内容如实标明。
 
-每份 AGENTS.md／CLAUDE.md（含模块入口）≤200 行；超长细节下沉，保留关键规则和读取路标。生成、修改或审查后，运行[计数脚本](../../scripts/check-entrypoint-length.py)检查本次全部受检入口，非零退出即不通过：
+每份 AGENTS.md／CLAUDE.md（含模块入口）≤200 行；超长细节下沉，保留关键规则和读取路标。生成、修改或审查后，运行[计数脚本](../../../scripts/check-entrypoint-length.py)检查本次全部受检入口，非零退出即不通过：
 
 ```sh
 python3 <插件目录>/scripts/check-entrypoint-length.py <入口文件> [更多入口文件...]
@@ -42,6 +42,8 @@ python3 <插件目录>/scripts/check-entrypoint-length.py <入口文件> [更多
 ```
 
 资料多或位置不明确时，先读 `CLAUDE_MAP.md` 等索引，再到正文。示例路径替换为项目真实位置，选一两个典型任务沿指针找到所需内容；涉及实现时对照代码或配置，指出过时说明与冲突。自动导入全部正文仍会占用上下文。
+
+接入本插件模块变更流程时，在获准的共享入口保留触发条件及 `skills/documentation/docs-governance/SKILL.md` 的“模块变更流程”指针，使用实际安装路径，外部插件使用完整路径。
 
 ### 5. 敏感模块有专属约束时，再加局部入口
 

@@ -10,7 +10,7 @@ body:
     id: component
     attributes:
       label: Affected component
-      placeholder: "For example: skills/living-docs-governance or /governance-audit"
+      placeholder: "For example: skills/documentation/living-docs-governance or /governance-audit"
     validations:
       required: true
   - type: textarea

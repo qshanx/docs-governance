@@ -2,11 +2,11 @@
 
 收录日期：2026-09-27。来源：Vince（@vincemask）[《写好 CLAUDE.md 的 8 条经验：让 Claude Code 更懂你的项目》](https://x.com/vincemask/status/2052368318825402507)。通过 agent-reach 的 OpenCLI 后端读取文章标题和正文；返回文本未含部分示例／汇总表，本文不补造那些内容，也不保存全文副本。发布日未在返回内容中确认。
 
-本文保存来源观点与适配判断；实际执行规范唯一维护在 [agent-entrypoints](../skills/agent-entrypoints/SKILL.md)。它服务于入口文档生成与检查，setup 的整体编排仍需单独衔接产品文档体系。
+本文保存来源观点与适配判断；实际执行规范唯一维护在 [agent-entrypoints](../skills/documentation/agent-entrypoints/SKILL.md)。它服务于入口文档生成与检查，setup 的整体编排仍需单独衔接产品文档体系。
 
 ## 文章八条要点
 
-按原文 1—8 的顺序整理。第二列是来源观点，第三列是本项目采用方式；不是所有观点都等于宿主功能保证。执行细节只维护在 [Skill 的同序号条目](../skills/agent-entrypoints/SKILL.md)，不在这里维护第二份规范。
+按原文 1—8 的顺序整理。第二列是来源观点，第三列是本项目采用方式；不是所有观点都等于宿主功能保证。执行细节只维护在 [Skill 的同序号条目](../skills/documentation/agent-entrypoints/SKILL.md)，不在这里维护第二份规范。
 
 | 原文序号 | 原文要点摘要 | 本项目对应落点 |
 |---|---|---|
@@ -52,8 +52,8 @@
 
 ## 与最新文档体系的关系
 
-- [product-evolution](../skills/product-evolution/SKILL.md) 已定义十阶段资料、来源、当前基线与按任务读取。PRD／模块 Spec 保持需求和验收的主记录。
-- [living-docs-governance](../skills/living-docs-governance/SKILL.md) 已定义文档职责与分级读取，并非此前完全没有入口规范。独立 Skill 补充的是从项目证据生成具体内容、规则去重、入口选择和交付检查。
+- [product-evolution](../skills/documentation/product-evolution/SKILL.md) 已定义十阶段资料、来源、当前基线与按任务读取。PRD／模块 Spec 保持需求和验收的主记录。
+- [living-docs-governance](../skills/documentation/living-docs-governance/SKILL.md) 已定义文档职责与分级读取，并非此前完全没有入口规范。独立 Skill 补充的是从项目证据生成具体内容、规则去重、入口选择和交付检查。
 - agent-entrypoints 输出有项目内容的入口、必要的适配及规则缺口；它可以由当前 Agent 或未来 setup 编排 Agent 调用。它本身不批准 PRD，也不承担完整产品文档包的编写。
 - 当前仓库仍以 CLAUDE.md 为共享章程、AGENTS.md 为桥接。引入独立 Skill 不自动迁移这个约定；现有审计和模板仍有这一默认布局，迁移需一并适配并验证。
 
