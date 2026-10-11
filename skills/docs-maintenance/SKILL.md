@@ -54,8 +54,3 @@ description: >-
 接口样例的失败、修复与复验见[可复跑案例](../change-impact/examples/interface-change.md#示例与命令验证)。
 
 完成时在回复或已有测试记录中简述：已同步内容（或无需同步的理由）、待确认差异、失败及未验证范围；附受检版本、文档位置和实际命令／环境、预期与结果。本次受影响的主记录和查到的引用均应已处理；未解决项写清位置、依据和下一步，并标为部分完成。无需另建报告或台账，脚本通过不代表内容全部一致。
-
-## 借鉴来源
-
-- [Claude code-simplifier](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-simplifier/agents/code-simplifier.md)：限定范围、保留含义、清晰优先于行数。
-- [卡兹克 neat-freak](https://github.com/KKKKhazix/khazix-skills/blob/main/neat-freak/SKILL.md)：对齐事实、就地更新、唯一主记录与证据检查。
