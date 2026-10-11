@@ -23,7 +23,7 @@ DOCS_GOVERNANCE_BASE_REF=origin/main bash scripts/verify.sh
 
 验证包含双端 manifest、路由、引用、Python 编译、测试、机器契约和 full 文档审计。依赖安装需要网络；测试本身不调用实际模型或线上业务服务。PR CI 使用目标分支基线，push CI 使用推送前 SHA。
 
-2026-09-05，[PR #3](https://github.com/Seekers2001/docs-governance/pull/3) 的修复提交 `c132f0a` 已通过 Ubuntu / Python 3.12 的 [push 检查](https://github.com/Seekers2001/docs-governance/actions/runs/33958218000)和 [pull_request 检查](https://github.com/Seekers2001/docs-governance/actions/runs/33958226055)。此记录只证明该提交；后续提交与合并结果以对应 GitHub checks 为准。
+2026-09-05，[PR #3](https://github.com/qshanx/docs-governance/pull/3) 的修复提交 `c132f0a` 已通过 Ubuntu / Python 3.12 的 [push 检查](https://github.com/qshanx/docs-governance/actions/runs/33958218000)和 [pull_request 检查](https://github.com/qshanx/docs-governance/actions/runs/33958226055)。此记录只证明该提交；后续提交与合并结果以对应 GitHub checks 为准。
 
 ## 空项目初始化复跑
 

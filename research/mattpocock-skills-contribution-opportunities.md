@@ -95,8 +95,8 @@ Matt 已在 [#130 的评论](https://github.com/mattpocock/skills/issues/130#iss
 阿磊已经：
 
 - 在 [#130 提交提议](https://github.com/mattpocock/skills/issues/130#issuecomment-5047515253)；
-- 完成分支 [`agent/curate-context-glossary`](https://github.com/Seekers2001/skills/tree/agent/curate-context-glossary)；
-- 完成 [commit `6a15d2e`](https://github.com/Seekers2001/skills/commit/6a15d2e)；
+- 完成分支 [`agent/curate-context-glossary`](https://github.com/qshanx/skills/tree/agent/curate-context-glossary)；
+- 完成 [commit `6a15d2e`](https://github.com/qshanx/skills/commit/6a15d2e)；
 - 将权限阻塞与 compare 链接回贴到 [#130](https://github.com/mattpocock/skills/issues/130#issuecomment-5053634048)。
 
 上游没有对应开放 PR；当前只是外部 fork 上的完整补丁。
