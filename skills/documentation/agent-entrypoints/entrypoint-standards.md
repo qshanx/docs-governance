@@ -4,7 +4,7 @@
 
 先检查读完能否回答：做什么产品、用什么技术、新代码放哪里；尚未确定的内容如实标明。
 
-每份 AGENTS.md／CLAUDE.md（含模块入口）≤200 行；超长细节下沉，保留关键规则和读取路标。生成、修改或审查后，运行[计数脚本](../../scripts/check-entrypoint-length.py)检查本次全部受检入口，非零退出即不通过：
+每份 AGENTS.md／CLAUDE.md（含模块入口）≤200 行；超长细节下沉，保留关键规则和读取路标。生成、修改或审查后，运行[计数脚本](../../../scripts/check-entrypoint-length.py)检查本次全部受检入口，非零退出即不通过：
 
 ```sh
 python3 <插件目录>/scripts/check-entrypoint-length.py <入口文件> [更多入口文件...]

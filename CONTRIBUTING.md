@@ -4,7 +4,7 @@ Thanks for helping improve a small, evidence-oriented governance plugin.
 
 ## Before opening a pull request
 
-1. Read [README.md](README.md), then locate the owning `skills/*/SKILL.md` through [CLAUDE_MAP.md](CLAUDE_MAP.md).
+1. Read [README.md](README.md), then locate the owning `skills/<category>/<name>/SKILL.md` through [CLAUDE_MAP.md](CLAUDE_MAP.md).
 2. Keep one canonical owner for each piece of methodology. Commands and agents are host adapters; they should point to a Skill instead of copying its procedure.
 3. Keep the change narrow. Do not add a document, directory, or process for a hypothetical future need.
 4. Run the verification suite:
@@ -20,7 +20,7 @@ Thanks for helping improve a small, evidence-oriented governance plugin.
 
 | You are changing | Preferred location |
 | --- | --- |
-| Methodology or decision rules | `skills/*/SKILL.md` |
+| Methodology or decision rules | `skills/<category>/<name>/SKILL.md` |
 | Claude Code interaction adapter | `commands/` or `agents/` |
 | A reusable starter file | `templates/` |
 | Deterministic validation | `scripts/` plus tests in `tests/` |

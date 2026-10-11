@@ -22,7 +22,8 @@ claude = json.loads(Path(".claude-plugin/plugin.json").read_text())
 codex = json.loads(Path(".codex-plugin/plugin.json").read_text())
 assert claude["name"] == codex["name"], "name 不一致"
 assert claude["version"] == codex["version"], "version 不一致"
-assert codex.get("skills") == "./skills/", "Codex skills 路径必须是 ./skills/"
+expected = ["./skills/documentation/", "./skills/engineering/"]
+assert codex.get("skills") == claude.get("skills") == expected, "双端只加载 documentation / engineering"
 ' 2>/dev/null && ok "双端 name / version / skills 一致" || bad "Claude / Codex manifest 不一致"
 
 echo "[3] hook 脚本可执行"
@@ -34,18 +35,18 @@ for a in agents/*.md; do
   name=$(basename "$a" .md)
   grep -rql "$name" commands/ skills/ README.md 2>/dev/null && ok "agents/$name 被引用" || bad "agents/$name 是孤儿（无 command/skill/README 引用）"
 done
-for d in skills/*/; do
+for d in skills/documentation/*/ skills/engineering/*/; do
   name=$(basename "$d")
   grep -q "$name" README.md 2>/dev/null || bad "skills/$name 未在 README 登记"
   grep -q "$name" 使用说明.md 2>/dev/null || bad "skills/$name 未在使用说明登记"
   if [ "$name" != "docs-governance" ]; then
-    grep -q "$name" skills/docs-governance/SKILL.md 2>/dev/null || bad "skills/$name 未进入总路由"
+    grep -q "$name" skills/documentation/docs-governance/SKILL.md 2>/dev/null || bad "skills/$name 未进入总路由"
   fi
   ok "skills/$name 文档与路由检查完成"
 done
 
 echo "[5] 路径式引用存在"
-REF_PATTERN='(templates|references)/[A-Za-z0-9._-]+\.md|skills/[A-Za-z0-9._-]+/SKILL\.md|scripts/[A-Za-z0-9._-]+\.(py|sh)|docs/adr/[A-Za-z0-9._-]+\.md'
+REF_PATTERN='(templates|references)/[A-Za-z0-9._-]+\.md|skills/(documentation|engineering)/[A-Za-z0-9._-]+/SKILL\.md|scripts/[A-Za-z0-9._-]+\.(py|sh)|docs/adr/[A-Za-z0-9._-]+\.md'
 grep -rhoE "$REF_PATTERN" agents/ skills/ commands/ README.md 使用说明.md CLAUDE.md CLAUDE_MAP.md ARCHITECTURE.md docs/adr 2>/dev/null | sort -u | while read -r ref; do
   [ -f "$ref" ] && ok "$ref" || bad "$ref 被引用但不存在"
 done
@@ -54,10 +55,10 @@ MISS=$(grep -rhoE "$REF_PATTERN" agents/ skills/ commands/ README.md 使用说�
 [ -n "$MISS" ] && FAIL=1
 
 echo "[6] 每个 skill 有 SKILL.md / 每个 command 与 agent 是 .md"
-for d in skills/*/; do [ -f "$d/SKILL.md" ] && ok "$d" || bad "$d 缺 SKILL.md"; done
+for d in skills/documentation/*/ skills/engineering/*/; do [ -f "$d/SKILL.md" ] && ok "$d" || bad "$d 缺 SKILL.md"; done
 for command in commands/*.md; do
   [ -f "$command" ] || continue
-  if grep -qE 'skills/[A-Za-z0-9._-]+/SKILL\.md' "$command"; then
+  if grep -qE 'skills/(documentation|engineering)/[A-Za-z0-9._-]+/SKILL\.md' "$command"; then
     ok "$command 委托共享 Skill"
   else
     bad "$command 未委托共享 Skill"

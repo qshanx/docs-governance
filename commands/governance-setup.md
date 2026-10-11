@@ -3,7 +3,7 @@ description: 统一配置新项目、讨论后项目或已有项目的产品文�
 argument-hint: "[目标项目、讨论资料或配置范围]"
 ---
 
-读取 `skills/living-docs-governance/SKILL.md`，执行“统一 setup”模式。
+读取 `skills/documentation/living-docs-governance/SKILL.md`，执行“统一 setup”模式。
 
 用户参数：`$ARGUMENTS`。将参数作为目标项目、已知约束或接入范围传入；探测、确认、写入与验证边界以 Skill 为唯一来源。
 
