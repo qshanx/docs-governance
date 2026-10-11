@@ -18,6 +18,8 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 新建核心模块、补齐模块文档或维护模块约定，无须点名 Skill | `module-governance`；讨论只读，普通 Bug／样式不启动建档 |
+| 审计核心模块知识入口覆盖 | `docs-audit`，仅报告；边界核对使用 `architecture-docs` |
 | 采集项目健康证据、核对验证入口与 CI 衔接 | `living-docs-governance` 的“项目健康证据采集” |
 | 规划、整理或只读审查文档目录、归属与读取入口 | `docs-structure` |
 | 生成、精简或审查 AGENTS.md / CLAUDE.md，明确项目规范和产品读取入口 | `agent-entrypoints` |

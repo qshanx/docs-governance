@@ -214,3 +214,7 @@ docs-governance/
 MIT · Seekers2001（小磊）· jiaxinleifm@outlook.com
 
 产品资料采用完整十阶段入口，方法仅管理文档。项目可通过 `.docs-governance.json` 约束必需文件、PRD 标题／文件名位置与脚本目录；变更收尾、暂存区提交和 CI 共用规则。见 [文档护栏说明](references/document-policy.md)。
+
+## module-governance
+
+新建核心业务模块、补齐模块文档或维护模块约定时，可按任务意图调用 [module-governance](skills/documentation/module-governance/SKILL.md)，无需点名。复用项目／模块 AGENTS、CONTEXT、契约与决策主记录；普通 Bug、样式修改不触发建档，纯审计不授权写入。生成后运行已有链接审计，断链修复后复跑。

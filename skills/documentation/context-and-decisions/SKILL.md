@@ -1,7 +1,7 @@
 ---
 name: context-and-decisions
 description: >-
-  管理项目稳定领域上下文与难回退决策：按需建立边界严格的 CONTEXT.md，并用 docs/adr/README.md 统一索引、一项决策一个 ADR 文件。用于领域术语反复解释、同词异义、架构或数据库选型、认证/部署/数据模型/API 版本策略、需要记录为什么这样做及如何退出时。English triggers: domain context, context governance, architecture decision record, ADR, database decision, architectural decision.
+  管理项目或模块的稳定领域上下文与难回退决策：按需建立 CONTEXT.md，复用既有 ADR 或在模块入口内联简短决策。用于领域术语反复解释、同词异义、模块边界、架构或数据库选型、认证/部署/数据模型/API 版本策略、需要记录为什么这样做及如何退出时。English triggers: domain context, context governance, architecture decision record, ADR, database decision, architectural decision.
 ---
 
 # 领域上下文与决策
@@ -10,7 +10,7 @@ description: >-
 
 ## `CONTEXT.md`：只管领域语言
 
-在术语反复解释、同词异义或模块边界因语言不清而出错时，使用 `templates/context.example.md` 懒创建根目录 `CONTEXT.md`。
+在术语反复解释、同词异义或模块边界因语言不清而出错时，使用 `templates/context.example.md` 按需维护项目或模块的 `CONTEXT.md`，优先复用现有词汇表。先声明适用上下文；同一上下文同一概念统一名称，不强迫不同上下文的同名词含义相同。跨边界的名称／模型转换由契约或映射代码承载，词汇表只链接。共享术语引用项目主记录，模块只补差异，不复制整表。
 
 只记录：
 
@@ -21,9 +21,33 @@ description: >-
 
 禁止写入：实现细节、当前状态、任务排期、需求全文、决策理由和历史。对应内容分别回到代码/MAP、STATUS/Issue Tracker、Spec、ADR、LOG。术语必须能和代码、契约或业务证据对照；不能确认就标“待确认”，不要猜。
 
-## `docs/adr/`：一项决策一个文件
+与模块 AGENTS 配合时，CONTEXT 解释其中使用的业务概念，AGENTS 链接这些定义并规定操作边界，不重写词义。更名不等于业务含义变化；确实改变含义时，通过 `change-impact` 核对使用该概念的契约、业务行为及消费者。两份文档冲突时展示来源并查已确认决定，不默认以较新的文件覆盖另一份，也不让词汇表中的表述自动扩大 Agent 权限。
 
-首次出现难回退决策时，创建：
+### 主动澄清术语（借鉴 Matt 的 domain-modeling）
+
+此流程用于形成或改变领域语言；普通开发只读取已有 CONTEXT，不必重新建模。
+
+1. **找到上下文。** 先读已有 CONTEXT；有 CONTEXT-MAP 时沿它定位，否则复用项目导航。单上下文可用根 CONTEXT，多上下文各自维护；归属不明先询问，不为每个目录建词汇表。
+2. **指出歧义与冲突。** 对照已定义词义，明确指出“现有定义是 X，本次似乎指 Y”。对“账号”等多义词提出精确候选名称，让业务方确认，不自行把客户、用户和账户合并。
+3. **用具体场景厘清边界。** 例如“一个客户能否对应多个登录用户？”或“订单允许部分取消吗？”假设场景用于提问，不作为项目事实写入。
+4. **与代码交叉核对。** 读取相关实现与契约；用户描述和实现不符时呈现两方证据，查已有确认或请求裁决，不默认代码正确。尚无实现时注明，不能捏造核验结果。
+5. **确认即沉淀。** 第一项术语确定且有文档写入授权时，按需创建或立即更新对应 CONTEXT，不等会话结束批量补记。未确认的问题留“待确认”，不冒充标准词义；只读任务给建议，不写文件。术语变化的下游影响用现有变更流程处理，不顺带改代码。
+
+格式沿用 `templates/context.example.md`：每个概念选一个标准名，用一两句话定义“它是什么”，用 `_Avoid_` 列出本上下文中不再采用的同义叫法；没有别名写无。只收业务领域词，不收超时、工具函数等通用编程概念。概念多时自然分组，不强制复杂结构。已有表格可以保留并补等价字段，不为格式迁移复制另一份词汇表。共享定义只引用，不要求不同上下文同名词含义相同。
+
+CONTEXT 仍是领域词汇表，不是需求规格、实现方案或决策仓库；决策继续走下方独立流程。本插件仅借鉴 Matt 的术语澄清方法，不依赖用户安装外部 Skill，也不改变既有 ADR 记录规则。
+
+`_Avoid_` 只列同一概念不再采用的叫法；容易混淆但业务含义不同的词应解释区别，不能当作应废弃的别名。没有确认过的同义词就写无，不为填模板发明术语禁用规则。
+
+## 模块两入口：简短决策可内联
+
+已采用模块 `AGENTS.md` + `CONTEXT.md` 时，短小且仅影响该模块的决策可放在 AGENTS 的“决策”节，与术语分开。每条有稳定编号（如 `inventory-001`）、确认来源及 Context、Decision、Alternatives、Reason、Consequences、Status、Related、Supersedes；无替代项或前序决策写明无，不虚构。只有负责人已确认才写 `accepted`。
+
+已有 ADR 沿用原主记录，AGENTS 仅链接；长决策、跨模块决策或历史增长导致入口超过 200 行时，复用项目 ADR 空间存放并留链接，不另造每模块 ADR 目录。替代关系双向链接、旧记录保留，不能用“只留两份文档”为由删除决策历史。内联记录目前由 Agent 核对，不能声称现有 ADR 脚本会解析其完整语义。
+
+## 独立 ADR：一项决策一个文件
+
+需要独立记录且没有现成 ADR 布局时，创建：
 
 - `docs/adr/README.md`：薄索引，只列编号、标题、状态和链接；
 - 一项决策一份编号文件（例如 `0001-use-postgresql.md`），套用 `templates/adr.example.md`。
@@ -34,13 +58,13 @@ description: >-
 
 ## 决策流程
 
-1. 先读取现有 `CONTEXT.md`、`docs/adr/README.md` 和相关 ADR，避免重复决策。
+1. 先读取适用的 `CONTEXT.md`、模块内联决策或既有 ADR 索引和相关记录，避免重复决策。
 2. 用真实约束写 Context；列出确实讨论过的 Alternatives，不补写虚构方案。
 3. 在 Decision 与 Reason 中区分“选了什么”和“为什么选”。
 4. 在 Consequences 中写收益、代价、可逆性、迁移与退出路径；不可逆部分明确标出。
 5. 用 Related 链接 Spec/Issue、CONTRACT、TEST-ID、提交或代码位置。
 6. 新决策替代旧决策时，新 ADR 填 Supersedes，旧 ADR 改为 `superseded` 并互相链接；不要删除旧记录。
-7. 更新 `docs/adr/README.md`，并从 `CLAUDE_MAP.md` 只挂 ADR 索引入口，不枚举每个 ADR。
+7. 独立 ADR 更新既有索引（默认 `docs/adr/README.md`）；内联记录更新模块入口的决策节。从既有 MAP 导航到模块或 ADR 索引，不再复制决策正文。
 8. 在 `PROJECT_LOG.md` 追加一条决策事件。
 
 ## 排期与任务边界

@@ -62,3 +62,5 @@
 - `.codex-plugin/plugin.json` 与 `.claude-plugin/plugin.json` 是不同宿主的安装入口，名称和版本必须一致；方法论仍只在 `skills/` 维护。
 - 根目录 `AGENTS.md` 只负责让 Codex 进入共享 `CLAUDE.md` 章程，不是第五份治理文档。
 - `.governance/project-log.sqlite` 是从 Markdown 日志重建的本地派生索引，默认忽略；不能当项目排期或历史唯一来源。
+
+模块建档与约定维护 → `skills/documentation/module-governance/SKILL.md`；自然语言触发与链接复测见 [实跑记录](docs/audits/2026-10-11-module-governance-real-run.md)。

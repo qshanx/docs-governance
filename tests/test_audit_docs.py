@@ -48,6 +48,23 @@ class AuditDocsTest(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("Markdown 链接断裂", result.stdout)
 
+    def test_nested_module_links_resolve_from_document_directory(self):
+        module = self.project / "modules" / "inventory"
+        module.mkdir(parents=True)
+        (self.project / "AGENTS.md").write_text("# Project\n", encoding="utf-8")
+        (module / "CONTEXT.md").write_text("[Rules](AGENTS.md)\n", encoding="utf-8")
+        entry = module / "AGENTS.md"
+        entry.write_text("[Project](../AGENTS.md)\n[Terms](CONTEXT.md)\n", encoding="utf-8")
+        broken = self.run_audit("artifacts", "--format", "json")
+        self.assertEqual(broken.returncode, 1, broken.stdout)
+        failures = [item for item in json.loads(broken.stdout)["findings"] if item["status"] == "fail"]
+        self.assertEqual(len(failures), 1)
+        self.assertEqual(failures[0]["path"], "modules/inventory/AGENTS.md")
+        self.assertEqual(failures[0]["evidence"]["target"], "../AGENTS.md")
+        entry.write_text("[Project](../../AGENTS.md)\n[Terms](CONTEXT.md)\n", encoding="utf-8")
+        fixed = self.run_audit("artifacts")
+        self.assertEqual(fixed.returncode, 0, fixed.stdout)
+
     def test_json_reports_broken_link_with_machine_readable_evidence(self):
         (self.project / "guide.md").write_text("[缺失](docs/missing.md)\n", encoding="utf-8")
         text_result = self.run_audit("artifacts")
