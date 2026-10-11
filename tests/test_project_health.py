@@ -135,6 +135,62 @@ class ProjectHealthTests(unittest.TestCase):
             self.assertNotIn(secret, output)
         self.assertIn('[REDACTED]', output)
 
+    def test_common_script_spellings_link_docs_and_ci(self):
+        cases = [('./scripts/verify.sh', 'scripts/verify.sh'),
+                 ('bash verify.sh', 'verify.sh'),
+                 ('bash scripts/verify.sh', 'scripts/verify.sh'),
+                 ('bash "scripts/check project.sh"', 'scripts/check project.sh'),
+                 ('"./scripts/check project.sh"', 'scripts/check project.sh')]
+        for command, name in cases:
+            with self.subTest(command=command):
+                self.write('README.md', '`' + command + '`\n')
+                self.write('.github/workflows/test.yml', 'steps:\n  - run: ' + command + '\n')
+                self.write(name, 'touch EXECUTED\npython3 -m unittest discover\n')
+                data = self.run_health()
+                commands = [c for c in data['commands'] if c['kind'] in ('instruction', 'ci')]
+                self.assertEqual(len(commands), 2)
+                for candidate in commands:
+                    self.assertEqual(candidate['scripts'], [name])
+                    self.assertTrue(candidate['same_literal_script_in_ci'])
+                self.assertTrue(next(f['sha256'] for f in data['files'] if f['path'] == name))
+                self.assertFalse((self.root / 'EXECUTED').exists())
+
+    def test_assignments_do_not_hide_test_execution(self):
+        cases = [('PYTHONPATH=.', 'hollow_candidate'),
+                 ('A=one B="two words"', 'hollow_candidate'),
+                 ('PYTHONPATH=. pytest tests', 'candidate_not_executed'),
+                 ('A=one B="two words" pytest tests', 'candidate_not_executed'),
+                 ('A="unterminated', 'candidate_not_executed')]
+        for command, status in cases:
+            with self.subTest(command=command):
+                self.write('package.json', json.dumps({'scripts': {'test': command}}))
+                self.write('README.md', '`bash scripts/verify.sh`\n')
+                self.write('scripts/verify.sh', command + '\n')
+                data = self.run_health()
+                for kind in ('package:test', 'instruction'):
+                    self.assertEqual(next(c['status'] for c in data['commands'] if c['kind'] == kind), status)
+
+    def test_non_script_arguments_and_sha_fields_are_not_script_paths(self):
+        self.write('README.md', '`python3 -m unittest discover -p test_project_health.py`\n')
+        self.write('.github/workflows/test.yml',
+                   'env:\n  BASE: ${{ github.event.pull_request.base.sha }}\n')
+        data = self.run_health()
+        self.assertEqual(data['coverage_gaps'], [])
+        self.assertEqual(len(data['commands']), 1)
+        self.assertEqual(data['commands'][0]['scripts'], [])
+
+    def test_unparsed_ci_command_reports_gap(self):
+        self.write('.github/workflows/test.yml', 'steps:\n  - run: custom-validator --all\n')
+        data = self.run_health()
+        self.assertIn('unrecognized_command', [g['reason'] for g in data['coverage_gaps']])
+
+    def test_quoted_external_and_private_script_paths_stay_blocked(self):
+        for command in ('bash "../outside script.sh"', 'bash "/tmp/outside script.sh"',
+                        'bash ".codex/session script.sh"'):
+            with self.subTest(command=command):
+                self.write('README.md', '`' + command + '`\n')
+                self.assertTrue(self.run_health()['coverage_gaps'])
+
     def test_bad_root_returns_execution_error(self):
         proc = subprocess.run([sys.executable, str(SCRIPT), '--root', str(self.root / 'missing')], capture_output=True, text=True)
         self.assertEqual(proc.returncode, 2)

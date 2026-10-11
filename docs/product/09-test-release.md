@@ -115,3 +115,9 @@ TEST-PR-001 新增 3 项安装回归：旧分支与 linked worktree 的真实 pu
 用户随后授权创建并合并 PR。以 1f7ae10 为基线，仅移入 afa3d87 的健康采集功能，排除其父提交 fe0643a 的治理和环境修复；保留 main 已合并的 Skill 与历史记录。采集器和 15 项回归保持原样，入口继续复用 living-docs-governance。
 
 最新 main 基线上的独立 PR 工作区使用项目 .venv 验证：完整 verify 及 106 项单元测试通过（包含本次 15 项）；原始日志为 /tmp/health-pr-verify-final.log 和 /tmp/health-pr-tests.log。此前 100 项与 108 项分别属于不同快照，不能作为此次 PR 的测试数量。
+
+### PH：PR #40 评审修复
+
+来源为 [合并后独立评审](https://github.com/qshanx/docs-governance/pull/40#issuecomment-6109666108) 及阿磊本会话的修复要求。两类 P2 已用新增 fixture 复现：常见脚本入口漏采／CI 对应缺失，以及环境前缀命令误判空壳。4 项新增参数化测试在修复前出现 11 处断言失败；修复后健康采集专项 20 项全部通过，包含既有不执行、越界、旧回执与脱敏检查。修复只扩展静态识别并保守标注缺口，没有引入 Shell 执行或完整 YAML 解析。回执独立指纹为后续建议，本轮未实施；原生宿主调用验收仍未执行。
+
+项目实跑补查后增加第 5 项回归，防止 unittest 的筛选文件名和 GitHub .sha 字段被识别成脚本；脚本路径仅从调用位置取值。该版本实跑为 19 个源文件、63 条候选，4 项复杂引号／动态路径解析缺口，collection_changed=false；这些缺口不代表命令执行失败。
