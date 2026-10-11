@@ -16,6 +16,7 @@
 
 | 要找 | 去 |
 |---|---|
+| 治理规则落点与散落工作流沉淀检查 | `skills/documentation/agent-workflow-governance/SKILL.md`；细则按需读取其 supporting-files，默认只读 |
 | Agent 入口内容、共享主源选择与规则可执行性 | `skills/documentation/agent-entrypoints/SKILL.md`；来源见 [Vince 八条经验](research/2026-09-27-vincemask-agent-entrypoints.md)、[Tw93 工程实践](research/2026-09-27-tw93-claude-code-governance.md) |
 | Agent 入口 200 行检查 | `scripts/check-entrypoint-length.py`，传入本次受检文件 |
 | Agent 入口完整示例（项目输入 → AGENTS.md 成品） | `skills/documentation/agent-entrypoints/examples/confirmed-project.md`；虚构案例，不能作为目标项目事实 |
