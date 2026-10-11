@@ -299,6 +299,11 @@ class AuditDocsTest(unittest.TestCase):
         git("add", ".")
         git("commit", "-m", "baseline")
         base = git("rev-parse", "HEAD").stdout.strip()
+        # The final file no longer resembles the baseline, but the later
+        # rename is explicit in Git history and must preserve log links.
+        old.write_text("# Rewritten guide\n\nCompletely different instructions.\n")
+        git("add", "old.md")
+        git("commit", "-m", "rewrite guide before relocation")
         old.rename(self.project / "new.md")
         migrated = original.replace("old.md", "new.md")
         log.write_text(migrated)
