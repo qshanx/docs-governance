@@ -14,6 +14,10 @@ metadata:
 
 > 在 Claude Code 中，可由配套的 `docs-governor` / `docs-auditor` agent 执行；在 Codex 或没有这些自定义 agent 的宿主中，由当前 agent 直接按本 skill 执行，必要时再使用宿主提供的只读探索或执行型子 agent。本 skill 始终是方法论唯一来源。
 
+## 项目健康证据采集
+
+只检查项目健康证据时，执行[项目健康采集](supporting-files/project-health.md)：采集项目入口、验证命令、CI 与显式回执，按需衔接既有专项 Skill。静态候选不代表验证通过；不检查全局配置或会话历史。
+
 ## 什么时候启用
 
 满足任一条就启用：

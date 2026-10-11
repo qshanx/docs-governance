@@ -108,3 +108,5 @@ See [`TESTS.md`](TESTS.md) for the actual test inventory, why each suite exists,
 检查通过后，由 Agent 按 [事实变化核对文档](skills/engineering/change-impact/SKILL.md#按事实核对文档)，定位正文冲突、映射外说明与重复决定；可从 [接口变更样例](skills/engineering/change-impact/examples/interface-change.md) 复跑。脚本不自动判定正文过期。
 
 Skills are grouped under `skills/documentation/` and `skills/engineering/`. `in-progress/` and `deprecated/` are reserved and not loaded. Skill names and invocation remain unchanged.
+
+Project health evidence collection is available through `living-docs-governance`: it inspects project entrypoints, validation commands, CI references, and explicit receipts without executing discovered commands or reading global configuration or session history. Static evidence does not establish a health pass.
