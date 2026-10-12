@@ -33,7 +33,7 @@
 | 本插件产品管理入口与需求基线 | [产品管理](docs/product/README.md) |
 | 产品阶段入口模板 | `templates/product-index.example.md` |
 | 插件总路由 | `skills/documentation/docs-governance/SKILL.md` |
-| 活文档方法论 | `skills/documentation/living-docs-governance/SKILL.md` |
+| 首次建立文档管理体系、兼容审计与日志管理 | `skills/documentation/living-docs-governance/SKILL.md`；记录范围、审计和日志细节按需读取包内参考 |
 | 领域上下文与 ADR | `skills/documentation/context-and-decisions/SKILL.md` |
 | 文档候选检索（只提供线索，仍需判读正文） | `scripts/find-doc-impact.py`；使用与限制见 `skills/engineering/change-impact/SKILL.md` |
 | 变更影响分析 | `skills/engineering/change-impact/SKILL.md` |
