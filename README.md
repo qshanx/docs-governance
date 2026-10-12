@@ -31,7 +31,7 @@ Or in Codex / ChatGPT:
 $docs-governance audit the current project in read-only mode and recommend the smallest useful next step
 ```
 
-The first output is a report, not an automatic rewrite. Use `/governance-setup` for new, discussed-but-not-built, or existing projects: it discovers existing sources, confirms the file scope, then coordinates product documentation and Agent entrypoints through shared skills. Existing PRD/Spec files stay authoritative; unknowns remain explicit. `/governance-init` is a compatibility alias, and `/governance` handles ongoing maintenance. Setup does not implicitly install hooks, initialize Git, commit, or push.
+The first output is a report, not an automatic rewrite. Use `/governance-setup` for new, discussed-but-not-built, or existing projects: it discovers existing sources, confirms the file scope, then organizes existing documents, adds the sources needed for the agreed scope, connects navigation and status, and configures Agent entrypoints through shared skills. Product documentation is added when needed. Existing PRD/Spec files stay authoritative; unknowns remain explicit. `/governance-init` is a compatibility alias, and `/governance` handles ongoing maintenance. Setup does not implicitly install hooks, initialize Git, commit, or push.
 
 ## What it provides
 
@@ -44,7 +44,7 @@ The first output is a report, not an automatic rewrite. Use `/governance-setup` 
 | `PROJECT_STATUS.md` | current health, risks, and priorities |
 | `PROJECT_LOG.md` | append-only project history |
 
-The point is not to create four documents in every repository. Use them progressively: a small project can stay small, while a long-running project gains a stable handoff surface for humans and agents.
+Setup reuses existing sources and establishes navigation and current status for the agreed scope. Git projects do not create a LOG by default; existing history and project-specific logging agreements remain in force.
 
 Use `architecture-docs` to decide whether architecture documentation is needed and reuse an existing source when available. It records module responsibilities, state ownership, interfaces, dependencies, and core flows from project evidence, keeping current implementation separate from planned design. `CLAUDE_MAP.md` links to the source; code-dependency and runtime-flow diagrams have distinct meanings.
 
@@ -60,7 +60,7 @@ Use `architecture-docs` to decide whether architecture documentation is needed a
 - **Document management retrospective** (`docs-retro`): learn from document-management evidence and propose concrete edits to existing documents and workflows; read-only by default.
 
 - **Writing for agents** (`writing-for-agents`): structure Skills, agent entrypoints and documents read by AI using clear pointers, progressive disclosure and completion criteria; preserve meaning with a local final check. Includes the upstream MIT license and pinned source.
-- **Living documentation**: initialize, audit, and synchronize the documentation spine.
+- **Living documentation**: establish the initial document system, delegate specialized maintenance, and retain read-only audits and log archiving.
 - **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.
 - **Contract-first collaboration**: use one machine-readable contract indexed by `CONTRACT.md` as the shared source of truth for frontend/backend or multi-service work.
