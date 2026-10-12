@@ -427,6 +427,71 @@ class AuditDocsTest(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("ADR Supersedes 目标不存在", result.stdout)
 
+    def test_adr_scope_accepts_matt_minimal_record_without_index_or_status(self):
+        adr_dir = self.project / "docs" / "adr"
+        adr_dir.mkdir(parents=True)
+        (adr_dir / "0001-storage.md").write_text(
+            "# PostgreSQL for inventory\n\nWe need atomic reservations, so use PostgreSQL rather than a flat file.\n",
+            encoding="utf-8",
+        )
+        result = self.run_audit("adr", "--format", "json")
+        report = json.loads(result.stdout)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertTrue(any(item["check"] == "adr.status" and item["status"] == "unverified"
+                            for item in report["findings"]))
+        self.assertFalse((adr_dir / "README.md").exists())
+
+    def test_adr_scope_rejects_explicit_invalid_or_empty_status(self):
+        adr_dir = self.project / "docs" / "adr"
+        adr_dir.mkdir(parents=True)
+        (adr_dir / "README.md").write_text("[storage](0001-storage.md)\n", encoding="utf-8")
+        for value in ("approved", "accepted-ish", "", "superseded by ADR-9999"):
+            with self.subTest(status=value):
+                (adr_dir / "0001-storage.md").write_text(
+                    f"---\nstatus: {value}\n---\n# Storage\n\nUse PostgreSQL for transactions.\n",
+                    encoding="utf-8",
+                )
+                result = self.run_audit("adr")
+                self.assertEqual(result.returncode, 1, result.stdout)
+
+    def test_adr_scope_accepts_matt_superseded_by_existing_number(self):
+        adr_dir = self.project / "docs" / "adr"
+        adr_dir.mkdir(parents=True)
+        (adr_dir / "0001-old.md").write_text(
+            "---\nstatus: superseded by ADR-0002\n---\n# Old storage\n\nUse flat files.\n",
+            encoding="utf-8",
+        )
+        (adr_dir / "0002-new.md").write_text(
+            "# New storage\n\nUse PostgreSQL for atomic writes.\n", encoding="utf-8",
+        )
+        result = self.run_audit("adr")
+        self.assertEqual(result.returncode, 0, result.stdout)
+
+    def test_adr_scope_checks_context_specific_directories(self):
+        for context, status in (("ordering", "accepted"), ("billing", "approved")):
+            adr_dir = self.project / "src" / context / "docs" / "adr"
+            adr_dir.mkdir(parents=True)
+            (adr_dir / "0001-storage.md").write_text(
+                f"# Storage\n\nStatus: {status}\n\nUse PostgreSQL.\n", encoding="utf-8",
+            )
+        ignored = self.project / "node_modules" / "example" / "docs" / "adr"
+        ignored.mkdir(parents=True)
+        (ignored / "0001-storage.md").write_text("Status: invalid\n", encoding="utf-8")
+        result = self.run_audit("adr", "--format", "json")
+        failures = [item for item in json.loads(result.stdout)["findings"] if item["status"] == "fail"]
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertEqual([item["path"] for item in failures], ["src/billing/docs/adr/0001-storage.md"])
+
+    def test_adr_scope_without_index_still_rejects_broken_links(self):
+        adr_dir = self.project / "docs" / "adr"
+        adr_dir.mkdir(parents=True)
+        (adr_dir / "0001-storage.md").write_text(
+            "# Storage\n\nUse PostgreSQL; see [reason](missing.md).\n", encoding="utf-8",
+        )
+        result = self.run_audit("adr")
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn("Markdown 链接断裂", result.stdout)
+
     def test_artifact_scope_rejects_unregistered_test_id_when_tests_ledger_exists(self):
         docs = self.project / "docs"
         docs.mkdir()

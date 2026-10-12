@@ -34,7 +34,7 @@
 | 产品阶段入口模板 | `templates/product-index.example.md` |
 | 插件总路由 | `skills/documentation/docs-governance/SKILL.md` |
 | 首次建立文档管理体系、兼容审计与日志管理 | `skills/documentation/living-docs-governance/SKILL.md`；记录范围、审计和日志细节按需读取包内参考 |
-| 领域上下文与 ADR | `skills/documentation/context-and-decisions/SKILL.md` |
+| 领域上下文与 ADR | `skills/documentation/domain-modeling/SKILL.md` |
 | 文档候选检索（只提供线索，仍需判读正文） | `scripts/find-doc-impact.py`；使用与限制见 `skills/engineering/change-impact/SKILL.md` |
 | 变更影响分析 | `skills/engineering/change-impact/SKILL.md` |
 | 文档影响的接口变更复跑与验收 | `skills/engineering/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |

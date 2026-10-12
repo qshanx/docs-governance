@@ -31,7 +31,7 @@ description: >-
 | 从对话、文档变更与审计记录复盘文档管理经验 | `docs-retro` |
 | LOG 管理或复盘 | `living-docs-governance` |
 | 是否需要架构文档，生成、完善或审查模块分工、状态归属、依赖与核心流程 | `architecture-docs` |
-| 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `context-and-decisions` |
+| 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `domain-modeling`（Matt 原文与本地适配）；`context-and-decisions` 仅兼容旧调用 |
 | 修改前判断牵连面、迁移、回滚、实施后对照 | `change-impact` |
 | 前后端或服务间接口 | `contract-first` |
 | 测试资产、成功标准证据、Bug→TEST-ID | `test-collaboration` |
@@ -44,7 +44,7 @@ description: >-
 
 修改模块功能、公共接口或共享数据时，当前 Agent 负责串起以下流程，无须用户逐个点名 Skill。只读请求保持只读；纯排版等小改动只做相关检查，不展开整套流程或另写报告。
 
-1. **改前看影响**：记录任务起点及已有未提交修改，按 `change-impact` 查真实调用方、数据与契约，确定受影响模块、候选文档和验证命令。需求不清先定位已确认 Spec／Issue；跨端接口按 `contract-first` 处理，难回退决策按 `context-and-decisions` 处理。
+1. **改前看影响**：记录任务起点及已有未提交修改，按 `change-impact` 查真实调用方、数据与契约，确定受影响模块、候选文档和验证命令。需求不清先定位已确认 Spec／Issue；跨端接口按 `contract-first` 处理，难回退决策按 `domain-modeling` 处理。
 2. **实施并核对范围**：完成获准修改，对照实际 diff 补查新增影响。任务开始时已有修改须单独区分，不能全归为本轮；出现新的需求或授权冲突时先澄清该部分。
 3. **验证本模块与下游**：按 `module-regression` 执行影响分析确定的回归；测试点与证据需要维护时调用 `test-collaboration`。本次引入的失败由当前改动者修复并复验；旧失败、环境阻塞与未跑范围分别说明，不能把局部通过说成全部通过。
 4. **同步文档并交付**：需编写或优化面向 AI 的文档时，先按需读取 `skills/documentation/writing-for-agents/SKILL.md`，传入已确认材料、原文与获准范围，核对改写含义后再同步。将任务范围、实际 diff、影响清单和回归结果交给 `docs-maintenance`；复用同一基线与有效审计结果，补查实际变化，不重复推导。最终简述改了什么、影响谁、跑了什么、同步了哪些文档及剩余缺口。回归受阻仍可记录已知状态，但不能把功能写成验收通过。

@@ -31,7 +31,7 @@ description: >-
 | 功能、使用方式或操作命令 | README、使用说明及操作文档中的步骤和预期结果 |
 | 接口、配置或数据结构 | 契约、接入说明和调用示例；旧用法是仍受支持，还是已失效？契约写法沿用 `contract-first` |
 | 文件位置或模块关系 | MAP 和相关引用；架构变化交给 `architecture-docs` |
-| 需求、决策或稳定约定 | PRD／Spec、ADR 或项目入口；分别按 `product-evolution`、`context-and-decisions`、`agent-entrypoints` 处理 |
+| 需求、决策或稳定约定 | PRD／Spec、ADR 或项目入口；分别按 `product-evolution`、`domain-modeling`、`agent-entrypoints` 处理 |
 | 进展、风险或验证结果 | STATUS 对应条目；旧证据是否仍适用于当前版本？任务排期仍留 Tracker |
 | 值得追溯的重要事件 | 沿用项目约定的历史主源，保留原因、确认依据和相关版本；已有 LOG 按约定追加，否则复用 PR／Issue／决策或能承载这些信息的 Git 记录，不另建流水，保留既有历史 |
 

@@ -93,10 +93,10 @@ flowchart LR
 
 ## 更新规则
 
-模块建档由 [module-governance](skills/documentation/module-governance/SKILL.md) 按任务意图编排：入口规范交给 agent-entrypoints，领域语言与决策交给 context-and-decisions，接口核对交给 contract-first，文档／代码边界交给 architecture-docs；maintenance 同步引用，audit 只读核对覆盖。已有根入口或共享主记录充分覆盖时直接复用，局部入口只补真实新增约定。生成后复用 artifacts 链接审计，不增加执行服务。
+模块建档由 [module-governance](skills/documentation/module-governance/SKILL.md) 按任务意图编排：入口规范交给 agent-entrypoints，领域语言与决策交给 domain-modeling，接口核对交给 contract-first，文档／代码边界交给 architecture-docs；maintenance 同步引用，audit 只读核对覆盖。已有根入口或共享主记录充分覆盖时直接复用，局部入口只补真实新增约定。生成后复用 artifacts 链接审计，不增加执行服务。
 
-决策载体由 [context-and-decisions](skills/documentation/context-and-decisions/SKILL.md) 选择：保留已有 ADR；简短且仅影响模块的决策可内联于模块入口，长决策或跨模块决策沿用 ADR 主记录。术语仍归对应 CONTEXT，接口定义与决策理由不复制进词汇表。
+领域建模复用 [Matt 的 domain-modeling](skills/documentation/domain-modeling/SKILL.md) 固定版本，方法与格式随包提供，不依赖用户额外安装。授权、既有主记录、模块简短决策内联及审计衔接仅在其 [project-adapter](skills/documentation/domain-modeling/project-adapter.md) 维护；`context-and-decisions` 是无重复正文的兼容入口。术语仍归对应 CONTEXT，接口定义与决策理由不复制进词汇表。
 
 - 宿主入口、路由、专项 Skill、模板/参考或确定性脚本的职责及依赖变化 → 同次更新本文。
-- 难回退的架构选择及理由 → 按 context-and-decisions 选择既有 ADR 或简短模块内联记录；本文只反映 accepted 决策后的当前结构。
+- 难回退的架构选择及理由 → 按 domain-modeling 选择既有 ADR 或简短模块内联记录；本文只反映 accepted 决策后的当前结构。
 - Interface 字段、测试证据和下游命令分别留在 CONTRACT、TESTS、REGRESSION 对应载体，不复制进本文。

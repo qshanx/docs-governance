@@ -43,3 +43,9 @@ Shell 入口沿用 `DOCS_GOVERNANCE_ROOT` 和 `DOCS_GOVERNANCE_BASE_REF`。JSON 
 未执行的检查不产生记录；`findings` 只描述所选范围及实际执行的检查。Git 基线只用于日志历史比较，其他检查读取当前工作区。输出没有冻结文件系统，也没有缓存评审通过状态；`head_commit` 不能唯一标识未提交内容，后续相关变更发生后应重新运行。保存结果时还应遵循项目已有的证据与访问约定。
 
 结构化输出通过 `tests/test_audit_docs.py` 的真实 CLI / Shell 调用验证；共享日志格式在 `scripts/logformat.py` 维护，归档后历史一致性由 `tests/test_project_log_index.py` 验证。
+
+## ADR 范围兼容轻量记录
+
+`adr` 范围检查根目录及上下文中的 `docs/adr/`，排除已有忽略目录。README 索引和状态均可选：缺省以 `adr.index`／`adr.status` 的 `unverified` 说明覆盖边界，不因此失败，也不推定决策已批准。显式状态仍校验 proposed／accepted／deprecated／superseded，兼容 `superseded by ADR-NNNN` 并在该 ADR 目录核对目标。已有索引漏登或断链、ADR 本地断链、非法或空状态及不存在的替代目标仍退出 1。
+
+原先“索引或状态缺少即失败”的默认政策由阿磊于 2026-10-12 授权调整，以兼容 Matt 的轻量 ADR；`schema_version` 仍为 1，字段与状态含义不变，仅调整这些检查条件。它不是通用 Markdown／YAML 解析器，也不执行项目自定义的审批政策；导航、理由、批准证据与模块内联决策仍需语义核对。

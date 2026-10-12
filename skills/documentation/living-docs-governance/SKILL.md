@@ -34,7 +34,7 @@ python3 <插件目录>/scripts/audit-docs.py --root <目标根> --scope full
 |---|---|
 | 产品需求、来源与基线 | [product-evolution](../product-evolution/SKILL.md)，仅处理已确定范围 |
 | 判断是否需要架构文档并完善说明 | [architecture-docs](../architecture-docs/SKILL.md) |
-| 领域术语与重要决策 | [context-and-decisions](../context-and-decisions/SKILL.md) |
+| 领域术语与重要决策 | [domain-modeling](../domain-modeling/SKILL.md) |
 | 跨端接口契约 | [contract-first](../../engineering/contract-first/SKILL.md) |
 | 测试资产与验证证据 | [test-collaboration](../../engineering/test-collaboration/SKILL.md) |
 | 资料落实后的 Agent 入口 | [agent-entrypoints](../agent-entrypoints/SKILL.md) |
