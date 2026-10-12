@@ -66,6 +66,7 @@ python -m pip install -r requirements-dev.txt
 - 边界：真实文件系统和 Git；不调用外部网络
 - 测试文件：`tests/test_audit_docs.py`
 - 测试节点：`AuditDocsTest`
+- ADR 兼容回归：轻量无状态／无索引记录、上下文子目录、忽略目录、显式非法／空状态、编号替代目标和无索引断链；旧索引漏登及 Supersedes 目标保护继续保留。对应 2026-10-12 的 domain-modeling 复用授权。
 - 执行命令：`python3 -m unittest tests.test_audit_docs -v`
 - 证据：2026-09-05 使用真实 STATUS 模板复现删除区漏报/替代物误报、提交后历史改写、可选桥接误报和引用式断链；增加独立目录审计、JSON / Shell 结果、Git 上下文、读取失败、日志来源行号，以及损坏 Git、子项目基线和循环链接回归，见 `docs/audits/2026-09-05-shared-audit-results.md`。
 

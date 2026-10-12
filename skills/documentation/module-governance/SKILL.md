@@ -35,8 +35,8 @@ description: >-
 2. **明确两级入口。** 项目级入口保留全局约束、模块导航和跨模块协作规则；模块入口只补本模块职责／非职责、状态归属、公共接口指针、专属约束与验证入口。执行 [agent-entrypoints](../agent-entrypoints/SKILL.md) 的主源选择和八项规范；沿用已有 CLAUDE 主源时不强制改名。模块规则不能自行解除全局约束。
 
    先检查现有根入口／架构主记录是否已明确覆盖该模块。没有相对父级新增规则且覆盖充分时，直接返回复用路径，不为核心模块身份强制新增局部 AGENTS；项目已有明确局部入口要求时遵从该要求。两级描述的是规则作用域，不是文件数量指标。
-3. **澄清并关联领域语言。** 执行 [context-and-decisions](../context-and-decisions/SKILL.md)，以场景与代码澄清术语，确认一项就维护对应 CONTEXT。AGENTS 只引用定义，不复制词汇表。前后端属于同一业务上下文时共用术语；UI 专属开发约束可以分层记录，不按每个页面建 CONTEXT。
-4. **按变化调用专项方法。** 职责与依赖核对用 [architecture-docs](../architecture-docs/SKILL.md)；接口入口和唯一机器定义用 [contract-first](../../engineering/contract-first/SKILL.md)；难回退决策复用 context-and-decisions。已有模块变更先用 [change-impact](../../engineering/change-impact/SKILL.md) 核对影响。只读取适用方法，不默认执行整套开发或重构。
+3. **澄清并关联领域语言。** 执行 [domain-modeling](../domain-modeling/SKILL.md)，以场景与代码澄清术语，确认一项就维护对应 CONTEXT。AGENTS 只引用定义，不复制词汇表。前后端属于同一业务上下文时共用术语；UI 专属开发约束可以分层记录，不按每个页面建 CONTEXT。
+4. **按变化调用专项方法。** 职责与依赖核对用 [architecture-docs](../architecture-docs/SKILL.md)；接口入口和唯一机器定义用 [contract-first](../../engineering/contract-first/SKILL.md)；难回退决策复用 domain-modeling。已有模块变更先用 [change-impact](../../engineering/change-impact/SKILL.md) 核对影响。只读取适用方法，不默认执行整套开发或重构。
 5. **更新最小文档集合。** 获准后就地补齐模块入口和必要 CONTEXT，项目已有 MAP／入口只登记真实路径及适用范围。保留已有契约与 ADR，正文不复制。内部实现变化不影响约定时无需改文档，给出依据；业务选择冲突时保留双方证据，等待确认，不改规则迁就代码。
 6. **验证与交接。** 复用 agent-entrypoints 的入口验证及 architecture-docs 的边界核对；用 [docs-maintenance](../docs-maintenance/SKILL.md) 同步实际受影响引用。报告采用的主记录、变化、检查结果和未验证项。现有代码缺失时标“已确认设计、代码未验证”，不能声称文档已与代码一致。
 

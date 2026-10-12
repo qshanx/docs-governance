@@ -26,7 +26,7 @@
 
 - 四件套是否各司其职、是否重复或矛盾；MAP 是否复制架构或目录树，STATUS 指标是否实际量过，LOG 是否只承担历史。AGENTS / CLAUDE 的内容、主源、加载与可执行性按 `agent-entrypoints` 只读检查。
 - 架构说明按 `architecture-docs` 只读审查；README、过期文档、误导目录与当前代码冲突时报告。
-- CONTEXT 是否只管稳定领域语言；必要时读 `context-and-decisions` 检查 accepted ADR 冲突、替代关系、理由、后果和退出路径。
+- CONTEXT 是否只管稳定领域语言；必要时读 `domain-modeling` 检查 accepted ADR 冲突、替代关系、理由、后果和退出路径。
 - 契约存在时读 `contract-first`：检查唯一机器来源、消费方与提供方证据、版本与真实序列化结果，不把手写字段表或内部类型检查当联调。
 - 依同步矩阵查漏；活跃 Spec/Issue 的成功标准是否连到实现、TEST-ID/人工出口和交付证据，归档内容是否仍被误当当前依据。Issue Tracker 不可访问时，任务状态与排期标未验证。
 - 按本次范围以只读模式调用 [docs-structure](../docs-structure/SKILL.md)，检查同类资料归属、目录职责、读取入口与重复主源。确定性孤儿提示只是候选，不能证明从入口可达；TEST-ID 字符串出现不等于必要测试点已有完整证据。

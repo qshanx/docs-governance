@@ -61,7 +61,7 @@ Use `architecture-docs` to decide whether architecture documentation is needed a
 
 - **Writing for agents** (`writing-for-agents`): structure Skills, agent entrypoints and documents read by AI using clear pointers, progressive disclosure and completion criteria; preserve meaning with a local final check. Includes the upstream MIT license and pinned source.
 - **Living documentation**: establish the initial document system, delegate specialized maintenance, and retain read-only audits and log archiving.
-- **Context and decisions**: keep stable domain language in `CONTEXT.md`; record high-cost-to-reverse decisions as ADRs.
+- **Domain modeling** (`domain-modeling`): reuse Matt Pocock's pinned method for domain language and lightweight ADRs, with the MIT license included. Local adaptation only connects existing records, module rules and audits; `context-and-decisions` remains a compatibility entrypoint.
 - **Change impact**: inspect code, data, contracts, tests, docs, deployment, and rollback before and after a risky change.
 - **Contract-first collaboration**: use one machine-readable contract indexed by `CONTRACT.md` as the shared source of truth for frontend/backend or multi-service work.
 - **Test collaboration**: register requirements, risks, and fixed bugs as TEST-IDs with durable evidence.
@@ -71,7 +71,7 @@ Use `architecture-docs` to decide whether architecture documentation is needed a
 
 Claude Code 的 [product-docs-manager](agents/product-docs-manager.md) 是产品文档管理员角色，调用现有 Skills 管理来源、需求编号、修订及授权；Codex / ChatGPT 直接使用 `$product-evolution` 执行同一流程。PM 四类材料索引、六类管理位置与十阶段导航共用主记录；CLAUDE 从产品入口触发按任务读取，必要条款分批核对，避免默认全量加载 PRD。
 
-The implementation lives in `skills/documentation/` and `skills/engineering/`, including `docs-governance`, `writing-for-agents`, `living-docs-governance`, `context-and-decisions`, `change-impact`, `contract-first`, `test-collaboration`, `module-regression`, and `loop-design-check`.
+The implementation lives in `skills/documentation/` and `skills/engineering/`, including `docs-governance`, `writing-for-agents`, `living-docs-governance`, `domain-modeling`, `context-and-decisions` (compatibility), `change-impact`, `contract-first`, `test-collaboration`, `module-regression`, and `loop-design-check`.
 
 ## Why it exists
 

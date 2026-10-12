@@ -23,7 +23,7 @@
 | 新增 API / 路由 / 前后端字段变化 | `CONTRACT.md` 指向的机器契约及版本（若存在）；`CLAUDE_MAP.md` 前端入口 / API 封装 / 后端路由位置；历史主源记录 contract |
 | 新增接口但项目尚无 `CONTRACT.md` | 报告建议创建 `CONTRACT.md`；不要把字段细节塞进 `CLAUDE_MAP.md` |
 | 领域术语、概念关系或采用口径变化 | `CONTEXT.md`（若已启用）；证据未确认时只列待确认，不改代码口径 |
-| 架构、数据库、认证、部署、数据模型或 API 版本等难回退决策 | `docs/adr/` 新建/更新单项 ADR；`docs/adr/README.md` 更新索引；MAP 只挂索引入口；历史主源记录 decision |
+| 架构、数据库、认证、部署、数据模型或 API 版本等难回退决策 | `domain-modeling` 判断是否需要 ADR；沿用项目／上下文的决策主记录，已有索引才更新；导航仅链接，历史主源记录重要 decision |
 | 产品阶段产物、当前生效要求或迭代范围变化 | 按 `product-evolution` 核对产品目录十阶段入口；更新唯一需求主记录、确认来源和受影响阶段，评审后更新基线；运营反馈回到调研／分析，不复制任务状态 |
 | 成功标准、需求或 Bug 变化 | 原始 Spec/Issue 保持唯一来源；`TESTS.md` 关联 TEST-ID/人工出口；不要复制标准 |
 | Module 权责、状态归属、Interface 或代码依赖方向变化 | `ARCHITECTURE.md` 的权责表与依赖图；MAP 只检查入口；必要时 ADR；历史主源记录结构变更 |

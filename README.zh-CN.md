@@ -66,7 +66,7 @@ AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶�
 
 第四条线是**测试协作治理**（`test-collaboration`）：一份 `TESTS.md` 盘点现有测试资产，把需求、规则、风险和 Bug 登记成 TEST-ID，持续暴露必要、缺失、疑似重复和疑似废弃的测试。前后端或多服务分开开发时，同一个 TEST-ID 引用唯一机器可读契约，串起消费者、提供者和联调测试证据。它回答“应该测什么、为什么测、证据在哪”；`REGRESSION.md` 只回答“改完重跑什么”。
 
-`docs-governance` 是 Codex/ChatGPT 的薄总路由：普通治理与当前 Module 架构进入活文档；稳定领域语言进入 `context-and-decisions` 的 `CONTEXT.md`；架构、数据库、认证、部署等难回退决定进入一项一文件的 ADR；改代码前后用 `change-impact` 核对代码、数据、契约、测试、文档、发布和回滚。
+`docs-governance` 是 Codex/ChatGPT 的薄总路由：普通治理与当前 Module 架构进入活文档；领域语言与重要决策直接复用随包提供的 Matt `domain-modeling` 固定版本及 MIT 授权，本地仅适配模块入口、主记录与审计，旧 `context-and-decisions` 保持兼容。CONTEXT 管词义，轻量 ADR 管真实取舍；改代码前后用 `change-impact` 核对影响，不为凑格式创建索引或状态。
 
 `product-evolution` 在 docs 下按十阶段组织产品管理文件，连接当前 PRD 基线、确认来源、执行任务与验收／运营证据；建立与审查均复用现有资料。本插件示例见 [产品管理入口](docs/product/README.md)。
 
@@ -142,7 +142,7 @@ codex plugin marketplace add qshanx/docs-governance
 codex plugin add docs-governance@docs-governance
 ```
 
-安装后新开一个 Codex 会话，优先通过 `$docs-governance` 让总路由选择能力，也可以显式调用 `$living-docs-governance`、`$context-and-decisions`、`$change-impact`、`$contract-first`、`$test-collaboration` 或 `$module-regression`。Codex 会读取 `.codex-plugin/plugin.json`，Claude Code 继续读取原有 `.claude-plugin/plugin.json`，两端共用同一套 `skills/`。
+安装后新开一个 Codex 会话，优先通过 `$docs-governance` 让总路由选择能力，也可以显式调用 `$living-docs-governance`、`$domain-modeling`、`$change-impact`、`$contract-first`、`$test-collaboration` 或 `$module-regression`。Codex 会读取 `.codex-plugin/plugin.json`，Claude Code 继续读取原有 `.claude-plugin/plugin.json`，两端共用同一套 `skills/`。
 
 **方式三 — Claude Code 本地软链**：`git clone` 本仓后，把 `skills/` `agents/` `commands/` 下的条目软链到 `~/.claude/` 对应目录（改源仓即时生效，适合要改内容的人）。
 
@@ -173,7 +173,7 @@ codex plugin add docs-governance@docs-governance
 
 # Codex 总路由 / 上下文与决策 / 变更影响
 $docs-governance 判断这个项目该启用哪些治理能力
-$context-and-decisions 为这项数据库选型建立 ADR
+$domain-modeling 为这项数据库选型建立 ADR
 $change-impact 修改订单数据模型前分析影响、迁移和回滚
 ```
 
@@ -183,7 +183,7 @@ Codex / ChatGPT 使用对应 skill + 自然语言意图，例如：
 $docs-governance 治理当前项目，并告诉我该走哪个专项 Skill
 $living-docs-governance 只读审计当前项目
 $living-docs-governance 阶段收尾同步
-$context-and-decisions 统一领域术语并记录架构决策
+$domain-modeling 统一领域术语并记录架构决策
 $change-impact 分析这次修改的牵连面，实施后再对照实际 diff
 $contract-first 为订单详情页建立契约并分端实现
 $module-regression 按 REGRESSION.md 运行本模块与下游回归
@@ -196,7 +196,7 @@ docs-governance/
 ├── AGENTS.md / CLAUDE.md / CLAUDE_MAP.md / ARCHITECTURE.md / PROJECT_STATUS.md / PROJECT_LOG.md / TESTS.md  # 插件自治理
 ├── .codex-plugin/plugin.json                                      # Codex / ChatGPT 插件入口
 ├── .claude-plugin/{plugin,marketplace}.json                       # Claude Code 插件入口
-├── skills/{docs-governance,living-docs-governance,context-and-decisions,change-impact,...}/SKILL.md  # 路由与方法论唯一源
+├── skills/{docs-governance,living-docs-governance,domain-modeling,change-impact,...}/SKILL.md  # 路由与方法论唯一源
 ├── agents/{docs-governor,docs-auditor,contract-director,frontend-dev,backend-dev,regression-auditor}.md
 ├── commands/{governance-init,governance-setup,governance,governance-audit,governance-sync,governance-retro,contract,regression-audit}.md
 ├── docs/adr/                                                       # 插件自身的架构/数据库决策

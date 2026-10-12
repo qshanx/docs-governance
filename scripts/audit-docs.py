@@ -354,44 +354,67 @@ def check_log(root: Path, report: Report, threshold: int, base_ref: str | None) 
 
 def parse_adr_status(text: str) -> str | None:
     patterns = (
-        r"(?im)^[-*]?\s*(?:status|状态)\s*[:：]\s*`?([a-z]+)`?\s*$",
-        r"(?im)^##\s+(?:status|状态)\s*\n+\s*`?([a-z]+)`?\s*$",
+        r"(?im)^[ \t]*(?:[-*][ \t]+)?(?:status|状态)[ \t]*[:：][ \t]*([^\n]*)$",
+        r"(?im)^##[ \t]+(?:status|状态)[ \t]*\n[ \t\n]*([^\n#]*)",
     )
     for pattern in patterns:
         match = re.search(pattern, text)
         if match:
-            return match.group(1).lower()
+            return match.group(1).strip().strip("`\"'").lower()
     return None
 
 
 def check_adr(root: Path, report: Report) -> None:
-    adr_dir = root / "docs" / "adr"
-    if not adr_dir.exists():
+    adr_dirs = sorted(path for path in root.rglob("adr")
+                      if path.is_dir() and path.parent.name == "docs"
+                      and not any(part in IGNORED_DIRS for part in path.relative_to(root).parts))
+    if not adr_dirs:
         report.add("adr.index", "unverified", "docs/adr/ 尚未创建；ADR 按实际决策懒创建", path="docs/adr")
         return
+    for adr_dir in adr_dirs:
+        check_adr_directory(root, adr_dir, report)
+
+
+def check_adr_directory(root: Path, adr_dir: Path, report: Report) -> None:
+    relative_dir = adr_dir.relative_to(root).as_posix()
     index = adr_dir / "README.md"
-    if not index.exists():
-        report.add("adr.index", "fail", "docs/adr/ 存在但缺少 README.md 统一索引", path="docs/adr/README.md")
-        return
-    index_text = index.read_text(encoding="utf-8")
-    for raw in markdown_targets(index_text):
-        target = normalize_link_target(raw)
-        if target is not None and target.endswith(".md") and not resolve_target(root, index, target).exists():
-            report.add("adr.index", "fail", f"ADR 索引链接不存在：docs/adr/README.md -> {target}",
-                       path="docs/adr/README.md", evidence={"target": target})
     adr_files = sorted(path for path in adr_dir.glob("*.md") if ADR_FILE_RE.match(path.name))
-    missing_from_index = [path.name for path in adr_files if path.name not in index_text]
-    for name in missing_from_index:
-        report.add("adr.index", "fail", f"ADR 未登记到统一索引：docs/adr/{name}", path=f"docs/adr/{name}")
+    if index.exists():
+        index_text = index.read_text(encoding="utf-8")
+        for raw in markdown_targets(index_text):
+            target = normalize_link_target(raw)
+            if target is not None and target.endswith(".md") and not resolve_target(root, index, target).exists():
+                report.add("adr.index", "fail", f"ADR 索引链接不存在：{relative_dir}/README.md -> {target}",
+                           path=index.relative_to(root).as_posix(), evidence={"target": target})
+        for path in adr_files:
+            if path.name not in index_text:
+                report.add("adr.index", "fail", f"ADR 未登记到统一索引：{relative_dir}/{path.name}",
+                           path=path.relative_to(root).as_posix())
+    else:
+        report.add("adr.index", "unverified", f"{relative_dir} 未采用 README.md 索引；不强制新建，导航覆盖需语义核对",
+                   path=relative_dir)
+
+    check_markdown_links(root, adr_files, report)
 
     allowed = {"proposed", "accepted", "deprecated", "superseded"}
     for path in adr_files:
         text = path.read_text(encoding="utf-8")
         status = parse_adr_status(text)
         if status is None:
-            report.add("adr.status", "fail", f"ADR 缺少可解析状态：{path.relative_to(root)}", path=path.relative_to(root).as_posix())
+            report.add("adr.status", "unverified", f"ADR 未声明状态：{path.relative_to(root)}；允许轻量记录，不推定已批准",
+                       path=path.relative_to(root).as_posix())
         elif status not in allowed:
-            report.add("adr.status", "fail", f"ADR 状态不受支持：{path.relative_to(root)} -> {status}",
+            replacement = re.fullmatch(r"superseded by adr-(\d{4})", status)
+            if replacement:
+                targets = [target for target in adr_files if target.name.startswith(replacement.group(1) + "-")]
+                if len(targets) != 1 or targets[0] == path:
+                    report.add("adr.supersedes", "fail", f"ADR 替代状态目标不存在、歧义或指向自身：{path.relative_to(root)} -> {status}",
+                               path=path.relative_to(root).as_posix(), evidence={"status": status})
+            else:
+                report.add("adr.status", "fail", f"ADR 状态不受支持：{path.relative_to(root)} -> {status}",
+                           path=path.relative_to(root).as_posix(), evidence={"status": status})
+        else:
+            report.add("adr.status", "pass", f"ADR 显式状态合法：{path.relative_to(root)} -> {status}",
                        path=path.relative_to(root).as_posix(), evidence={"status": status})
         supersedes = re.search(r"(?ims)^##\s+Supersedes\s*\n(?P<body>.*?)(?:\n## |\Z)", text)
         if supersedes and supersedes.group("body").strip().lower() not in {"none", "无"}:
@@ -403,9 +426,6 @@ def check_adr(root: Path, report: Report) -> None:
                 if not (adr_dir / target).exists():
                     report.add("adr.supersedes", "fail", f"ADR Supersedes 目标不存在：{path.relative_to(root)} -> {target}",
                                path=path.relative_to(root).as_posix(), evidence={"target": target})
-    if not missing_from_index and all(parse_adr_status(path.read_text(encoding="utf-8")) in allowed for path in adr_files):
-        report.add("adr.status", "pass", f"ADR 索引登记与 {len(adr_files)} 个决策文件状态检查通过",
-                   path="docs/adr/README.md", evidence={"count": len(adr_files)})
 
 
 def check_test_ids(root: Path, files: list[Path], report: Report) -> None:
