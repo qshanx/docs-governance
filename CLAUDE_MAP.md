@@ -41,7 +41,7 @@
 | 文档影响的接口变更复跑与验收 | `skills/engineering/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |
 | 契约方法论（含两种模式） | `skills/engineering/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/engineering/test-collaboration/SKILL.md` |
-| 从对话及项目证据复盘 Agent 工作，提炼／复验／升级 lessons | `skills/engineering/project-retro/SKILL.md`；环境、文档和测试是检查面，经验生命周期按需读包内 lessons.md |
+| 从指定经历复盘 Agent 项目工作环境，提出改进建议 | `skills/engineering/project-retro/SKILL.md`；Matt 七个方向加四个补充方向，环境经验生命周期按需读 lessons.md |
 | 本插件已记录的具体经验及复验状态 | [项目经验](docs/lessons.md)；区别于 Skill 内讲生命周期方法的 lessons.md，按相关任务读取 |
 | 测试协作的原始方案、确认与评审历史 | [2026-07-12 历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)；当前方法仍看 Skill |
 

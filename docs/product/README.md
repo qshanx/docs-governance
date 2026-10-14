@@ -96,3 +96,7 @@ PRR-10 在原审核附件明确证据型验收与依赖开发边界，验证见[
 ## 接入可行性
 
 [跨项目评估](../audits/2026-09-22-cross-project-feasibility.md)已补充。自身检查通过不代表可直接推广，强制启用前须核对项目范围、既有 hooks、规则误报和历史问题；已发现的推广障碍尚待修正。
+
+## 当前环境复盘修订
+
+2026-10-14 当前 project-retro 边界与试用授权以 [ENV-RETRO-20261014](06-prd.md#env-retro-20261014环境建议的七加四方向) 为准，取代此前统一复盘的职责范围；验证见阶段 09。独立测试复盘仍由 [Issue #49](https://github.com/qshanx/docs-governance/issues/49) 讨论。

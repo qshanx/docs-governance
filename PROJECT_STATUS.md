@@ -12,7 +12,7 @@
 | `research-map-long-docs.md` | 研究资料归位，不在根目录重建 | 2026-10-10 | [Map 与长文档研究](research/2026-07-22-map-long-docs.md) |
 | `TEST_COLLABORATION_PROPOSAL.md` | 已实施方案保留为评审历史，不在根目录重建 | 2026-10-10 | [测试协作历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md) |
 | `skills/documentation/docs-retro/SKILL.md` | 复盘方法合并，文档管理作为检查面，不重建并列入口 | 2026-10-13 | [project-retro](skills/engineering/project-retro/SKILL.md) |
-| `skills/engineering/test-retro/SKILL.md` | 复盘方法合并，测试作为检查面，不重建并列入口 | 2026-10-13 | [project-retro](skills/engineering/project-retro/SKILL.md) |
+| `skills/engineering/test-retro/SKILL.md` | 历史合并方案；独立测试复盘现转 Issue #49 讨论，未经确认不发布草案 | 2026-10-13 | [project-retro](skills/engineering/project-retro/SKILL.md) |
 
 ### 未决 P0
 - 暂无已确认 P0；普通验证缺口和范围决策见下文。
@@ -54,10 +54,14 @@
 |---|---|---|---|
 | `scripts/verify.sh` | 通过 | 通过 = 绿 | 🟢 |
 | Claude / Codex 双端 manifest | 名称与版本一致，skills 共用 | 一致 = 绿 | 🟢 |
-| Skill 路由与用户文档 | 20 个活动 Skill 均进入总路由、README、使用说明；新增 pr-review，复盘仍统一为 project-retro（2026-10-13 工作区检查） | 无漏登 = 绿 | 🟢 |
+| Skill 路由与用户文档 | 20 个活动 Skill 均进入总路由、README、使用说明；保留 pr-review，project-retro 调整为环境建议；专项测试复盘待 Issue #49 讨论（2026-10-14） | 无漏登 = 绿 | 🟢 |
 | Python 单元测试 | 本 PR 隔离分支结果见[提交验证](docs/product/09-test-release.md#pr-20261014隔离提交与验证)；共享工作区历史 127 项不替代本分支结果 | 全过 = 绿 | 🟢 |
 | 自动 CI | 完整 verify 与日志基线比较已在 PR #4 的 dad0dd2 验证；后续提交逐次核对 checks（证据见 [本轮验证](docs/audits/2026-09-05-shared-audit-results.md)） | PR / push 成功运行 = 绿 | 已接通；结果按提交核对 |
 | skill / agent 内部去重 | 是（方法论仅 skill 一处） | 唯一源 | 🟢 |
 | 真实项目 dogfood | 4（经营报表审计、礼仪 demo 审计+修复、本插件自治理、audit-blog 审计） | ≥2 | 🟢 |
 | 可发布底座 | git / LICENSE / CHANGELOG / .gitignore / verify 齐 | 齐 = 绿 | 🟢 |
 | README 安装/样例 | 市场安装命令 + 验收命令 + 真实审计样例（2026-07-02 补） | 齐 = 绿 | 🟢 |
+
+## 2026-10-14：环境复盘试用范围
+
+project-retro 按阿磊确认收窄为环境建议，保留 Matt 七个方向并补四个方向；经验生命周期按需读取。测试复盘仍在 [Issue #49](https://github.com/qshanx/docs-governance/issues/49) 讨论；本轮未修改 Hook、检查脚本或 PR 审核方法。验证与未测范围见 [ENV-RETRO-20261014](docs/product/09-test-release.md#env-retro-20261014环境建议验证)。

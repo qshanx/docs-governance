@@ -28,12 +28,12 @@ description: >-
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
 | 本次改动后的文档同步、整理、收尾或交接 | `docs-maintenance` |
-| 从指定对话与项目证据复盘，提炼／复验／升级 lessons；同一经验累计 3 次独立有效复验 | `project-retro`；三次后必须输出优化清单，维护、资产登记与回归执行仍走对应专项 Skill |
-| LOG 统计、追加或归档 | `living-docs-governance`；经验提炼统一走 `project-retro` |
+| 从对话、commit 与运行证据复盘 Agent 项目工作环境，提出改进建议；按要求保存／复验／升级环境经验 | `project-retro`；默认只读给建议，测试资产、文档内容审计与当前 PR 审核走对应专项 Skill |
+| LOG 统计、追加或归档 | `living-docs-governance`；环境经历复盘走 `project-retro` |
 | 是否需要架构文档，生成、完善或审查模块分工、状态归属、依赖与核心流程 | `architecture-docs` |
 | 领域术语、`CONTEXT.md`、架构或数据库决策、ADR | `domain-modeling`（Matt 原文与本地适配）；`context-and-decisions` 仅兼容旧调用 |
 | 修改前判断牵连面、迁移、回滚、实施后对照 | `change-impact` |
-| 审核 PR／分支／base-head 变更，核对代码与需求、验证证据或合入条件 | `pr-review`；输出审核报告，评论／批准／合并另按授权；历史经验复盘仍走 `project-retro` |
+| 审核 PR／分支／base-head 变更，核对代码与需求、验证证据或合入条件 | `pr-review`；输出审核报告，评论／批准／合并另按授权；历史环境经验复盘走 `project-retro` |
 | 前后端或服务间接口 | `contract-first` |
 | 测试资产、成功标准证据、Bug→TEST-ID | `test-collaboration` |
 | 修改后验证本模块及下游 | `module-regression` |

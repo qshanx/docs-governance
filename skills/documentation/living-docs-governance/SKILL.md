@@ -75,4 +75,4 @@ python3 <插件目录>/scripts/audit-docs.py --root <目标根> --scope full
 
 ### 复盘与日志统计
 
-日志统计读取[日志统计](log-management.md#日志统计)；从指定对话、LOG、commit 与验证记录提炼、复验和升级经验，统一读取 [project-retro](../../engineering/project-retro/SKILL.md)。环境、文档和测试作为检查面，默认只读。
+日志统计读取[日志统计](log-management.md#日志统计)；从指定对话、LOG、commit 与运行记录复盘 Agent 项目工作环境，读取 [project-retro](../../engineering/project-retro/SKILL.md)，默认只读给建议；环境经验按要求保存、复验或升级。测试资产与文档内容审计走对应专项方法。

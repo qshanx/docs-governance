@@ -33,7 +33,7 @@
 
 这个插件的默认姿态是“**先审计、后决定、再修改**”：小项目不强塞四件套；已有项目也会尽量沿用现有的目录与事实来源。
 
-审核 PR 可用 `$pr-review`：给出 PR 链接或实际 base/head，核对需求、完整路径、同类遗漏、测试和集成证据。它复用已有治理能力，默认不改目标项目或向平台写入；`$project-retro` 继续负责从历史经历提炼经验。用法见[使用说明](使用说明.md)。
+审核 PR 可用 `$pr-review`：给出 PR 链接或实际 base/head，核对需求、完整路径、同类遗漏、测试和集成证据。它复用已有治理能力，默认不改目标项目或向平台写入；`$project-retro` 继续负责从历史经历提出环境改进建议。用法见[使用说明](使用说明.md)。
 
 ## 为什么需要它
 
@@ -68,7 +68,7 @@ AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶�
 
 第四条线是**测试协作治理**（`test-collaboration`）：一份 `TESTS.md` 盘点现有测试资产，把需求、规则、风险和 Bug 登记成 TEST-ID，持续暴露必要、缺失、疑似重复和疑似废弃的测试。前后端或多服务分开开发时，同一个 TEST-ID 引用唯一机器可读契约，串起消费者、提供者和联调测试证据。它回答“应该测什么、为什么测、证据在哪”；`REGRESSION.md` 只回答“改完重跑什么”。
 
-`project-retro` 统一回顾 Agent 的工作过程：从指定对话、LOG、commit／PR、审查与运行证据提炼 lessons，复验措施效果，再将重复验证有效的经验升级到已有规则或检查。环境、文档和测试是同一复盘的检查面，默认只读；经验载体按需复用。测试资产维护继续交给 `test-collaboration`，改动后回归继续交给 `module-regression`。旧复盘入口已合并，见[停用说明](skills/deprecated/README.md)。
+`project-retro` 从指定对话、commit 与运行证据复盘 Agent 项目工作环境：沿 Matt 七个方向加四个补充方向，提出按重要程度排序的改进建议，默认只读。保存、复验和升级环境经验按需处理；测试资产、文档内容审计和当前 PR 审核分别交给专项 Skill。独立测试复盘在 [Issue #49](https://github.com/qshanx/docs-governance/issues/49) 讨论，未在本次发布。
 
 `docs-governance` 是 Codex/ChatGPT 的薄总路由：普通治理与当前 Module 架构进入活文档；领域语言与重要决策直接复用随包提供的 Matt `domain-modeling` 固定版本及 MIT 授权，本地仅适配模块入口、主记录与审计，旧 `context-and-decisions` 保持兼容。CONTEXT 管词义，轻量 ADR 管真实取舍；改代码前后用 `change-impact` 核对影响，不为凑格式创建索引或状态。
 

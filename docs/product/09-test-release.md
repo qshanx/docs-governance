@@ -387,3 +387,7 @@ A／B 的本地规格探针确实退出 1，不能把它们当作 Skill 失败�
 共享工作区此前 127 项及本地 Codex 安装记录保留为对应快照历史，不能作为本 PR 提交验证。隔离分支使用项目已有 .venv 的解释器运行完整 scripts/verify.sh；提交后以实际 origin/main 运行 scripts/check-pr-docs.py，原始结果与提交边界回执保存在 /var/folders/lm/sf5wbsqs0sbg59stsmx0f5180000gn/T/submit-retro-pr-yw0x55gw 下。未运行最终五步流程的独立 Agent 试用、真实业务账号、平台审核或合并／发布；旧试用仅证明各自记录版本的场景。
 
 隔离分支完整 verify 已实际退出 0，119 项单元测试及 full 文档审计通过；该数量与共享工作区 127 项不同，因本 PR 没有包含其他待提交的测试／脚本。准备阶段曾因系统解释器执行整合脚本异常、退役 Skill 留空目录而失败，原回执保留为 preparation-failure.log；已用项目 .venv 完成整合并删除空目录，复验通过。正文和状态回写后再跑完整验证，以最终日志为准。
+
+## ENV-RETRO-20261014：环境建议验证
+
+本轮验证对象为 project-retro 环境建议修订，不是根工作区的 test-retro 草案。含义核对已按 Matt 固定版、四项已确认补充与只读边界逐项完成；测试资产与当前 PR 审核转交专项方法，经验生命周期为按需分支。在隔离的 PR #48 工作区显式读取新版 Skill，按原文及已确认补充核对十一方向、只读建议和专项分工；quick_validate 退出 0，git diff --check 通过。激活根仓已有 .venv 后执行完整 scripts/verify.sh 退出 0，119 项现有单测及 full 文档审计通过；原始回执为 /private/tmp/project-retro-env-verify.log 与 /private/tmp/project-retro-env-unittest.log。提交后再执行 check-pr-docs.py --base origin/main；同步本地时只使用受检 PR 内容，不带根工作区测试草案。未做独立 Agent 行为试用、宿主新会话调用或真实任务效果验证；检查通过不替代阿磊后续本地试用。
