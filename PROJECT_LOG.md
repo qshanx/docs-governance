@@ -133,3 +133,5 @@
 ## [2026-10-12] docs | 将 #33 尚未进入 main 的首次建体系流程独立提取到 #30：四步接通 docs、MAP、STATUS 和 Agent 入口，记录范围、兼容审计与日志管理下沉参考；Git 项目不默认建 LOG，已有历史保留。保留 main 的项目健康采集、writing-for-agents、新审计分流和模块治理，目录分类与复盘不重复合并。
 
 ## [2026-10-12] refactor | 按 DM-20261012 直接复用 Matt 固定版本 domain-modeling 与 MIT 授权；context-and-decisions 和旧模板收为兼容指针，仅保留项目适配。ADR 默认从强制索引／状态改为按需，缺省不推定批准；保留显式非法状态、已有索引漏登、断链和替代目标保护，检查覆盖上下文目录。授权及验证见产品阶段 06、07、09；未自动提交或推送。
+
+## [2026-10-14] discussion | 按阿磊要求提交 Project 环境治理讨论稿，结合 Matt retro 与 Tw93 的整体治理视角，明确测试资产、PR 审核及独立 loop 的边界，复用现有能力并列出入口／生命周期待决项。仅改讨论文档和导航／产品／状态记录，不修改活动方法或环境配置；来源、范围及验证边界见[主稿](docs/product/project-agent-environment-discussion.md)。
