@@ -11,6 +11,8 @@
 | `research.md` | 研究资料归位，不在根目录重建 | 2026-10-10 | [Wayfinder 研究](research/2026-07-22-wayfinder-decision-lifecycle.md) |
 | `research-map-long-docs.md` | 研究资料归位，不在根目录重建 | 2026-10-10 | [Map 与长文档研究](research/2026-07-22-map-long-docs.md) |
 | `TEST_COLLABORATION_PROPOSAL.md` | 已实施方案保留为评审历史，不在根目录重建 | 2026-10-10 | [测试协作历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md) |
+| `skills/documentation/docs-retro/SKILL.md` | 复盘方法合并，文档管理作为检查面，不重建并列入口 | 2026-10-13 | [project-retro](skills/engineering/project-retro/SKILL.md) |
+| `skills/engineering/test-retro/SKILL.md` | 复盘方法合并，测试作为检查面，不重建并列入口 | 2026-10-13 | [project-retro](skills/engineering/project-retro/SKILL.md) |
 
 ### 未决 P0
 - 暂无已确认 P0；普通验证缺口和范围决策见下文。
@@ -39,7 +41,7 @@
 2. ✅ **commit 前固化核对**（2026-07-02 已做：templates/pre-commit.example + 两命令接入 + 四段测试）：staged 含代码改动 → PROJECT_LOG.md 必须同批 staged；豁免=只改 tests//docs//治理文件 或 --no-verify；做成 templates/pre-commit.example。旧 init 自动安装已被 r7 统一 setup 的明确授权边界替代。只拦这一条最小可判定不变量，MAP/STATUS 不在 commit 关口硬卡（防狼来了）。
 3. **LOG 消费端（部分完成）**：✅ 超过 200 条事件可归档并生成 SQLite 类型/模块/引用索引；⏳ audit 自动输出 fix 热点统计尚未做。
 4. **四件套并发约定**：LOG append-only 各写各行；STATUS/MAP 指定"谁拥有谁改"（同契约线"谁改契约谁是主任"）。
-5. **文档复利三动作**（skill 加一节"文档作为再生产资料"）：① 跑通即存 references/ ② LOG fix 热点 ≥2 次的坑升级成 CLAUDE.md 硬规则 ③ ≥2 项目重复的 spec/references/placeholder 回流模板母版。
+5. **文档复利三动作**：① 跑通的有效做法按主记录留证据；② 2026-10-13 按阿磊本次确认，以 project-retro 的“提炼 → 独立复验 → 升级”替代“LOG fix ≥2 次直接升入口规则”，落点按规则用途选择；③ ≥2 项目重复的 spec/references/placeholder 回流模板母版仍为待办。
 6. ✅ **模块回归审计**（2026-07-03 首版：module-regression skill + regression-auditor agent + /regression-audit 命令 + REGRESSION.example 模板；⚠️ 未在真项目实测，首选试点=经营报表）
 7. ✅ **测试协作治理 v1**（2026-07-12：test-collaboration skill + TESTS.example 模板；判定点职责从 REGRESSION.md 迁为 TEST-ID 引用；2026-07-24 补同一机器契约驱动消费者/提供者/联调测试证据；不新增 agent/command/脚本；⚠️ 待真实项目试点）
 8. ✅ **Codex 总路由 + CONTEXT / ADR / 变更影响**（2026-08-02：新增 docs-governance、context-and-decisions、change-impact；成功标准留在 Spec/Issue，实施后对照实际 diff，难回退决策一项一 ADR）
@@ -52,8 +54,8 @@
 |---|---|---|---|
 | `scripts/verify.sh` | 通过 | 通过 = 绿 | 🟢 |
 | Claude / Codex 双端 manifest | 名称与版本一致，skills 共用 | 一致 = 绿 | 🟢 |
-| Skill 路由与用户文档 | 12 个 skill 均进入总路由、README、使用说明 | 无漏登 = 绿 | 🟢 |
-| Python 单元测试 | 82 个（含文档影响样例、入口长度、位置规则、暂存快照、Stop 根定位与 PR 推送／安装护栏） | 全过 = 绿 | 🟢 |
+| Skill 路由与用户文档 | 20 个活动 Skill 均进入总路由、README、使用说明；新增 pr-review，复盘仍统一为 project-retro（2026-10-13 工作区检查） | 无漏登 = 绿 | 🟢 |
+| Python 单元测试 | 本 PR 隔离分支结果见[提交验证](docs/product/09-test-release.md#pr-20261014隔离提交与验证)；共享工作区历史 127 项不替代本分支结果 | 全过 = 绿 | 🟢 |
 | 自动 CI | 完整 verify 与日志基线比较已在 PR #4 的 dad0dd2 验证；后续提交逐次核对 checks（证据见 [本轮验证](docs/audits/2026-09-05-shared-audit-results.md)） | PR / push 成功运行 = 绿 | 已接通；结果按提交核对 |
 | skill / agent 内部去重 | 是（方法论仅 skill 一处） | 唯一源 | 🟢 |
 | 真实项目 dogfood | 4（经营报表审计、礼仪 demo 审计+修复、本插件自治理、audit-blog 审计） | ≥2 | 🟢 |

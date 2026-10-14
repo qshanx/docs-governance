@@ -33,6 +33,8 @@
 
 这个插件的默认姿态是“**先审计、后决定、再修改**”：小项目不强塞四件套；已有项目也会尽量沿用现有的目录与事实来源。
 
+审核 PR 可用 `$pr-review`：给出 PR 链接或实际 base/head，核对需求、完整路径、同类遗漏、测试和集成证据。它复用已有治理能力，默认不改目标项目或向平台写入；`$project-retro` 继续负责从历史经历提炼经验。用法见[使用说明](使用说明.md)。
+
 ## 为什么需要它
 
 `$agent-entrypoints` 专门生成、精简或审查 `AGENTS.md` / `CLAUDE.md`：依据新项目已知目标、讨论后的 PRD／Spec 或已有代码，写清适用要求、修改边界、验证入口和文档同步触发。已有主文件优先复用；宿主适配不复制规则。参考文章的要点与取舍见 [来源整理](research/2026-09-27-vincemask-agent-entrypoints.md)。
@@ -65,6 +67,8 @@ AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶�
 第三条线是**模块回归审计**（`module-regression`）：一份 `REGRESSION.md` 台账登记每个模块的下游消费者（脚本生成）和可执行的回归验收命令，改完照单跑"本模块+全部下游"，退出码终审——防大项目里"改一个模块悄悄弄坏其他模块"。
 
 第四条线是**测试协作治理**（`test-collaboration`）：一份 `TESTS.md` 盘点现有测试资产，把需求、规则、风险和 Bug 登记成 TEST-ID，持续暴露必要、缺失、疑似重复和疑似废弃的测试。前后端或多服务分开开发时，同一个 TEST-ID 引用唯一机器可读契约，串起消费者、提供者和联调测试证据。它回答“应该测什么、为什么测、证据在哪”；`REGRESSION.md` 只回答“改完重跑什么”。
+
+`project-retro` 统一回顾 Agent 的工作过程：从指定对话、LOG、commit／PR、审查与运行证据提炼 lessons，复验措施效果，再将重复验证有效的经验升级到已有规则或检查。环境、文档和测试是同一复盘的检查面，默认只读；经验载体按需复用。测试资产维护继续交给 `test-collaboration`，改动后回归继续交给 `module-regression`。旧复盘入口已合并，见[停用说明](skills/deprecated/README.md)。
 
 `docs-governance` 是 Codex/ChatGPT 的薄总路由：普通治理与当前 Module 架构进入活文档；领域语言与重要决策直接复用随包提供的 Matt `domain-modeling` 固定版本及 MIT 授权，本地仅适配模块入口、主记录与审计，旧 `context-and-decisions` 保持兼容。CONTEXT 管词义，轻量 ADR 管真实取舍；改代码前后用 `change-impact` 核对影响，不为凑格式创建索引或状态。
 
@@ -157,7 +161,7 @@ codex plugin add docs-governance@docs-governance
 /governance              # 已接入项目：按需增量维护
 /governance-audit        # 只读审计：哪儿漂移了，不动文件
 /governance-sync         # 阶段收尾：按矩阵查漏补缺该同步哪份文档
-/governance-retro        # 复盘 LOG：哪类错误重复最多 → 输出"该下沉成 lint/测试"候选清单
+/governance-retro        # 默认回顾当前任务；可指定对话、日志或日期范围，提炼／复验／升级 lessons
 
 # 契约式前后端协作
 /contract 做订单详情页    # 先判模式，再定契约 → 各端开发 → 集成对账

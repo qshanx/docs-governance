@@ -73,6 +73,6 @@ python3 <插件目录>/scripts/audit-docs.py --root <目标根> --scope full
 
 读取[日志管理](log-management.md#日志归档与索引)，按事件数量判断是否需要归档，沿用既有确认要求。
 
-### 日志复盘
+### 复盘与日志统计
 
-日志统计读取[日志复盘](log-management.md#日志复盘)；从文档管理经历中提炼经验，读取 [docs-retro](../docs-retro/SKILL.md)。两者默认只读。
+日志统计读取[日志统计](log-management.md#日志统计)；从指定对话、LOG、commit 与验证记录提炼、复验和升级经验，统一读取 [project-retro](../../engineering/project-retro/SKILL.md)。环境、文档和测试作为检查面，默认只读。

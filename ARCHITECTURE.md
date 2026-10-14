@@ -83,6 +83,10 @@ flowchart LR
 
 项目已有代码审查与测试工具继续执行各自职责。治理 Skill 引用其版本、范围、结论和证据位置；当前没有新增外部工具调度器或结果导入服务。运行结果是一次观测，相关实现变化后需要复验，不能仅凭旧报告更新当前健康为绿。
 
+`pr-review` 在专项 Skill 层编排当前 PR／分支审核：固定 base/head 与集成对象，按已确认需求和规范检查完整路径，复用影响、契约、测试、下游回归及文档事实核对。隔离执行回退／破坏检查，输出与版本对应的报告；不持有 PR 状态，不默认向平台写入或合并，也不新增扫描器／调度器。历史经验生命周期仍归 project-retro。
+
+`project-retro` 在专项 Skill 层统一从指定对话、LOG、commit、审查与运行证据回顾 Agent 工作，环境、文档、实现、测试、协作与发布是检查面；经验生命周期在包内 lessons.md 维护，目标项目的经验正文沿用其唯一主记录。总路由、governance-retro、活文档与协作治理均指向同一方法；旧独立复盘 Skill 从活动目录移除。测试资产登记、下游回归和资料维护继续复用原有专项 Skill，不新增执行服务或自动触发器。
+
 现有展示版架构图在 `diagram/architecture.svg`，渲染预览为 `diagram/architecture.png`；若它与本文冲突，以本文和真实代码为准，并在同次结构变更中同步展示图。
 
 产品文档由 `skills/documentation/product-evolution/SKILL.md` 在现有专项 Skill 层承接，使用 `templates/product-index.example.md` 组织十阶段产物。本插件实际入口为 [产品管理](docs/product/README.md)；需求与确认由产品文档承载，任务状态仍归 Issue Tracker，业务验收不由确定性脚本代判。Stop 用内容指纹避免重复审计，提交护栏检查真实暂存快照；现有推送／PR CI 复用同一规则，不新增每日定时器。
