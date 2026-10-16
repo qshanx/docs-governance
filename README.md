@@ -57,6 +57,8 @@ Use `architecture-docs` to decide whether architecture documentation is needed a
 - **Architecture documents** (`architecture-docs`): decide whether a project needs an architecture document, then create, improve, or review it against project evidence.
 - **Daily document maintenance** (`docs-maintenance`): synchronize documents affected by a completed task, update stale content, consolidate duplicates, and report verification gaps.
 - **Document audit** (`docs-audit`): read-only review of document navigation, freshness, organization, duplicate sources, and current versus historical material; structural review reuses `docs-structure` when available.
+- **Project environment and human–AI collaboration retrospective** (`project-retro`): retain the existing environment retrospective and add a separate human–AI collaboration flow for explaining and checking causes. Select by the problem and share evidence; collaboration prompts are available on demand. Read-only by default.
+
 - **Document management retrospective** (`docs-retro`): learn from document-management evidence and propose concrete edits to existing documents and workflows; read-only by default.
 
 - **Writing for agents** (`writing-for-agents`): structure Skills, agent entrypoints and documents read by AI using clear pointers, progressive disclosure and completion criteria; preserve meaning with a local final check. Includes the upstream MIT license and pinned source.

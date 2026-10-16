@@ -91,6 +91,8 @@ flowchart LR
 
 `agent-workflow-governance` 在专项 Skill 层承接治理规则落点与散落工作流检查，按需读取附件并复用现有主记录、专项 Skill 和采集能力；只输出证据与建议，不新增执行服务、Hook 或门禁。
 
+`project-retro` 保留原环境复盘并新增人机协作流程，按问题选择并共享取证与交付；人机观察提示按需读取。方法唯一维护在 Skill，经验生命周期在包内 lessons.md；不新增运行服务、持久状态或自动触发器。其他专项能力按目标项目可用性使用。
+
 ## 更新规则
 
 模块建档由 [module-governance](skills/documentation/module-governance/SKILL.md) 按任务意图编排：入口规范交给 agent-entrypoints，领域语言与决策交给 context-and-decisions，接口核对交给 contract-first，文档／代码边界交给 architecture-docs；maintenance 同步引用，audit 只读核对覆盖。已有根入口或共享主记录充分覆盖时直接复用，局部入口只补真实新增约定。生成后复用 artifacts 链接审计，不增加执行服务。

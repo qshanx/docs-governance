@@ -40,6 +40,7 @@
 | 文档影响的接口变更复跑与验收 | `skills/engineering/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |
 | 契约方法论（含两种模式） | `skills/engineering/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/engineering/test-collaboration/SKILL.md` |
+| 从真实经历改善 Agent 工作环境与人机协作，提炼／复验相关经验 | `skills/engineering/project-retro/SKILL.md`；原环境方法与新增人机流程同在主文件；人机流程的盲点提示按需读 observation-prompts.md，来源与许可随包提供 |
 | 测试协作的原始方案、确认与评审历史 | [2026-07-12 历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)；当前方法仍看 Skill |
 
 | 写给 AI 的文档结构、读取指针与完成标准 | `skills/documentation/writing-for-agents/SKILL.md`；含义核对、许可证与固定来源随包提供 |

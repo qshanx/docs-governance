@@ -28,6 +28,7 @@ description: >-
 | 产品文档管理员、来源登记、需求池／编号／版本、十阶段管理与产品审查 | `product-evolution`；Claude Code 可由 `product-docs-manager` 执行 |
 | 新项目、讨论后项目或已有项目首次配置产品文档包与 Agent 入口 | `living-docs-governance` 的“统一 setup”模式；Claude Code 使用 `/governance-setup`，`/governance-init` 是兼容别名 |
 | 本次改动后的文档同步、整理、收尾或交接 | `docs-maintenance` |
+| 从指定经历复盘 Agent 项目工作环境及人与 AI 的协作，提出改进建议；按要求处理相关经验 | `project-retro`；保留环境方法并新增人机流程，按问题选择并共享取证；人机观察提示与经验生命周期按需读取，默认只读 |
 | 从对话、文档变更与审计记录复盘文档管理经验 | `docs-retro` |
 | LOG 管理或复盘 | `living-docs-governance` |
 | 是否需要架构文档，生成、完善或审查模块分工、状态归属、依赖与核心流程 | `architecture-docs` |

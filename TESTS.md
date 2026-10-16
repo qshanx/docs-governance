@@ -45,8 +45,9 @@ python -m pip install -r requirements-dev.txt
 | 机器契约模板 | 契约 | 规则保护、回归保护 | 防止模板不可解析，或序列化后的字段名、ID、枚举和时间错误被放过 | Python 测试 | jsonschema、openapi-spec-validator | `tests/test_contract_template.py` | 必要 |
 | 文档位置、暂存护栏与 Stop | 集成 | 规则保护、回归保护 | 防止错放漏报、正文误报、未暂存修复掩盖提交、缓存重复或钩子误阻断 | Python 测试 | Bash、临时 Git | `tests/test_document_policy.py` | 必要 |
 | PR 前扫描、推送门禁与文档影响样例 | 集成 | 规则保护、关键链路 | 防止工作区修复掩盖提交、漏掉变更影响或失败仍能推送；保留可复跑的语义审查输入 | Python 测试 + 文档影响场景审查 | 本地临时 Git、bare remote、jsonschema | `tests/test_pr_docs.py`、`tests/fixtures/document-impact.py` | 必要 |
+| 环境与人机协作复盘工作流 | 集成 | 专项保护、回归保护 | 保留原环境方法，检查新增人机流程、证据边界与经验去重 | 当前 Agent 场景走查 + 默认验证 | Python、隔离文件；无业务账号 | `skills/engineering/project-retro/SKILL.md`、TEST-PROJECT-RETRO-001 | 必要 |
 
-当前汇总：必要 11 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
+当前汇总：必要 12 项，缺失 0 项，疑似重复 0 项，疑似废弃 0 项。
 
 ## 三、跨端契约证据
 
@@ -254,3 +255,11 @@ python -m pip install -r requirements-dev.txt
 - 执行：`python3 -m unittest discover -s tests -p test_project_health.py`；项目实跑与独立复核见 [验证记录](docs/product/09-test-release.md)。
 
 TEST-HEALTH-001 补充 PR #40 回归：直接脚本／根目录脚本／带空格路径在文档与 CI 中的采集、指纹与字面对应；纯赋值和环境前缀执行的区分；未知 CI 命令缺口；带引号越界与私有路径拒绝。专项共 20 项，含参数化场景，不执行 fixture 内的验证命令。
+
+### TEST-PROJECT-RETRO-001：保留原环境方法并新增人机流程
+
+- 来源：[HAI 条款](docs/product/06-prd.md#hai-20261016人机协作复盘)，阿磊全文确认与 Issue #51。
+- 保护对象：原环境七加四个方向、取证／交付、只读及生命周期边界；新增人机流程与按需提示，按问题选择且同事件不重复计数。
+- 场景：纯环境、纯人机、两类问题共存、有效协作和证据不足；当前 Agent 语义走查与虚构夹具运行分别留证，不声称独立盲测。
+- 命令：激活项目 .venv 后运行 `bash scripts/verify.sh`；隔离提交快照另行运行同一检查，避免工作区修复掩盖提交缺口。
+- 证据：[当前场景](docs/product/09-test-release.md#hai-20261016保留环境并新增人机流程)、[独立提交验证](docs/product/09-test-release.md#hai-20261016独立提交验证)。宿主调用与长期效果未验证。
