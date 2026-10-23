@@ -50,13 +50,5 @@ if [ ${#targets[@]} -gt 0 ]; then
   fi
 fi
 
-# 检查2：PROJECT_LOG 今天有没有追加（本会话有进展就该补一行）
-if [ -f PROJECT_LOG.md ]; then
-  if ! grep -q "${today}" PROJECT_LOG.md 2>/dev/null; then
-    echo "⚠️ docs-governance: PROJECT_LOG.md 今天（${today}）还没有条目，这次会话有进展记得追加一行 ## [日期] 类型 | 摘要。" >&2
-    warned=1
-  fi
-fi
-
-[ "$warned" -eq 1 ] && echo "（以上为 docs-governance 治理提醒，不阻塞；要强制可把 hook 脚本结尾改 exit 2）" >&2
+[ "$warned" -eq 1 ] && echo "（以上为 docs-governance 治理提醒，不阻塞）" >&2
 exit 0

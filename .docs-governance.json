@@ -86,6 +86,6 @@
     }
   ],
   "auto_audit": {
-    "on_stop": true
+    "on_stop": false
   }
 }

@@ -8,18 +8,18 @@
 ## 硬规则
 - **方法论唯一源在 `skills/<category>/<name>/SKILL.md`**；agent / command 只指过去，**不复制方法论**（防插件自己内部漂移）。
 - 生成、修改或审查 Agent 入口时执行 `skills/documentation/agent-entrypoints/SKILL.md` 的八条检查；`AGENTS.md` / `CLAUDE.md` 每份不超过 200 行，细节下沉后保留路标。
-- 改任何文件后、提交前：在仓库根目录激活已有 `.venv`，运行 `bash scripts/verify.sh`，**绿了才提交**；首次环境准备见 [TESTS.md](TESTS.md)。
+- 修改后在仓库根目录激活已有 `.venv`，运行受影响的检查；共享审计器、公共接口变化或提交前运行 `bash scripts/verify.sh`，**绿了才提交**。同一输入的有效结果可复用，不因收尾重复全量运行；首次环境准备见 [TESTS.md](TESTS.md)。
 - 创建或更新 PR 前：提交完本轮改动后运行 `python3 scripts/check-pr-docs.py --base <实际目标分支>`；失败先修复，并按输出核对关联文档。推送与 PR CI 再检查同一提交快照。
 - 文件名 kebab-case；治理正文默认中文，现有英文文档、代码标识及技术术语保留原语言。
 - commit message 用英文；`git push` 等小磊说。
 
-- 修改模块功能、公共接口或共享数据前，读取 `skills/documentation/docs-governance/SKILL.md` 的“模块变更流程”，完成影响分析、实施后对照、相关回归和文档同步后再交付。
+- 涉及跨模块行为、公共契约、共享数据或影响不明的变更前，读取 `skills/documentation/docs-governance/SKILL.md` 的“模块变更流程”，完成影响分析、实施后对照、相关回归和按需文档同步后再交付。普通小任务只做相关修改与检查，文档事实未变不更新 MAP、LOG 或 TESTS。
 
 ## 路标
 - 路径导航 / 误导清单 / 别动区 → `CLAUDE_MAP.md`
 - 当前 Module 权责、状态归属、依赖与核心流转 → `ARCHITECTURE.md`
 - 当前健康 / 待办 → `PROJECT_STATUS.md`
-- 改了什么 → `PROJECT_LOG.md`
+- 值得追溯的重要事件 → `PROJECT_LOG.md`
 - 调用治理能力、未指定专项 Skill → 先读 `skills/documentation/docs-governance/SKILL.md`，按意图选择对应 Skill，不全量加载。
 - 编写或优化 Skill、Agent 入口及 AI 按需读取的文档 → 读取 `skills/documentation/writing-for-agents/SKILL.md`，完成后按其补充核对含义。
 - 架构 / 数据库决策 → `docs/adr/README.md`

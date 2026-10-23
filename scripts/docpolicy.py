@@ -3,12 +3,25 @@ from fnmatch import fnmatchcase
 import json
 import os
 from pathlib import Path
+import subprocess
 
 POLICY_NAME = '.docs-governance.json'
 IGNORED = {'.git', '.governance', '.venv', 'node_modules', '__pycache__', 'vendor'}
 
 
 def files_under(root):
+    listing = subprocess.run(
+        ['git', 'ls-files', '--cached', '--others', '--exclude-standard', '-z', '--', '.'],
+        cwd=root, capture_output=True, text=True, env={**os.environ, 'LC_ALL': 'C'},
+    )
+    if listing.returncode == 0:
+        for relative in sorted(set(listing.stdout.split('\0')) - {''}):
+            path = root / relative
+            if not any(part in IGNORED for part in Path(relative).parts) and (path.is_file() or path.is_symlink()):
+                yield path
+        return
+    if not listing.stderr.startswith('fatal: not a git repository (or any'):
+        listing.check_returncode()
     for directory, dirs, files in os.walk(root, followlinks=False):
         dirs[:] = sorted(d for d in dirs if d not in IGNORED and not Path(directory, d).is_symlink())
         for name in sorted(files):

@@ -14,7 +14,7 @@ import subprocess
 import sys
 from urllib.parse import unquote
 
-from docpolicy import IGNORED as IGNORED_DIRS, check_policy
+from docpolicy import check_policy, files_under
 from logformat import LogFormatError, parse_entries
 
 
@@ -25,7 +25,8 @@ MARKDOWN_LINK_RE = re.compile(r'\[[^\]\n]*\]\(\s*' + LINK_DESTINATION + r'(?:\s+
 REFERENCE_LINK_RE = re.compile(r'^ {0,3}\[[^\]\n]+\]:\s*' + LINK_DESTINATION, re.MULTILINE)
 CODE_PATH_RE = re.compile(r"`([^`\n]+)`")
 OPTIONAL_PATH_RE = re.compile(r'<!--\s*governance:\s*optional=([^>]+?)\s*-->')
-TEST_ID_RE = re.compile(r"\bTEST-(?:[A-Z0-9]+-)*\d+\b", re.IGNORECASE)
+# 只识别完整 TEST-ID，不截取带前后缀的连字符文档编号；引用与登记共用。
+TEST_ID_RE = re.compile(r"(?<![\w-])TEST-(?:[A-Z0-9]+-)*\d+(?![\w-])", re.IGNORECASE)
 TEST_ID_EXAMPLE_MARKER = "<!-- test-id-audit: examples-only -->"
 ADR_FILE_RE = re.compile(r"^\d{4}-[a-z0-9-]+\.md$")
 ADR_TARGET_RE = re.compile(r"\b\d{4}-[a-z0-9-]+\.md\b")
@@ -94,22 +95,14 @@ class Report:
             if result["exit_code"] == 2:
                 print("✗ 审计未完成：检查执行失败，不能据此判断文档是否通过。", file=sys.stderr)
             elif result["exit_code"] == 1:
-                print(f"✗ 确定性审计失败：{result['counts']['fail']} 项。先修问题，再进入语义审计。")
+                print(f"✗ 确定性审计失败：{result['counts']['fail']} 项。不能宣告整体通过；可继续不依赖失败项的核对与修复。")
             else:
                 print("✓ 确定性审计未发现失败项；警告与未验证项需人工判断，可继续语义审计。")
         return result["exit_code"]
 
 
 def markdown_files(root: Path) -> list[Path]:
-    result: list[Path] = []
-    for path in root.rglob("*.md"):
-        if path.is_dir():
-            continue
-        relative = path.relative_to(root)
-        if any(part in IGNORED_DIRS for part in relative.parts):
-            continue
-        result.append(path)
-    return sorted(result)
+    return sorted(path for path in files_under(root) if path.suffix == ".md" and not path.is_dir())
 
 
 def git_show(root: Path, relative: str, base_ref: str | None) -> str | None:
@@ -139,23 +132,31 @@ def normalize_link_target(raw: str) -> str | None:
     return target
 
 
-def markdown_targets(text: str) -> list[str]:
-    """检查内联链接和引用定义；代码示例不是活动链接。"""
+def markdown_prose(text: str) -> str:
+    """排除代码块，保留行号以定位正文引用。"""
     prose: list[str] = []
     fence: str | None = None
     for line in text.splitlines():
         marker = re.match(r"^ {0,3}(`{3,}|~{3,})", line)
         if fence is None and marker:
             fence = marker.group(1)
+            prose.append("")
             continue
         if fence is not None:
             if re.fullmatch(r" {0,3}" + re.escape(fence[0]) + "{" + str(len(fence)) + r",}\s*", line):
                 fence = None
+            prose.append("")
             continue
         if line.startswith(("    ", "\t")):
+            prose.append("")
             continue
-        prose.append(re.sub(r"(`+).*?\1", "", line))
-    content = "\n".join(prose)
+        prose.append(line)
+    return "\n".join(prose)
+
+
+def markdown_targets(text: str) -> list[str]:
+    """检查内联链接和引用定义；代码示例不是活动链接。"""
+    content = re.sub(r"(`+).*?\1", "", markdown_prose(text))
     return MARKDOWN_LINK_RE.findall(content) + REFERENCE_LINK_RE.findall(content)
 
 
@@ -168,9 +169,12 @@ def resolve_path(path: Path) -> Path:
 
 
 def resolve_target(root: Path, source: Path, target: str) -> Path:
-    if target.startswith("/"):
-        return resolve_path(Path(target))
-    return resolve_path(source.parent / target)
+    path = Path(target) if target.startswith("/") else source.parent / target
+    location = re.fullmatch(r"(.+?):[1-9]\d*(?::[1-9]\d*)?", target)
+    if location and not path.exists():
+        value = location.group(1)
+        path = Path(value) if value.startswith("/") else source.parent / value
+    return resolve_path(path)
 
 
 def check_markdown_links(root: Path, files: list[Path], report: Report) -> None:
@@ -207,30 +211,31 @@ def plausible_code_path(value: str) -> bool:
 
 
 def check_spine_paths(root: Path, report: Report) -> None:
-    broken: list[tuple[str, str]] = []
+    has_candidates = False
     for name in ("CLAUDE.md", "CLAUDE_MAP.md") + OPTIONAL_CARRIERS:
         source = root / name
         if not source.exists():
             continue
-        for line in source.read_text(encoding="utf-8").splitlines():
+        candidates = []
+        for number, line in enumerate(markdown_prose(source.read_text(encoding="utf-8")).splitlines(), 1):
             optional = {
                 value.strip()
                 for declaration in OPTIONAL_PATH_RE.findall(line)
                 for value in declaration.split(",")
             }
-            for value in CODE_PATH_RE.findall(line):
+            for value in CODE_PATH_RE.findall(MARKDOWN_LINK_RE.sub("", line)):
                 if not plausible_code_path(value):
                     continue
                 candidate = Path(value)
                 resolved = candidate if candidate.is_absolute() else root / candidate
                 if not resolved.exists() and value not in optional:
-                    broken.append((name, value))
-    if broken:
-        for name, target in sorted(set(broken)):
-            report.add("spine.paths", "fail", f"脊柱/载体路径不存在：{name} -> {target}",
-                       path=name, evidence={"target": target})
-    else:
-        report.add("spine.paths", "pass", "脊柱与可选载体中的路径引用存在")
+                    candidates.append({"target": value, "line": number})
+        if candidates:
+            has_candidates = True
+            report.add("spine.paths", "warning", f"{name} 有 {len(candidates)} 处未找到的反引号路径，需判读是否要求存在；不作为确定性缺失",
+                       path=name, evidence={"candidates": candidates})
+    if not has_candidates:
+        report.add("spine.paths", "pass", "脊柱与可选载体中无待判读的缺失反引号路径")
 
 
 def check_status_resurrection(root: Path, report: Report) -> None:
@@ -365,21 +370,21 @@ def parse_adr_status(text: str) -> str | None:
 
 
 def check_adr(root: Path, report: Report) -> None:
-    adr_dirs = sorted(path for path in root.rglob("adr")
-                      if path.is_dir() and path.parent.name == "docs"
-                      and not any(part in IGNORED_DIRS for part in path.relative_to(root).parts))
+    files = markdown_files(root)
+    adr_dirs = sorted({path.parent for path in files
+                       if path.parent.name == "adr" and path.parent.parent.name == "docs"})
     if not adr_dirs:
         report.add("adr.index", "unverified", "docs/adr/ 尚未创建；ADR 按实际决策懒创建", path="docs/adr")
         return
     for adr_dir in adr_dirs:
-        check_adr_directory(root, adr_dir, report)
+        check_adr_directory(root, adr_dir, report, files)
 
 
-def check_adr_directory(root: Path, adr_dir: Path, report: Report) -> None:
+def check_adr_directory(root: Path, adr_dir: Path, report: Report, files: list[Path]) -> None:
     relative_dir = adr_dir.relative_to(root).as_posix()
     index = adr_dir / "README.md"
-    adr_files = sorted(path for path in adr_dir.glob("*.md") if ADR_FILE_RE.match(path.name))
-    if index.exists():
+    adr_files = [path for path in files if path.parent == adr_dir and ADR_FILE_RE.match(path.name)]
+    if index in files:
         index_text = index.read_text(encoding="utf-8")
         for raw in markdown_targets(index_text):
             target = normalize_link_target(raw)
@@ -489,6 +494,8 @@ def check_spine(root: Path, report: Report, threshold: int, base_ref: str | None
         else:
             report.add("spine.carrier", "unverified", f"{name} 缺失（渐进采用时可能合理）", path=name)
     check_spine_paths(root, report)
+    if report.scope == "spine":
+        check_markdown_links(root, [root / name for name in SPINE + OPTIONAL_CARRIERS if (root / name).is_file()], report)
     check_status_resurrection(root, report)
     check_log(root, report, threshold, base_ref)
 
