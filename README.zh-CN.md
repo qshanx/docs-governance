@@ -68,7 +68,7 @@ AI 让代码变得**便宜、可丢弃、可再生**。当写代码不再是瓶�
 
 `docs-governance` 是 Codex/ChatGPT 的薄总路由：普通治理与当前 Module 架构进入活文档；领域语言与重要决策直接复用随包提供的 Matt `domain-modeling` 固定版本及 MIT 授权，本地仅适配模块入口、主记录与审计，旧 `context-and-decisions` 保持兼容。CONTEXT 管词义，轻量 ADR 管真实取舍；改代码前后用 `change-impact` 核对影响，不为凑格式创建索引或状态。
 
-`product-evolution` 在 docs 下按十阶段组织产品管理文件，连接当前 PRD 基线、确认来源、执行任务与验收／运营证据；建立与审查均复用现有资料。本插件示例见 [产品管理入口](docs/product/README.md)。
+`product-evolution` 优先复用现有 README／Spec／Issue，连接当前基线、确认来源、任务与验证证据；资料增多时按需增加入口，十阶段不要求逐项建文件。本插件保留已有的 [产品管理入口](docs/product/README.md)。
 
 `writing-for-agents` 负责写给 AI 的文档：明确读取条件、组织步骤与参考资料、按需披露并判断完成；本项目补充含义核对。保留上游 MIT 许可证与固定版本来源，使用方式见 [使用说明](使用说明.md)。
 
@@ -215,7 +215,7 @@ docs-governance/
 ---
 MIT · qshanx（小磊）· jiaxinleifm@outlook.com
 
-产品资料采用完整十阶段入口，方法仅管理文档。项目可通过 `.docs-governance.json` 约束必需文件、PRD 标题／文件名位置与脚本目录；变更收尾、暂存区提交和 CI 共用规则。见 [文档护栏说明](references/document-policy.md)。
+产品资料按实际需要建档，小任务只同步改变的文档事实。项目可通过 `.docs-governance.json` 声明必需文件与位置规则；已有提交和 CI 门禁继续生效，不默认要求十阶段齐全。见 [文档护栏说明](references/document-policy.md)。
 
 ## module-governance
 

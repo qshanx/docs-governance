@@ -125,6 +125,22 @@ class DocumentPolicyTest(unittest.TestCase):
         (self.root / 'wrong.md').unlink()
         self.assertIn('确定性检查通过', stop().stderr)
 
+    def test_stop_ignores_generated_changes_but_checks_tracked_ignored_files(self):
+        self.assertEqual(self.command('git', 'init', '-q').returncode, 0)
+        self.write('.gitignore', '.scratch/\n.governance/\n')
+        self.write('.scratch/tracked.md', '# 普通资料\n')
+        self.assertEqual(self.command('git', 'add', '-f', '.scratch/tracked.md').returncode, 0)
+        stop = lambda: self.command('bash', str(ROOT / 'hooks/check-on-stop.sh'))
+        self.assertIn('确定性检查通过', stop().stderr)
+        state = self.root / '.governance/auto-audit.json'
+        before = state.read_bytes()
+        self.write('.scratch/generated.md', '# PRD\n[坏](missing.md)\n')
+        self.assertEqual(stop().stderr, '')
+        self.assertEqual(before, state.read_bytes())
+        self.write('.scratch/tracked.md', '[坏](missing.md)\n')
+        self.assertIn('tracked.md', stop().stderr)
+        self.assertEqual(json.loads(state.read_text())['report']['exit_code'], 1)
+
     def test_stop_reports_bad_policy_and_does_not_block(self):
         self.write('.docs-governance.json', '{}')
         result = self.command('bash', str(ROOT / 'hooks/check-on-stop.sh'))
@@ -148,6 +164,26 @@ class DocumentPolicyTest(unittest.TestCase):
             self.assertEqual(result.returncode, 0)
             self.assertIn('缓存路径不能为软链接', result.stderr)
             self.assertEqual(list(Path(external).iterdir()), [])
+
+    def test_code_only_commit_does_not_require_log_update(self):
+        self.assertEqual(self.command('git', 'init', '-q').returncode, 0)
+        self.write('PROJECT_LOG.md', '# 重要历史\n\n## [2020-01-01] init | 项目建立\n')
+        self.assertEqual(self.command('git', 'add', '.').returncode, 0)
+        self.assertEqual(self.command('git', '-c', 'user.name=Test', '-c',
+                                      'user.email=test@example.invalid', 'commit', '-qm', 'base').returncode, 0)
+        self.write('app.py', 'value = 2\n')
+        self.assertEqual(self.command('git', 'add', 'app.py').returncode, 0)
+        for hook in ('hooks/pre-commit.sh', 'templates/pre-commit.example'):
+            result = self.command('bash', str(ROOT / hook))
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(self.command('git', 'diff', '--cached', '--name-only').stdout.strip(), 'app.py')
+
+    def test_legacy_stop_does_not_demand_daily_log(self):
+        (self.root / '.docs-governance.json').unlink()
+        self.write('PROJECT_LOG.md', '# 重要历史\n\n## [2020-01-01] init | 项目建立\n')
+        result = self.command('bash', str(ROOT / 'hooks/check-on-stop.sh'))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stderr, '')
 
     def test_legacy_stop_without_policy_still_nonblocking(self):
         (self.root / '.docs-governance.json').unlink()

@@ -28,6 +28,63 @@ class AuditDocsTest(unittest.TestCase):
             check=False,
         )
 
+    def test_code_mentions_are_candidates_not_required_files(self):
+        (self.project / "AGENTS.md").write_text(
+            "不另建 `CONTRACT.md`。\nAPI 在 `/api/docs`。\n"
+            "必读 `required.md`。\n```md\n`example.md`\n```\n",
+            encoding="utf-8",
+        )
+        result = self.run_audit("spine", "--format", "json")
+        report = json.loads(result.stdout)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        candidates = [f for f in report["findings"] if f["check"] == "spine.paths"]
+        self.assertEqual(len(candidates), 1)
+        self.assertEqual(candidates[0]["status"], "warning")
+        self.assertEqual({c["target"] for c in candidates[0]["evidence"]["candidates"]},
+                         {"CONTRACT.md", "/api/docs", "required.md"})
+        # 真正的读取入口仍由显式链接判定，不把候选提示当作已经核对。
+        with (self.project / "AGENTS.md").open("a") as handle:
+            handle.write("[必读](required.md)\n")
+        self.assertEqual(self.run_audit("spine").returncode, 1)
+
+    def test_git_ignored_artifacts_are_skipped_but_tracked_docs_are_checked(self):
+        subprocess.run(["git", "init", "-q"], cwd=self.project, check=True)
+        (self.project / ".gitignore").write_text(".scratch/\n.local/\ndocs/*.md\n!docs/active.md\n")
+        for name in (".scratch/copy/guide.md", ".local/toolchains/go/README.md",
+                     "docs/tracked.md", "docs/active.md"):
+            path = self.project / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("[Broken](missing.md)\n")
+        subprocess.run(["git", "add", "-f", "docs/tracked.md"], cwd=self.project, check=True)
+        report = json.loads(self.run_audit("artifacts", "--format", "json").stdout)
+        failures = [f for f in report["findings"] if f["status"] == "fail"]
+        self.assertEqual({f["path"] for f in failures}, {"docs/tracked.md", "docs/active.md"})
+
+    def test_ignored_adr_is_not_a_project_decision(self):
+        subprocess.run(["git", "init", "-q"], cwd=self.project, check=True)
+        (self.project / ".gitignore").write_text(".scratch/\n")
+        adr = self.project / ".scratch/copy/docs/adr/0001-old.md"
+        adr.parent.mkdir(parents=True)
+        adr.write_text("Status: invalid\n[old](missing.md)\n")
+        self.assertEqual(self.run_audit("adr").returncode, 0)
+
+    def test_line_number_links_resolve_files_without_hiding_missing_targets(self):
+        (self.project / "source.py").touch()
+        (self.project / "guide.md").write_text("[实现](source.py:12)\n[列](source.py:12:3)\n")
+        self.assertEqual(self.run_audit("artifacts").returncode, 0)
+        (self.project / "guide.md").write_text("[缺失](missing.py:12)\n")
+        self.assertEqual(self.run_audit("artifacts").returncode, 1)
+
+    def test_git_subproject_scan_stays_inside_requested_root(self):
+        subprocess.run(["git", "init", "-q"], cwd=self.project, check=True)
+        (self.project / "parent.md").write_text("[坏](missing.md)\n")
+        child = self.project / "child"
+        child.mkdir()
+        (child / "README.md").write_text("# 子项目\n")
+        result = subprocess.run([sys.executable, str(SCRIPT), "--root", str(child), "--scope", "artifacts"],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_external_plugin_paths_use_absolute_paths_and_still_detect_missing(self):
         with tempfile.TemporaryDirectory(prefix="external-plugin-") as directory:
             plugin = Path(directory).resolve()
@@ -36,7 +93,7 @@ class AuditDocsTest(unittest.TestCase):
             entry.write_text(f"外部插件入口：`{plugin / 'skills'}`\n", encoding="utf-8")
             result = self.run_audit("spine")
             self.assertNotIn("脊柱/载体路径不存在", result.stdout)
-            entry.write_text(f"外部入口：`{plugin / 'missing'}`\n项目入口：`skills/`\n", encoding="utf-8")
+            entry.write_text(f"[外部入口]({plugin / 'missing'})\n[项目入口](skills/)\n", encoding="utf-8")
             result = self.run_audit("spine")
             self.assertEqual(result.returncode, 1)
             self.assertIn(f"AGENTS.md -> {plugin / 'missing'}", result.stdout)
@@ -231,7 +288,7 @@ class AuditDocsTest(unittest.TestCase):
 
     def test_spine_scope_checks_architecture_paths(self):
         (self.project / "ARCHITECTURE.md").write_text(
-            "# Architecture\n\nInterface 定义在 `src/missing.py`。\n",
+            "# Architecture\n\nInterface 定义在 [src/missing.py](src/missing.py)。\n",
             encoding="utf-8",
         )
         result = self.run_audit("spine")
@@ -276,7 +333,7 @@ class AuditDocsTest(unittest.TestCase):
         (self.project / "PROJECT_LOG.md").write_text("# LOG\n", encoding="utf-8")
         result = self.run_audit("spine")
         self.assertEqual(result.returncode, 0, result.stdout)
-        (self.project / "CLAUDE.md").write_text("必读 `required.md`。\n", encoding="utf-8")
+        (self.project / "CLAUDE.md").write_text("必读 [required.md](required.md)。\n", encoding="utf-8")
         result = self.run_audit("spine")
         self.assertEqual(result.returncode, 1, result.stdout)
         self.assertIn("required.md", result.stdout)
@@ -516,6 +573,49 @@ class AuditDocsTest(unittest.TestCase):
         result = self.run_audit("artifacts")
         self.assertEqual(result.returncode, 0, result.stdout)
         self.assertIn("跨文档 TEST-ID 均可回到 TESTS.md", result.stdout)
+
+    def test_artifact_scope_does_not_extract_test_ids_from_document_identifiers(self):
+        (self.project / "TESTS.md").write_text("# TESTS\n\nTEST-AUDIT-001\n", encoding="utf-8")
+        (self.project / "record.md").write_text(
+            "记录 ID：XY-TEST-CENTER-UX-20260922 r1。\n"
+            "归档编号：test-center-ux-20260922-report。\n"
+            "真实引用：`test-audit-001`。\n",
+            encoding="utf-8",
+        )
+        result = self.run_audit("artifacts", "--format", "json")
+        report = json.loads(result.stdout)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        finding = next(item for item in report["findings"] if item["check"] == "tests.references")
+        self.assertEqual(finding["status"], "pass")
+        self.assertEqual(finding["message"], "跨文档 TEST-ID 均可回到 TESTS.md")
+
+    def test_artifact_scope_document_identifier_does_not_hide_missing_test_registration(self):
+        (self.project / "TESTS.md").write_text("# TESTS\n\nTEST-AUDIT-001\n", encoding="utf-8")
+        (self.project / "record.md").write_text(
+            "记录 ID：XY-TEST-CENTER-UX-20260922 r1。\n"
+            "- 已登记：`test-audit-001`。\n"
+            "- 未登记：（TEST-INTERVENTION-001）、[test-order-002](#verification)。\n",
+            encoding="utf-8",
+        )
+        result = self.run_audit("artifacts", "--format", "json")
+        report = json.loads(result.stdout)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        finding = next(item for item in report["findings"] if item["check"] == "tests.references")
+        self.assertEqual(finding["status"], "fail")
+        self.assertEqual(finding["evidence"]["missing"], ["TEST-INTERVENTION-001", "TEST-ORDER-002"])
+
+    def test_artifact_scope_document_identifier_is_not_a_test_registration(self):
+        (self.project / "TESTS.md").write_text(
+            "# TESTS\n\n历史记录 ID：XY-TEST-CENTER-UX-20260922 r1。\n", encoding="utf-8",
+        )
+        (self.project / "spec.md").write_text(
+            "必须验证 TEST-CENTER-UX-20260922。\n", encoding="utf-8",
+        )
+        result = self.run_audit("artifacts", "--format", "json")
+        report = json.loads(result.stdout)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        finding = next(item for item in report["findings"] if item["check"] == "tests.references")
+        self.assertEqual(finding["evidence"]["missing"], ["TEST-CENTER-UX-20260922"])
 
     def test_log_move_to_archive_preserves_append_only_history(self):
         subprocess.run(["git", "init"], cwd=self.project, capture_output=True, check=True)

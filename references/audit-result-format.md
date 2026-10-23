@@ -44,6 +44,20 @@ Shell 入口沿用 `DOCS_GOVERNANCE_ROOT` 和 `DOCS_GOVERNANCE_BASE_REF`。JSON 
 
 结构化输出通过 `tests/test_audit_docs.py` 的真实 CLI / Shell 调用验证；共享日志格式在 `scripts/logformat.py` 维护，归档后历史一致性由 `tests/test_project_log_index.py` 验证。
 
+## 路径与扫描边界
+
+Markdown 本地链接是明确引用，目标缺失仍为 `links.local / fail`；兼容 `文件:行号` 和 `文件:行号:列号`，检查文件存在，不验证行列范围。`spine` 单独执行时也检查入口／载体中的链接；`full` 在 artifacts 中统一检查，避免重复计数。配置 `required_files` 仍是必需文件的确定性约束。
+
+反引号中的路径可能是禁止项、路由、例子或阅读提示，不能仅凭不存在判定失败。`spine.paths` 对缺失候选按源文件汇总为 `warning`，`evidence.candidates` 保留每处 `target` 和一基 `line`，由 Agent 按上下文判断；代码块和显式可选项不列候选。需要机械强制存在的入口应使用 Markdown 链接或项目配置，不以“必读”字样猜自然语言。JSON 字段、状态含义及退出码不变。
+
+Git 项目的 artifacts 和 ADR 枚举采用已跟踪文件及未被 Git 忽略的未跟踪文件；已跟踪文件即使匹配忽略规则仍检查。原固定排除 `.git`、`.governance`、`.venv`、`node_modules`、`__pycache__`、`vendor` 保留。非 Git 项目只按该固定列表遍历，不读取项目外目录。忽略目录不等于已验证；显式链接的目标与配置必需项仍独立检查。未被忽略的历史副本仍可能报告断链，不能据此自动改写历史或宣告当前业务失败。
+
+## TEST-ID 识别边界
+
+`tests.references` 只识别独立、完整的 TEST-ID，引用与 `TESTS.md` 登记共用同一边界，大小写不敏感。`XY-TEST-CENTER-UX-20260922` 等带连字符前缀或后缀的文档编号不被截取为测试编号，也不能冒充台账登记。
+
+同一文档中的真实测试引用仍逐项核对：台账存在但未登记时返回 `fail`／退出 1；未启用台账时仍报告 `unverified`。已有模板目录排除和显式示例标记规则不变，不因出现文档编号跳过整份材料；JSON 字段与退出码约定不变。
+
 ## ADR 范围兼容轻量记录
 
 `adr` 范围检查根目录及上下文中的 `docs/adr/`，排除已有忽略目录。README 索引和状态均可选：缺省以 `adr.index`／`adr.status` 的 `unverified` 说明覆盖边界，不因此失败，也不推定决策已批准。显式状态仍校验 proposed／accepted／deprecated／superseded，兼容 `superseded by ADR-NNNN` 并在该 ADR 目录核对目标。已有索引漏登或断链、ADR 本地断链、非法或空状态及不存在的替代目标仍退出 1。

@@ -19,9 +19,9 @@ python -m pip install -r requirements-dev.txt
 
 | 执行组 | 命令 | 何时运行 | 外部依赖 |
 |---|---|---|---|
-| 默认验证 | `bash scripts/verify.sh` | 改任何文件后、提交前、CI | Bash、Python、Git、开发测试依赖 |
+| 默认验证 | `bash scripts/verify.sh` | 共享审计器／公共接口变化、提交前、CI；普通小改动运行相关检查 | Bash、Python、Git、开发测试依赖 |
 | Python 测试 | `python3 -m unittest discover -s tests -p 'test_*.py'` | 修改 `scripts/*.py` 或 `tests/*.py` 后 | Python、Git、开发测试依赖 |
-| 文档确定性审计 | `bash scripts/audit-cheap.sh full` | 治理文档或引用变化后 | Bash、Python、Git |
+| 文档确定性审计 | `bash scripts/audit-cheap.sh <范围>` | 按 change-impact 选择相关范围；整体审计或既有门禁用 full | Bash、Python、Git |
 | 面向 AI 的文档写作试跑 | 按 writing-for-agents 在隔离目录改写 Skill，核对结构、读取指针与含义；另做只读审查 | 写作 Skill 或调用边界变化后 | 宿主 Agent；不需联网 |
 | setup 场景执行 | 按 `living-docs-governance` 统一 setup 在三个隔离项目执行，并复跑与只读探测 | 编排、初始化流程或模板变化后 | 宿主 Agent；不需联网或 Git 初始化 |
 | 文档影响场景审查 | [接口变更场景](skills/engineering/change-impact/examples/interface-change.md) | 按事实核对文档的方法变化后 | 当前 Agent、Python、隔离 Git；无外部业务服务 |
@@ -66,6 +66,7 @@ python -m pip install -r requirements-dev.txt
 - 边界：真实文件系统和 Git；不调用外部网络
 - 测试文件：`tests/test_audit_docs.py`
 - 测试节点：`AuditDocsTest`
+- 误报回归覆盖：反引号候选与显式断链、完整 TEST-ID 与文档编号边界、Git 忽略／已跟踪／反选规则、忽略的 ADR、带行列号链接及子项目扫描边界；`tests/test_document_policy.py` 保护 Stop 指纹与日志触发。真实必需文件、历史改写和断链仍失败。
 - ADR 兼容回归：轻量无状态／无索引记录、上下文子目录、忽略目录、显式非法／空状态、编号替代目标和无索引断链；旧索引漏登及 Supersedes 目标保护继续保留。对应 2026-10-12 的 domain-modeling 复用授权。
 - 执行命令：`python3 -m unittest tests.test_audit_docs -v`
 - 证据：2026-09-05 使用真实 STATUS 模板复现删除区漏报/替代物误报、提交后历史改写、可选桥接误报和引用式断链；增加独立目录审计、JSON / Shell 结果、Git 上下文、读取失败、日志来源行号，以及损坏 Git、子项目基线和循环链接回归，见 `docs/audits/2026-09-05-shared-audit-results.md`。
@@ -241,9 +242,9 @@ python -m pip install -r requirements-dev.txt
 ## 七、维护触发器
 
 - 测试目录、配置、CI 或标准入口变化：重扫受影响区域。
-- 新增需求、规则、风险或 Bug：新增或关联 TEST-ID。
-- 修改审计、日志索引、评审循环或 hook：更新对应 TEST-ID 并重跑默认验证。
-- 阶段交付前：核对本次涉及的 TEST-ID、命令退出码和人工证据。
+- 测试入口、使用方法或重要覆盖范围变化才更新相应条目；普通 Bug、补充边界用例或一次运行不强制登记 TEST-ID。
+- 修改审计、日志索引、评审循环或 hook：运行受影响的检查；仅重要覆盖事实变化才更新对应条目。
+- 交付在回复说明实际验证、退出码及未覆盖范围，不为收尾重复写台账。
 - 只有测试体系整体重构或地图明显失真时，才重新全量盘点。
 
 ### TEST-HEALTH-001：项目健康证据采集边界
