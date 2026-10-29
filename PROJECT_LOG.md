@@ -133,3 +133,7 @@
 ## [2026-10-12] docs | 将 #33 尚未进入 main 的首次建体系流程独立提取到 #30：四步接通 docs、MAP、STATUS 和 Agent 入口，记录范围、兼容审计与日志管理下沉参考；Git 项目不默认建 LOG，已有历史保留。保留 main 的项目健康采集、writing-for-agents、新审计分流和模块治理，目录分类与复盘不重复合并。
 
 ## [2026-10-12] refactor | 按 DM-20261012 直接复用 Matt 固定版本 domain-modeling 与 MIT 授权；context-and-decisions 和旧模板收为兼容指针，仅保留项目适配。ADR 默认从强制索引／状态改为按需，缺省不推定批准；保留显式非法状态、已有索引漏登、断链和替代目标保护，检查覆盖上下文目录。授权及验证见产品阶段 06、07、09；未自动提交或推送。
+
+## [2026-10-29] feat | 按阿磊确认新增 benchmark-optimization：用户目标先于指标，建立基准后对照优化并独立验收；拍题仅作历史案例。范围与验证边界见 [BO-20261029](docs/product/09-test-release.md#bo-20261029目标驱动的-benchmark-优化)。
+
+## [2026-10-29] test | Benchmark 工作流隔离分支 verify 通过（130 项），独立模拟试跑拒绝低成本错误候选并识别验收集泄漏；需求与文章链接见 [Issue #57](https://github.com/qshanx/docs-governance/issues/57)，真实业务优化未执行。

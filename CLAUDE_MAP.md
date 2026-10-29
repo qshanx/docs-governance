@@ -16,6 +16,7 @@
 
 | 要找 | 去 |
 |---|---|
+| 用户目标到 Benchmark、对照优化与独立验收 | `skills/engineering/benchmark-optimization/SKILL.md`；记录模板与跨目标案例按需读取，方法不限定为性能优化 |
 | 本插件文档按职责查找、区分当前记录与历史资料 | [项目文档入口](docs/README.md) |
 | 外部文章、方法比较与候选贡献 | [研究资料索引](research/README.md) |
 | 已停用的 Skill 及替代入口 | [停用目录说明](skills/deprecated/README.md)；不用于存放普通旧文档 |

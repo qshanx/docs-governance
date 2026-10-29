@@ -64,6 +64,7 @@ flowchart LR
 
 | Interface / Seam | 定义位置 | Adapter / 调用方 | 约束唯一来源 |
 |---|---|---|---|
+| 目标驱动的对照优化 | `skills/engineering/benchmark-optimization/SKILL.md` | 总路由、当前 Agent | Skill 定义目标到评测的流程；合同、样本、评测器和运行结果归目标项目；不新增调度器或持久状态 |
 | 插件发现 | `.claude-plugin/plugin.json`、`.codex-plugin/plugin.json` | Claude Code、Codex / ChatGPT | 双端 manifest |
 | 方法论执行 | `skills/<category>/<name>/SKILL.md` | commands、agents、当前 Codex agent | 对应 Skill |
 | Agent 入口内容规范 | `skills/documentation/agent-entrypoints/SKILL.md` | 总路由、统一 setup、活文档治理、当前 Agent | 主文件选择、事实输入、可执行规则和入口检查只在该 Skill；产品基线和文档读序继续引用既有 Skill |

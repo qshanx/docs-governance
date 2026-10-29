@@ -118,3 +118,7 @@ Project health evidence collection is available through `living-docs-governance`
 ## module-governance
 
 新建核心业务模块、补齐模块文档或维护模块约定时，可按任务意图调用 [module-governance](skills/documentation/module-governance/SKILL.md)，无需点名。复用项目／模块 AGENTS、CONTEXT、契约与决策主记录；普通 Bug、样式修改不触发建档，纯审计不授权写入。生成后运行已有链接审计，断链修复后复跑。
+
+## Goal-driven benchmark optimization
+
+Use [benchmark-optimization](skills/engineering/benchmark-optimization/SKILL.md) to turn a user task into measurable success criteria, establish a reproducible baseline, improve the implementation under fixed constraints, and validate on independent cases. Metrics follow the goal: correctness, quality, cost, reliability or speed. The Skill provides a workflow and record template; it does not install an autonomous scheduler or authorize deployment.

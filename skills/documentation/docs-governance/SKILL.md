@@ -18,6 +18,7 @@ description: >-
 
 | 用户意图 | 路由到 |
 |---|---|
+| 从用户目标建立 benchmark，让 AI 对照基准迭代改进并验收 | `benchmark-optimization`；指标按目标选择，固定标准与预算，独立验收；纯 loop 设计走 loop-design-check |
 | 新建核心模块、补齐模块文档或维护模块约定，无须点名 Skill | `module-governance`；讨论只读，普通 Bug／样式不启动建档 |
 | 审计核心模块知识入口覆盖 | `docs-audit`，仅报告；边界核对使用 `architecture-docs` |
 | 检查治理规则应放在入口、Skill、附件、脚本还是 Hook，识别散落的可复用工作流 | `agent-workflow-governance`，默认只读交付证据与建议 |
