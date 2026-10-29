@@ -1,0 +1,4 @@
+interface:
+  display_name: "目标驱动的 Benchmark 优化"
+  short_description: "先定义用户目标和基准，再让 AI 迭代改进，用独立样本验证真实效果"
+  default_prompt: "用 $benchmark-optimization 明确用户目标，建立可复现基准，在固定标准与预算内迭代改进并独立验收。"

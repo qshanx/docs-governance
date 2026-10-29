@@ -220,3 +220,7 @@ MIT · qshanx（小磊）· jiaxinleifm@outlook.com
 ## module-governance
 
 新建核心业务模块、补齐模块文档或维护模块约定时，可按任务意图调用 [module-governance](skills/documentation/module-governance/SKILL.md)，无需点名。复用项目／模块 AGENTS、CONTEXT、契约与决策主记录；普通 Bug、样式修改不触发建档，纯审计不授权写入。生成后运行已有链接审计，断链修复后复跑。
+
+## 目标驱动的 Benchmark 优化
+
+[benchmark-optimization](skills/engineering/benchmark-optimization/SKILL.md) 从用户要完成的任务出发，建立成功标准和可复现基准，让 AI 在固定标准与预算内迭代实现，再用独立样本验收。正确性、质量、成本、可靠性或速度按目标选择；拍题提速仅作案例。它是工作流约定，不是已安装的自动调度器。
