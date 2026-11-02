@@ -33,6 +33,8 @@
 - `test-collaboration` 已在本插件完成首次测试资产盘点，并把两项审计误报归入 `TEST-AUDIT-001`；仍待业务项目完成试点（首选：经营报表加工系统）。
 - `loop-design-check` skill 与两条主线主题不合（小磊已确认"没关系"），挪出待拍板。
 
+- ENV-20261014：项目 Agent 环境治理处于讨论阶段，主稿见[讨论文档](docs/product/project-agent-environment-discussion.md)。仅明确 Project 管环境；测试资产记录沿 Issue #49，入口归属、生命周期和试点标准待讨论。未修改活动 Skill 或实际环境。
+
 ## 📥 Backlog（方法论优化，2026-07-02 小磊逐条批准；等 dogfood 撞到或排期再做，不抢跑）
 
 1. **审计事实层下沉成脚本（部分完成）**：✅ `audit-docs.py` 已查路径/链接、LOG 活跃+归档完整性、ADR 索引、TEST-ID 和孤儿文档并按退出码短路；⏳ STATUS 可量化指标自动生成尚未做。
