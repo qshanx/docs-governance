@@ -37,9 +37,12 @@
 | 领域上下文与 ADR | `skills/documentation/domain-modeling/SKILL.md` |
 | 文档候选检索（只提供线索，仍需判读正文） | `scripts/find-doc-impact.py`；使用与限制见 `skills/engineering/change-impact/SKILL.md` |
 | 变更影响分析 | `skills/engineering/change-impact/SKILL.md` |
+| 审核 PR／分支／指定变更，核对需求、实际行为与合入证据 | `skills/engineering/pr-review/SKILL.md`；对象／权限、隔离验证与建议补丁／交付约束按主流程指针读 verification.md，来源见 SOURCE.md |
 | 文档影响的接口变更复跑与验收 | `skills/engineering/change-impact/examples/interface-change.md`；生成器在 `tests/fixtures/document-impact.py`，记录见 `TESTS.md` 的 TEST-IMPACT-001 |
 | 契约方法论（含两种模式） | `skills/engineering/contract-first/SKILL.md` |
 | 测试资产与必要测试点治理 | `skills/engineering/test-collaboration/SKILL.md` |
+| 从指定经历复盘 Agent 项目工作环境，提出改进建议 | `skills/engineering/project-retro/SKILL.md`；Matt 七个方向加四个补充方向，环境经验生命周期按需读 lessons.md |
+| 本插件已记录的具体经验及复验状态 | [项目经验](docs/lessons.md)；区别于 Skill 内讲生命周期方法的 lessons.md，按相关任务读取 |
 | 测试协作的原始方案、确认与评审历史 | [2026-07-12 历史方案](docs/archive/2026-07-12-test-collaboration-proposal.md)；当前方法仍看 Skill |
 
 | 写给 AI 的文档结构、读取指针与完成标准 | `skills/documentation/writing-for-agents/SKILL.md`；含义核对、许可证与固定来源随包提供 |
